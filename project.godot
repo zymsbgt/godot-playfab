@@ -242,11 +242,15 @@ PlayFabManager="*res://addons/godot-playfab/PlayFabManager.gd"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/godot-playfab/plugin.cfg", "res://addons/godot-plugin-refresher/plugin.cfg", "res://addons/gut/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/godot-playfab/plugin.cfg", "res://addons/godot-plugin-refresher/plugin.cfg" )
 
 [global]
 
 reload=false
+
+[mono]
+
+project/assembly_name="godot-playfab"
 
 [physics]
 
@@ -254,7 +258,7 @@ common/enable_pause_aware_picking=true
 
 [playfab]
 
-title_id="544D3"
+title_id="AA183"
 
 [rendering]
 
