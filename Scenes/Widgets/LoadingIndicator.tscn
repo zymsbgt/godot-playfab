@@ -10,6 +10,3 @@ texture_progress = ExtResource( 1 )
 fill_mode = 4
 nine_patch_stretch = true
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}

@@ -34,6 +34,15 @@ func _on_get_title_data(response):
 
 func _on_PlayFab_api_error(error: ApiErrorWrapper):
 	print_debug(error.errorMessage)
+	if error.errorMessage == "User not found": # Email does not exist on PLayfab
+		# Add code here to return to main menu and show error message
+		pass
+	elif error.errorMessage == "Invalid email address or password": # Wrong password
+		# Add code here to return to main menu and show error message
+		pass
+	elif error.errorMessage == "Invalid input parameters": # Something's wrong? but idk what
+		# Add code here to return to main menu and show error message
+		pass
 
 
 func _on_EventsPlayStream_pressed():

@@ -7,9 +7,6 @@
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -107,18 +104,24 @@ text = "Login"
 margin_top = 80.0
 margin_right = 924.0
 margin_bottom = 100.0
-text = "Anonymous Login"
+text = "Login as Guest"
 
-[node name="Back" type="Button" parent="MarginContainer/Login"]
+[node name="Register" type="Button" parent="MarginContainer/Login"]
 margin_top = 104.0
 margin_right = 924.0
 margin_bottom = 124.0
-text = "Back"
+text = "Don't have an account? Register here!"
 
-[node name="Output" type="RichTextLabel" parent="MarginContainer/Login"]
+[node name="RecoverPassword" type="Button" parent="MarginContainer/Login"]
 margin_top = 128.0
 margin_right = 924.0
-margin_bottom = 228.0
+margin_bottom = 148.0
+text = "Reset Password"
+
+[node name="Output" type="RichTextLabel" parent="MarginContainer/Login"]
+margin_top = 152.0
+margin_right = 924.0
+margin_bottom = 252.0
 rect_min_size = Vector2( 0, 100 )
 size_flags_horizontal = 3
 bbcode_enabled = true
@@ -126,4 +129,5 @@ bbcode_enabled = true
 [connection signal="pressed" from="MarginContainer/LoggedIn/LoggedInBackButton" to="MarginContainer" method="_on_LoggedInBackButton_pressed"]
 [connection signal="pressed" from="MarginContainer/Login/Login" to="MarginContainer" method="_on_Login_pressed"]
 [connection signal="pressed" from="MarginContainer/Login/AnonLogin" to="MarginContainer" method="_on_AnonLogin_pressed"]
-[connection signal="pressed" from="MarginContainer/Login/Back" to="MarginContainer" method="_on_Back_pressed"]
+[connection signal="pressed" from="MarginContainer/Login/Register" to="MarginContainer" method="_on_Back_pressed"]
+[connection signal="pressed" from="MarginContainer/Login/RecoverPassword" to="MarginContainer" method="_on_Recover_Password_pressed"]

@@ -39,5 +39,5 @@ func _on_api_error(api_error_wrapper: ApiErrorWrapper):
 
 
 func _on_Back_pressed():
-	SceneManager.goto_scene("res://Scenes/Main.tscn")
+	SceneManager.goto_scene("res://Scenes/Login.tscn")
 

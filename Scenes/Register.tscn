@@ -83,11 +83,11 @@ margin_right = 924.0
 margin_bottom = 104.0
 text = "Register"
 
-[node name="Back" type="Button" parent="MarginContainer/Register"]
+[node name="Login" type="Button" parent="MarginContainer/Register"]
 margin_top = 108.0
 margin_right = 924.0
 margin_bottom = 128.0
-text = "Back"
+text = "Already have an account? Login here!"
 
 [node name="Output" type="RichTextLabel" parent="MarginContainer/Register"]
 margin_top = 132.0
@@ -97,4 +97,4 @@ size_flags_vertical = 3
 bbcode_enabled = true
 
 [connection signal="pressed" from="MarginContainer/Register/Register" to="MarginContainer/Register" method="_on_Register_pressed"]
-[connection signal="pressed" from="MarginContainer/Register/Back" to="MarginContainer/Register" method="_on_Back_pressed"]
+[connection signal="pressed" from="MarginContainer/Register/Login" to="MarginContainer/Register" method="_on_Back_pressed"]

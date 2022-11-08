@@ -16,9 +16,6 @@ margin_top = -46.0
 margin_right = 232.5
 margin_bottom = 46.0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Register" type="Button" parent="Main"]
 margin_right = 230.0
