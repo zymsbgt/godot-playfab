@@ -231,7 +231,7 @@ Display=8
 [application]
 
 config/name="godot-playfab"
-run/main_scene="res://Scenes/Main.tscn"
+run/main_scene="res://Scenes/Login.tscn"
 boot_splash/image="res://raw_assets/SplashScreen.png"
 config/icon="res://addons/godot-playfab/icon.png"
 
