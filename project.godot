@@ -252,6 +252,10 @@ reload=false
 
 project/assembly_name="godot-playfab"
 
+[gui]
+
+theme/custom="res://Assets/playfab_theme.tres"
+
 [physics]
 
 common/enable_pause_aware_picking=true
