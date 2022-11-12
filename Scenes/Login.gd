@@ -71,9 +71,6 @@ func _on_api_error(api_error_wrapper: ApiErrorWrapper):
 func _on_Back_pressed():
 	SceneManager.goto_scene("res://Scenes/Register.tscn")
 
-func _on_Recover_Password_pressed():
-	pass
-
 func _on_LoggedInBackButton_pressed():
 	$LoggedIn.hide()
 	$Login.show()

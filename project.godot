@@ -248,13 +248,13 @@ enabled=PoolStringArray( "res://addons/godot-playfab/plugin.cfg", "res://addons/
 
 reload=false
 
-[mono]
-
-project/assembly_name="godot-playfab"
-
 [gui]
 
 theme/custom="res://Assets/playfab_theme.tres"
+
+[mono]
+
+project/assembly_name="godot-playfab"
 
 [physics]
 
