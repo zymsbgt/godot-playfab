@@ -230,7 +230,7 @@ Display=8
 
 [application]
 
-config/name="godot-playfab"
+config/name="async-multiplayer-game"
 run/main_scene="res://Scenes/Login.tscn"
 boot_splash/image="res://raw_assets/SplashScreen.png"
 config/icon="res://addons/godot-playfab/icon.png"
