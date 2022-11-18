@@ -7,40 +7,6 @@ const color_red = Color(1, 0, 0, 0.5)
 func _ready():
 	var _error = PlayFabManager.client.connect("api_error", self, "_on_api_error")
 	_error = PlayFabManager.client.connect("logged_in", self, "_on_logged_in")
-	_on_AnonLogin_pressed()
-	update_login_button_states()
-
-
-func update_login_button_states():
-	# Reset button colours
-	$Login/Login.self_modulate = color_white
-	$Login/AnonLogin.self_modulate = color_white
-
-	if PlayFabManager.client_config.is_logged_in():
-		match PlayFabManager.client_config.login_type:
-			PlayFabClientConfig.LoginType.LOGIN_CUSTOM_ID:
-				$Login/AnonLogin.self_modulate = color_green
-			PlayFabClientConfig.LoginType.LOGIN_EMAIL:
-				$Login/Login.self_modulate = color_green
-			_:
-				pass # No specific action needed
-
-
-func _on_Login_pressed():
-	$Login.hide()
-	_show_progess()
-
-	var email = $Login/Email/Input.text
-	var password = $Login/Password/Input.text
-
-	var combined_info_request_params = GetPlayerCombinedInfoRequestParams.new()
-	combined_info_request_params.show_all()
-	var player_profile_view_constraints = PlayerProfileViewConstraints.new()
-	combined_info_request_params.ProfileConstraints = player_profile_view_constraints
-	var tags = {}
-	PlayFabManager.client.login_with_email(email, password, tags, combined_info_request_params)
-
-func _on_AnonLogin_pressed():
 	$Login.hide()
 	_show_progess()
 	var combined_info_request_params = GetPlayerCombinedInfoRequestParams.new()
@@ -53,13 +19,11 @@ func _on_AnonLogin_pressed():
 	else:
 		PlayFabManager.client.login_with_custom_id(UUID.v4(), true, combined_info_request_params)
 
-
 func _show_progess():
 	$ProgressCenter/LoadingIndicator.show()
 
 func _hide_progess():
 	$ProgressCenter/LoadingIndicator.hide()
-
 
 func _on_logged_in(login_result: LoginResult):
 	$Login/Output.hide()
