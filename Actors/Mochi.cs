@@ -34,8 +34,8 @@ public class Mochi : KinematicBody2D
             if (eventMouseButton.IsPressed())
             {
                 Input.MouseMode = Input.MouseModeEnum.Confined;
-                Input.WarpMousePosition(lastKnownMousePosition = GetGlobalTransformWithCanvas().origin); // set mouse position to be the same as Mochi
-                centerOfWheel = GetGlobalTransformWithCanvas().origin - centerOfScreen;
+                centerOfWheel = GetGlobalTransformWithCanvas().origin;
+                Input.WarpMousePosition(lastKnownMousePosition = centerOfWheel); // set mouse position to be the same as Mochi
                 // if (eventMouseButton.ButtonIndex == 1)
                 //     GD.Print("Left Mouse Click when Mochi is at: ", lastKnownMousePosition);
                 // else if (eventMouseButton.ButtonIndex == 2)
@@ -57,9 +57,8 @@ public class Mochi : KinematicBody2D
             }
         }
         else if (@event is InputEventMouseMotion eventMouseMotion) {
+            mouseOffsetFromCenterOfWheel = eventMouseMotion.Position - centerOfWheel;
             lastKnownMousePosition = eventMouseMotion.Position;
-            // Calculate the mouse position relative to centerOfWheel
-            mouseOffsetFromCenterOfWheel = lastKnownMousePosition - centerOfWheel;
         }
     }
 
@@ -105,17 +104,6 @@ public class Mochi : KinematicBody2D
 
     public override void _PhysicsProcess(float delta) 
     {
-        // Mochi's position in the scene
-        Vector2 MochiPositionInScene = this.Position;
-        // Mochi's position on screen
-        Vector2 MochiPositionOnScreen = GetGlobalTransformWithCanvas().origin;
-        // Mochi's position relative to the screen
-        Vector2 MochiPositionRelativeToScreen = MochiPositionInScene - MochiPositionOnScreen;
-        // Set the center of the wheel where Mochi is at
-        centerOfWheel = GetGlobalTransformWithCanvas().origin;
-        // If MochiPositionOnScreen moves, move mouse by it's offset
-        
-
         // Movement code
         velocity.y += gravity * delta;
         // velocity.y = Math.Max(velocity.y, maxSpeed.y);
@@ -139,13 +127,15 @@ public class Mochi : KinematicBody2D
         // Final velocity
         velocity = MoveAndSlide(velocity, FLOOR_NORMAL);
 
-        // Save Mochi's new position after movement calculations
-        
-
         // Position mouse
         if (Input.MouseMode == Input.MouseModeEnum.Confined) {
-            //Vector2 newMousePosition = GetGlobalTransformWithCanvas().origin + mouseOffsetFromCenterOfWheel;
-            //Input.WarpMousePosition(newMousePosition);
+            // Set the center of the wheel where Mochi is at
+            centerOfWheel = GetGlobalTransformWithCanvas().origin;
+            if (mouseOffsetFromCenterOfWheel.y < -0.9f)
+                mouseOffsetFromCenterOfWheel.y += 0.9972534f; // Floating precision rounding adjustment
+            Vector2 newMousePosition = centerOfWheel + mouseOffsetFromCenterOfWheel;
+            GD.Print(mouseOffsetFromCenterOfWheel);
+            Input.WarpMousePosition(newMousePosition);
         }
     }
 }
