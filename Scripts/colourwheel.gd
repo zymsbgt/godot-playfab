@@ -7,12 +7,10 @@ func _ready() -> void:
 	_animated_sprite.play("passive")
 
 func _on_mouse_entered() -> void:
-	print("Mouse entered segment")
 	$AudioStreamPlayer2D.play()
 	_animated_sprite.play("active")
 
 func _on_mouse_exited() -> void:
-	print("Mouse exited segment")
 	_animated_sprite.play("passive")
 
 func _input(event):

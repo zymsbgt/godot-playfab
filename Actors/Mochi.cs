@@ -9,13 +9,13 @@ public class Mochi : KinematicBody2D
     private Vector2 velocity = Vector2.Zero;
     private Vector2 FLOOR_NORMAL = Vector2.Up;
 
-    // BetterJump
+    // Better jump
     private float fallMultiplier = 2.5f;
     private float lowJumpMultiplier = 2.0f;
     private bool canJump;
     private int coyoteTimer, jumpBuffer;
-    private int maxJumpBuffer = 12;
-    private int maxCoyoteTimer = 12;
+    private int maxJumpBuffer = 10;
+    private int maxCoyoteTimer = 10;
 
     // Mouse related variables
     private Vector2 lastKnownMousePosition, centerOfScreen, centerOfWheel, mouseOffsetFromCenterOfWheel; //centerOfWheel is Mochi's position relative to the screen
@@ -131,12 +131,21 @@ public class Mochi : KinematicBody2D
         // Final velocity
         velocity = MoveAndSlide(velocity, FLOOR_NORMAL);
 
-        // Position mouse
-        if (Input.MouseMode == Input.MouseModeEnum.Confined) {
-            // Set the center of the wheel where Mochi is at
-            centerOfWheel = GetGlobalTransformWithCanvas().origin;
-            Vector2 newMousePosition = centerOfWheel + mouseOffsetFromCenterOfWheel;
-            Input.WarpMousePosition(newMousePosition);
+        // Mouse positioning code
+        // If there is a change to centerOfWheel, adjust the centerOfWheel
+        Vector2 newCenterOfWheel = GetGlobalTransformWithCanvas().origin;
+        Vector2 wheelOffset = newCenterOfWheel - centerOfWheel;
+        if (Input.MouseMode == Input.MouseModeEnum.Confined) 
+        {
+            // Prevent any insignificant movements from moving the mouse
+            // (usually caused by float to int rounding errors)
+            if (wheelOffset.x < -0.9f || wheelOffset.x > 0.9f || wheelOffset.y < -0.9f || wheelOffset.y > 0.9f)
+            {
+                Vector2 newMousePosition = centerOfWheel + wheelOffset + mouseOffsetFromCenterOfWheel;
+                Input.WarpMousePosition(newMousePosition);
+                // Store value of current centerOfWheel
+                centerOfWheel = newCenterOfWheel;
+            }
         }
     }
 }
