@@ -2,10 +2,11 @@ extends Control
 class_name LoggedIn
 
 var login_result: LoginResult
-
+const color_green = Color(0, 1, 0, 0.5)
 
 func _ready():
 	var _error = PlayFabManager.client.connect("api_error", self, "_on_PlayFab_api_error")
+	$VBoxContainer/StartButton.self_modulate = color_green
 
 
 # Called when the node enters the scene tree for the first time.
@@ -54,5 +55,5 @@ func _on_RequestBuilder_pressed():
 
 
 func _on_StartButton_pressed() -> void:
-	#SceneManager.goto_scene("res://Scenes/")
+	SceneManager.goto_scene("res://GameScenes/LevelTemplate.tscn")
 	pass
