@@ -71,8 +71,12 @@ public class Mochi : KinematicBody2D
         {
             if (canJump)
             {
-                y = -1.0f;
                 jumpBuffer = 0;
+                canJump = false;
+                if (Input.IsActionPressed("jump"))
+                    y = -1.0f;
+                else
+                    y = 0.0f;
                 return new Vector2(x,y);
             }
             else
@@ -131,10 +135,6 @@ public class Mochi : KinematicBody2D
         if (Input.MouseMode == Input.MouseModeEnum.Confined) {
             // Set the center of the wheel where Mochi is at
             centerOfWheel = GetGlobalTransformWithCanvas().origin;
-            if (mouseOffsetFromCenterOfWheel.y < -0.9f)
-                mouseOffsetFromCenterOfWheel.y += 0.9972534f; // Floating precision rounding adjustment
-            if (mouseOffsetFromCenterOfWheel.x < -0.9f)
-                mouseOffsetFromCenterOfWheel.x += 0.9972534f; // Floating precision rounding adjustment
             Vector2 newMousePosition = centerOfWheel + mouseOffsetFromCenterOfWheel;
             Input.WarpMousePosition(newMousePosition);
         }
