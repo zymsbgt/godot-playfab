@@ -133,8 +133,9 @@ public class Mochi : KinematicBody2D
             centerOfWheel = GetGlobalTransformWithCanvas().origin;
             if (mouseOffsetFromCenterOfWheel.y < -0.9f)
                 mouseOffsetFromCenterOfWheel.y += 0.9972534f; // Floating precision rounding adjustment
+            if (mouseOffsetFromCenterOfWheel.x < -0.9f)
+                mouseOffsetFromCenterOfWheel.x += 0.9972534f; // Floating precision rounding adjustment
             Vector2 newMousePosition = centerOfWheel + mouseOffsetFromCenterOfWheel;
-            GD.Print(mouseOffsetFromCenterOfWheel);
             Input.WarpMousePosition(newMousePosition);
         }
     }
