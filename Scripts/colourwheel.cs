@@ -4,6 +4,7 @@ using System;
 public class colourwheel : Area2D
 {
     private AnimatedSprite _animatedSprite;
+    private bool doNotPlayOnThisFrame = false, queuePlay = false;
 
     public override void _Ready()
     {
@@ -14,14 +15,11 @@ public class colourwheel : Area2D
 
     public void _on_mouse_entered()
     {
-        GD.Print("Mouse entered segment");
-        GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D").Play();
-        _animatedSprite.Play("active");
+        queuePlay = true;
     }
 
     public void _on_mouse_exited()
     {
-        GD.Print("Mouse exited segment");
         _animatedSprite.Play("passive");
     }
 
@@ -31,6 +29,7 @@ public class colourwheel : Area2D
             if (eventMouseButton.IsPressed())
             {
                 this.Visible = true;
+                doNotPlayOnThisFrame = true;
             }
             else if (!eventMouseButton.IsPressed())
             {
@@ -38,4 +37,16 @@ public class colourwheel : Area2D
                 this.Visible = false;
             }
     }
+
+    public override void _Process(float delta)
+    {
+        if (queuePlay && !doNotPlayOnThisFrame)
+        {
+            GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D").Play();
+		    _animatedSprite.Play("active");
+        }
+	    doNotPlayOnThisFrame = false;
+	    queuePlay = false;
+    }
+	
 }
