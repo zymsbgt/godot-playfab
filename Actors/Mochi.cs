@@ -10,8 +10,7 @@ public class Mochi : KinematicBody2D
     private Vector2 FLOOR_NORMAL = Vector2.Up;
 
     // Better jump
-    private float fallMultiplier = 2.5f;
-    private float lowJumpMultiplier = 2.0f;
+    private float fallMultiplier = 2.5f, lowJumpMultiplier = 2.0f;
     private bool canJump;
     private int coyoteTimer, jumpBuffer;
     private int maxJumpBuffer = 10;
@@ -19,11 +18,12 @@ public class Mochi : KinematicBody2D
 
     // Mouse related variables
     private Vector2 lastKnownMousePosition, centerOfScreen, centerOfWheel, mouseOffsetFromCenterOfWheel; //centerOfWheel is Mochi's position relative to the screen
+    private bool hasMouseMovement; // Introduced by Mr Toh
 
     public override void _Ready()
     {
         Input.MouseMode = Input.MouseModeEnum.Captured;
-        centerOfScreen = GetViewportRect().Size / 2; // Get the coordinates of the center of the screen
+        centerOfScreen = GetViewportRect().Size * 0.5f; // Get the coordinates of the center of the screen
     }
 
     public override void _Input(InputEvent @event)
@@ -42,6 +42,7 @@ public class Mochi : KinematicBody2D
                 //     GD.Print("Right Mouse Click when Mochi is at: ", lastKnownMousePosition);
                 // else
                 //     GD.Print("Mochi.cs Input function: This shouldn't be happening!");
+                hasMouseMovement = true;
             }
             else
             {
@@ -54,11 +55,13 @@ public class Mochi : KinematicBody2D
                 //     GD.Print("Right Mouse Unclick at: ", eventMouseButton.Position);
                 // else
                 //     GD.Print("Mochi.cs Input function: This shouldn't be happening!");
+                hasMouseMovement = true;
             }
         }
         else if (@event is InputEventMouseMotion eventMouseMotion) {
             mouseOffsetFromCenterOfWheel = eventMouseMotion.Position - centerOfWheel;
             lastKnownMousePosition = eventMouseMotion.Position;
+            hasMouseMovement = true;
         }
     }
 
@@ -135,11 +138,26 @@ public class Mochi : KinematicBody2D
         // If there is a change to centerOfWheel, adjust the centerOfWheel
         Vector2 newCenterOfWheel = GetGlobalTransformWithCanvas().origin;
         Vector2 wheelOffset = newCenterOfWheel - centerOfWheel;
+
+        // Mr Toh's code.
+        // if (!hasMouseMovement && Input.MouseMode == Input.MouseModeEnum.Confined)
+        // {
+        //     if ((Input.IsActionPressed("move_right") || Input.IsActionPressed("move_left")) || (!IsOnFloor()))
+        //     {
+        //         //Input.WarpMousePosition(newCenterOfWheel);
+        //         Input.WarpMousePosition(centerOfWheel + mouseOffsetFromCenterOfWheel);
+        //         GD.Print(mouseOffsetFromCenterOfWheel);
+        //     }
+        //     // Store value of current centerOfWheel
+        //     centerOfWheel = newCenterOfWheel;
+        // }
+        // hasMouseMovement = false;
+
         if (Input.MouseMode == Input.MouseModeEnum.Confined) 
         {
             // Prevent any insignificant movements from moving the mouse
             // (usually caused by float to int rounding errors)
-            if (wheelOffset.x < -0.9f || wheelOffset.x > 0.9f || wheelOffset.y < -0.9f || wheelOffset.y > 0.9f)
+            if ((wheelOffset.x < -0.9f || wheelOffset.x > 0.9f) || (wheelOffset.y < -0.9f || wheelOffset.y > 0.9f))
             {
                 Vector2 newMousePosition = centerOfWheel + wheelOffset + mouseOffsetFromCenterOfWheel;
                 Input.WarpMousePosition(newMousePosition);
