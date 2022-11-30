@@ -92,7 +92,10 @@ public class Mochi : KinematicBody2D
     private Vector2 calculateMoveVelocity(Vector2 linearVelocity, Vector2 direction, Vector2 speed, bool isJumpInterrupted)
     {
         Vector2 i = linearVelocity;
+        if (Input.IsActionPressed("move_down"))
+            speed.x *= 0.5f;
         i.x = speed.x * direction.x;
+
         // Note: Complete jump process should ideally take between 650-750ms. Current time at 1500 gravity is 550-610ms.
         if (isJumpInterrupted) // Triggered on the frame when Jump button is released
         {
