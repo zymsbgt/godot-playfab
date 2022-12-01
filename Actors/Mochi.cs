@@ -26,6 +26,39 @@ public class Mochi : KinematicBody2D
         centerOfScreen = GetViewportRect().Size * 0.5f; // Get the coordinates of the center of the screen
     }
 
+    private string GetMouseMode()
+    {
+        if (Input.MouseMode == Input.MouseModeEnum.Visible)
+            return "Confined";
+        if (Input.MouseMode == Input.MouseModeEnum.Hidden)
+            return "Captured";
+        if (Input.MouseMode == Input.MouseModeEnum.Captured)
+            return "Captured";
+        if (Input.MouseMode == Input.MouseModeEnum.Confined)
+            return "Confined";
+        return "Error";
+    }
+
+    private void SetMouseMode(string mode)
+    {
+        if (mode == "Captured")
+        {
+            #if GODOT_HTML5
+            Input.MouseMode = Input.MouseModeEnum.Hidden;
+            #else
+            Input.MouseMode = Input.MouseModeEnum.Captured;
+            #endif
+        }
+        else if (mode == "Confined")
+        {
+            #if GODOT_HTML5
+            Input.MouseMode = Input.MouseModeEnum.Visible;
+            #else
+            Input.MouseMode = Input.MouseModeEnum.Confined;
+            #endif
+        }
+    }
+
     public override void _Input(InputEvent @event)
     {
         // Mouse in viewport coordinates.
@@ -33,7 +66,7 @@ public class Mochi : KinematicBody2D
         {
             if (eventMouseButton.IsPressed())
             {
-                Input.MouseMode = Input.MouseModeEnum.Confined;
+                SetMouseMode("Confined");
                 centerOfWheel = GetGlobalTransformWithCanvas().origin;
                 Input.WarpMousePosition(lastKnownMousePosition = centerOfWheel); // set mouse position to be the same as Mochi
                 // if (eventMouseButton.ButtonIndex == 1)
@@ -46,7 +79,7 @@ public class Mochi : KinematicBody2D
             }
             else
             {
-                Input.MouseMode = Input.MouseModeEnum.Captured;
+                SetMouseMode("Captured");
                 lastKnownMousePosition = eventMouseButton.Position;
                 mouseOffsetFromCenterOfWheel = Vector2.Zero;
                 // if (eventMouseButton.ButtonIndex == 1)
@@ -91,25 +124,25 @@ public class Mochi : KinematicBody2D
 
     private Vector2 calculateMoveVelocity(Vector2 linearVelocity, Vector2 direction, Vector2 speed, bool isJumpInterrupted)
     {
-        Vector2 i = linearVelocity;
+        Vector2 output = linearVelocity;
         if (Input.IsActionPressed("move_down"))
             speed.x *= 0.5f;
-        i.x = speed.x * direction.x;
+        output.x = speed.x * direction.x;
 
         // Note: Complete jump process should ideally take between 650-750ms. Current time at 1500 gravity is 550-610ms.
         if (isJumpInterrupted) // Triggered on the frame when Jump button is released
         {
-            i.y = 0.0f;
-            return i;
+            output.y = 0.0f;
+            return output;
         }
         if (direction.y == -1.0) // Player is moving upwards
         {
-            i.y = speed.y * direction.y;
-            i.y += gravity * (lowJumpMultiplier - 1) * GetPhysicsProcessDeltaTime();
+            output.y = speed.y * direction.y;
+            output.y += gravity * (lowJumpMultiplier - 1) * GetPhysicsProcessDeltaTime();
         }
         else // player is not moving upwards
-            i.y += gravity * (fallMultiplier - 1) * GetPhysicsProcessDeltaTime();
-        return i;
+            output.y += gravity * (fallMultiplier - 1) * GetPhysicsProcessDeltaTime();
+        return output;
     }
 
     public override void _PhysicsProcess(float delta) 
@@ -156,7 +189,7 @@ public class Mochi : KinematicBody2D
         // }
         // hasMouseMovement = false;
 
-        if (Input.MouseMode == Input.MouseModeEnum.Confined) 
+        if (GetMouseMode() == "Confined") 
         {
             // Prevent any insignificant movements from moving the mouse
             // (usually caused by float to int rounding errors)

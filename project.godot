@@ -232,7 +232,6 @@ Display=8
 
 config/name="async-multiplayer-game"
 run/main_scene="res://GameScenes/LevelTemplate.tscn"
-config/icon="res://addons/godot-playfab/icon.png"
 
 [autoload]
 
