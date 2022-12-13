@@ -40,9 +40,17 @@ public class MouseCursor : Area2D
             }
         }
         else if (@event is InputEventMouseMotion eventMouseMotion) {
-            this.Position += eventMouseMotion.Relative;
-            // Adjust transparancy based on how far the mouseCursor is
-            sprite.Modulate = Color.Color8(255,255,255,ReturnModulateAlphaValue(this.Position));
+            if (this.Visible == true)
+            {
+                this.Position += eventMouseMotion.Relative;
+                // Adjust transparancy based on how far the mouseCursor is
+                sprite.Modulate = Color.Color8(255,255,255,ReturnModulateAlphaValue(this.Position));
+            }
+            else
+            {
+                this.Position = Vector2.Zero;
+            }
+            
         }
     }
 }

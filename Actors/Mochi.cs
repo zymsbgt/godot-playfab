@@ -24,12 +24,17 @@ public class Mochi : KinematicBody2D
 
     public override void _Ready()
     {
-        Input.MouseMode = Input.MouseModeEnum.Captured;
         centerOfScreen = GetViewportRect().Size * 0.5f; // Get the coordinates of the center of the screen
-        //OS.WindowFullscreen = true;
+        OS.WindowFullscreen = true;
         mouseCursor = GetNode<Area2D>("MouseCursor");
         // Set the command below to toggle visibility instead of destroying the mouseCursor on spawn
         mouseCursor.Hide();
+        // Captures the mouse. This should execute last because of the return keyword
+        #if GODOT_HTML5
+        return;
+        #else
+        Input.MouseMode = Input.MouseModeEnum.Captured;
+        #endif
     }
 
     public override void _Input(InputEvent @event)
@@ -48,6 +53,9 @@ public class Mochi : KinematicBody2D
                 // else
                 //     GD.Print("Mochi.cs Input function: This shouldn't be happening!");
                 mouseCursor.Show();
+                #if GODOT_HTML5
+                Input.MouseMode = Input.MouseModeEnum.Captured;
+                #endif
             }
             else
             {
