@@ -23,6 +23,16 @@ public class colourwheel : Area2D
         _animatedSprite.Play("passive");
     }
 
+    public void _on_area_entered(Area2D area)
+    {
+        queuePlay = true;
+    }
+
+    public void _on_area_exited(Area2D area)
+    {
+        _animatedSprite.Play("passive");
+    }
+
     public override void _Input(InputEvent @event)
     {
         if (@event is InputEventMouseButton eventMouseButton)
