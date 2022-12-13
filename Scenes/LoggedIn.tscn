@@ -16,6 +16,21 @@ visible = false
 margin_right = 1024.0
 margin_bottom = 192.0
 
+[node name="Title" type="HBoxContainer" parent="VBoxContainer/LoginResultContainer"]
+margin_right = 1024.0
+margin_bottom = 21.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer/LoginResultContainer/Title"]
+margin_right = 173.0
+margin_bottom = 21.0
+text = "Logged in to Playfab!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="AccountPlayerId" type="HBoxContainer" parent="VBoxContainer/LoginResultContainer"]
 margin_right = 1024.0
 margin_bottom = 24.0

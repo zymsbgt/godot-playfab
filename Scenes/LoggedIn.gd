@@ -7,6 +7,7 @@ const color_green = Color(0, 1, 0, 0.5)
 func _ready():
 	var _error = PlayFabManager.client.connect("api_error", self, "_on_PlayFab_api_error")
 	$VBoxContainer/StartButton.self_modulate = color_green
+	OS.window_fullscreen = true
 
 
 # Called when the node enters the scene tree for the first time.

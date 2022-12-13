@@ -22,8 +22,9 @@ public class Mochi : KinematicBody2D
 
     public override void _Ready()
     {
-        Input.MouseMode = Input.MouseModeEnum.Captured;
+        SetMouseMode("Captured");
         centerOfScreen = GetViewportRect().Size * 0.5f; // Get the coordinates of the center of the screen
+        OS.WindowFullscreen = true;
     }
 
     private string GetMouseMode()
@@ -58,6 +59,11 @@ public class Mochi : KinematicBody2D
             #endif
         }
     }
+
+    // void Destroy()
+    // {
+    //     this.QueueFree();
+    // }
 
     public override void _Input(InputEvent @event)
     {

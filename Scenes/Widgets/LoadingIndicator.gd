@@ -5,4 +5,4 @@ func _process(_delta):
 		if value >= max_value:
 			value = 0
 
-		value += 1
+		value += 75 * _delta
