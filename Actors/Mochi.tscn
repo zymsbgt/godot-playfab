@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Scripts/colourwheel.cs" type="Script" id=1]
 [ext_resource path="res://Sounds/c5_piano.wav" type="AudioStream" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://Sprites/colourwheel/active/05.png" type="Texture" id=19]
 [ext_resource path="res://Sprites/colourwheel/active/06.png" type="Texture" id=20]
 [ext_resource path="res://Actors/Mochi.cs" type="Script" id=21]
+[ext_resource path="res://Sprites/round_metal.png" type="Texture" id=22]
 
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 59.5, 60 )
@@ -128,6 +129,8 @@ animations = [ {
 "name": "passive",
 "speed": 5.0
 } ]
+
+[sub_resource type="CircleShape2D" id=18]
 
 [node name="Mochi" type="KinematicBody2D"]
 collision_mask = 8
@@ -264,6 +267,16 @@ drag_margin_v_enabled = true
 smoothing_speed = 60.0
 drag_margin_left = 0.0
 drag_margin_right = 0.0
+
+[node name="MouseCursor" type="Area2D" parent="."]
+visible = false
+
+[node name="Sprite" type="Sprite" parent="MouseCursor"]
+texture = ExtResource( 22 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MouseCursor"]
+scale = Vector2( 3, 3 )
+shape = SubResource( 18 )
 
 [connection signal="mouse_entered" from="05" to="05" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="05" to="05" method="_on_mouse_exited"]

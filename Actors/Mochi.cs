@@ -18,46 +18,12 @@ public class Mochi : KinematicBody2D
 
     // Mouse related variables
     private Vector2 lastKnownMousePosition, centerOfScreen, centerOfWheel, mouseOffsetFromCenterOfWheel; //centerOfWheel is Mochi's position relative to the screen
-    private bool hasMouseMovement; // Introduced by Mr Toh
 
     public override void _Ready()
     {
-        SetMouseMode("Captured");
+        Input.MouseMode = Input.MouseModeEnum.Captured;
         centerOfScreen = GetViewportRect().Size * 0.5f; // Get the coordinates of the center of the screen
         OS.WindowFullscreen = true;
-    }
-
-    private string GetMouseMode()
-    {
-        if (Input.MouseMode == Input.MouseModeEnum.Visible)
-            return "Confined";
-        if (Input.MouseMode == Input.MouseModeEnum.Hidden)
-            return "Captured";
-        if (Input.MouseMode == Input.MouseModeEnum.Captured)
-            return "Captured";
-        if (Input.MouseMode == Input.MouseModeEnum.Confined)
-            return "Confined";
-        return "Error";
-    }
-
-    private void SetMouseMode(string mode)
-    {
-        if (mode == "Captured")
-        {
-            #if GODOT_HTML5
-            Input.MouseMode = Input.MouseModeEnum.Hidden;
-            #else
-            Input.MouseMode = Input.MouseModeEnum.Captured;
-            #endif
-        }
-        else if (mode == "Confined")
-        {
-            #if GODOT_HTML5
-            Input.MouseMode = Input.MouseModeEnum.Visible;
-            #else
-            Input.MouseMode = Input.MouseModeEnum.Confined;
-            #endif
-        }
     }
 
     // void Destroy()
@@ -72,7 +38,6 @@ public class Mochi : KinematicBody2D
         {
             if (eventMouseButton.IsPressed())
             {
-                SetMouseMode("Confined");
                 centerOfWheel = GetGlobalTransformWithCanvas().origin;
                 Input.WarpMousePosition(lastKnownMousePosition = centerOfWheel); // set mouse position to be the same as Mochi
                 // if (eventMouseButton.ButtonIndex == 1)
@@ -81,11 +46,9 @@ public class Mochi : KinematicBody2D
                 //     GD.Print("Right Mouse Click when Mochi is at: ", lastKnownMousePosition);
                 // else
                 //     GD.Print("Mochi.cs Input function: This shouldn't be happening!");
-                hasMouseMovement = true;
             }
             else
             {
-                SetMouseMode("Captured");
                 lastKnownMousePosition = eventMouseButton.Position;
                 mouseOffsetFromCenterOfWheel = Vector2.Zero;
                 // if (eventMouseButton.ButtonIndex == 1)
@@ -94,13 +57,11 @@ public class Mochi : KinematicBody2D
                 //     GD.Print("Right Mouse Unclick at: ", eventMouseButton.Position);
                 // else
                 //     GD.Print("Mochi.cs Input function: This shouldn't be happening!");
-                hasMouseMovement = true;
             }
         }
         else if (@event is InputEventMouseMotion eventMouseMotion) {
             mouseOffsetFromCenterOfWheel = eventMouseMotion.Position - centerOfWheel;
             lastKnownMousePosition = eventMouseMotion.Position;
-            hasMouseMovement = true;
         }
     }
 
@@ -195,7 +156,7 @@ public class Mochi : KinematicBody2D
         // }
         // hasMouseMovement = false;
 
-        if (GetMouseMode() == "Confined") 
+        if (Input.MouseMode == Input.MouseModeEnum.Confined) 
         {
             // Prevent any insignificant movements from moving the mouse
             // (usually caused by float to int rounding errors)
