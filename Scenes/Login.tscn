@@ -47,8 +47,64 @@ margin_right = 924.0
 margin_bottom = 500.0
 
 [node name="Output" type="RichTextLabel" parent="MarginContainer/Login"]
+[node name="Email" type="HBoxContainer" parent="MarginContainer/Login"]
+margin_right = 924.0
+margin_bottom = 24.0
+
+[node name="Label" type="Label" parent="MarginContainer/Login/Email"]
+margin_top = 5.0
+margin_right = 35.0
+margin_bottom = 19.0
+text = "Email"
+
+[node name="Input" type="LineEdit" parent="MarginContainer/Login/Email"]
+margin_left = 39.0
+margin_right = 239.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 200, 0 )
+text = "User1@example.com"
+expand_to_text_length = true
+
+[node name="Password" type="HBoxContainer" parent="MarginContainer/Login"]
+margin_top = 28.0
+margin_right = 924.0
+margin_bottom = 52.0
+
+[node name="Label" type="Label" parent="MarginContainer/Login/Password"]
+margin_top = 5.0
+margin_right = 60.0
+margin_bottom = 19.0
+text = "Password"
+
+[node name="Input" type="LineEdit" parent="MarginContainer/Login/Password"]
+margin_left = 64.0
+margin_right = 264.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 200, 0 )
+text = "Test123"
+secret = true
+
+[node name="StayLoggedInCheckbox" type="CheckBox" parent="MarginContainer/Login"]
+margin_top = 70.0
+margin_right = 924.0
+margin_bottom = 99.0
+text = "Stay logged in"
+
+[node name="Login" type="Button" parent="MarginContainer/Login"]
+margin_top = 56.0
+margin_right = 924.0
+margin_bottom = 76.0
+text = "Login"
+
+[node name="AnonLogin" type="Button" parent="MarginContainer/Login"]
+margin_top = 80.0
 margin_right = 924.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 0, 100 )
 size_flags_horizontal = 3
 bbcode_enabled = true
+
+[connection signal="pressed" from="MarginContainer/Login/StayLoggedInCheckbox" to="MarginContainer" method="_on_StayLoggedInCheckbox_pressed"]
+[connection signal="pressed" from="MarginContainer/Login/Login" to="MarginContainer" method="_on_Login_pressed"]
+[connection signal="pressed" from="MarginContainer/Login/AnonLogin" to="MarginContainer" method="_on_AnonLogin_pressed"]
+[connection signal="pressed" from="MarginContainer/Login/Back" to="MarginContainer" method="_on_Back_pressed"]

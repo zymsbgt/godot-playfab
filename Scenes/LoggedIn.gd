@@ -3,6 +3,7 @@ class_name LoggedIn
 
 var login_result: LoginResult
 const color_green = Color(0, 1, 0, 0.5)
+signal logout
 
 func _ready():
 	var _error = PlayFabManager.client.connect("api_error", self, "_on_PlayFab_api_error")
@@ -54,7 +55,13 @@ func _on_EventsPlayStream_pressed():
 func _on_RequestBuilder_pressed():
 	SceneManager.goto_scene("res://Scenes/RequestBuilder.tscn")
 
-
 func _on_StartButton_pressed() -> void:
 	SceneManager.goto_scene("res://GameScenes/LevelTemplate.tscn")
 	pass
+
+func _on_MainMenuButton_pressed():
+	SceneManager.goto_scene("res://Scenes/Main.tscn")
+
+
+func _on_LogoutButton_pressed():
+	emit_signal("logout")
