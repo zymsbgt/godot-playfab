@@ -47,14 +47,15 @@ public class Mochi : KinematicBody2D
                 centerOfWheel = GetGlobalTransformWithCanvas().origin;
                 mouseCursor.Position = Vector2.Zero;
                 // if (eventMouseButton.ButtonIndex == 1)
-                //     GD.Print("Left Mouse Click when Mochi is at: ", lastKnownMousePosition);
+                //     GD.Print("Left Mouse click at: ", lastKnownMousePosition);
                 // else if (eventMouseButton.ButtonIndex == 2)
-                //     GD.Print("Right Mouse Click when Mochi is at: ", lastKnownMousePosition);
+                //     GD.Print("Right Mouse click at: ", lastKnownMousePosition);
                 // else
                 //     GD.Print("Mochi.cs Input function: This shouldn't be happening!");
                 mouseCursor.Show();
                 #if GODOT_HTML5
-                Input.MouseMode = Input.MouseModeEnum.Captured;
+                if (Input.MouseMode != Input.MouseModeEnum.Captured)
+                    Input.MouseMode = Input.MouseModeEnum.Captured;
                 #endif
             }
             else

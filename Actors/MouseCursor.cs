@@ -36,7 +36,7 @@ public class MouseCursor : Area2D
                 // else if (eventMouseButton.ButtonIndex == 2)
                 //     GD.Print("Right Mouse Unclick at: ", eventMouseButton.Position);
                 // else
-                //     GD.Print("Mochi.cs Input function: This shouldn't be happening!");
+                //     GD.Print("MouseCursor.cs Input function: This shouldn't be happening!");
             }
         }
         else if (@event is InputEventMouseMotion eventMouseMotion) {
@@ -50,7 +50,6 @@ public class MouseCursor : Area2D
             {
                 this.Position = Vector2.Zero;
             }
-            
         }
     }
 }
