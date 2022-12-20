@@ -13,12 +13,12 @@ public class colourwheel : Area2D
         this.Visible = false;
     }
 
-    public void _on_mouse_entered()
+    public void _on_area_entered(Area2D area)
     {
         queuePlay = true;
     }
 
-    public void _on_mouse_exited()
+    public void _on_area_exited(Area2D area)
     {
         _animatedSprite.Play("passive");
     }

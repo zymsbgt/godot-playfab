@@ -8,10 +8,10 @@ func _ready() -> void:
 	self.visible = false
 	_animated_sprite.play("passive")
 
-func _on_mouse_entered() -> void:
+func _on_area_entered(area: Area2D) -> void:
 	_queuePlay = true
 
-func _on_mouse_exited() -> void:
+func _on_area_exited(area: Area2D) -> void:
 	_animated_sprite.play("passive")
 
 func _input(event):

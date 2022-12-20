@@ -17,53 +17,25 @@ public class Mochi : KinematicBody2D
     private int maxCoyoteTimer = 10;
 
     // Mouse related variables
-    private Vector2 lastKnownMousePosition, centerOfScreen, centerOfWheel, mouseOffsetFromCenterOfWheel; //centerOfWheel is Mochi's position relative to the screen
-    private bool hasMouseMovement; // Introduced by Mr Toh
+    private Vector2 centerOfScreen, centerOfWheel, mouseOffsetFromCenterOfWheel; //centerOfWheel is Mochi's position relative to the screen
+
+    // Mouse cursor node
+    private Area2D mouseCursor;
 
     public override void _Ready()
     {
-        SetMouseMode("Captured");
         centerOfScreen = GetViewportRect().Size * 0.5f; // Get the coordinates of the center of the screen
         OS.WindowFullscreen = true;
+        mouseCursor = GetNode<Area2D>("MouseCursor");
+        // Set the command below to toggle visibility instead of destroying the mouseCursor on spawn
+        mouseCursor.Hide();
+        // Captures the mouse. This should execute last because of the return keyword
+        #if GODOT_HTML5
+        return;
+        #else
+        Input.MouseMode = Input.MouseModeEnum.Captured;
+        #endif
     }
-
-    private string GetMouseMode()
-    {
-        if (Input.MouseMode == Input.MouseModeEnum.Visible)
-            return "Confined";
-        if (Input.MouseMode == Input.MouseModeEnum.Hidden)
-            return "Captured";
-        if (Input.MouseMode == Input.MouseModeEnum.Captured)
-            return "Captured";
-        if (Input.MouseMode == Input.MouseModeEnum.Confined)
-            return "Confined";
-        return "Error";
-    }
-
-    private void SetMouseMode(string mode)
-    {
-        if (mode == "Captured")
-        {
-            #if GODOT_HTML5
-            Input.MouseMode = Input.MouseModeEnum.Hidden;
-            #else
-            Input.MouseMode = Input.MouseModeEnum.Captured;
-            #endif
-        }
-        else if (mode == "Confined")
-        {
-            #if GODOT_HTML5
-            Input.MouseMode = Input.MouseModeEnum.Visible;
-            #else
-            Input.MouseMode = Input.MouseModeEnum.Confined;
-            #endif
-        }
-    }
-
-    // void Destroy()
-    // {
-    //     this.QueueFree();
-    // }
 
     public override void _Input(InputEvent @event)
     {
@@ -72,35 +44,32 @@ public class Mochi : KinematicBody2D
         {
             if (eventMouseButton.IsPressed())
             {
-                SetMouseMode("Confined");
                 centerOfWheel = GetGlobalTransformWithCanvas().origin;
-                Input.WarpMousePosition(lastKnownMousePosition = centerOfWheel); // set mouse position to be the same as Mochi
+                mouseCursor.Position = Vector2.Zero;
                 // if (eventMouseButton.ButtonIndex == 1)
-                //     GD.Print("Left Mouse Click when Mochi is at: ", lastKnownMousePosition);
+                //     GD.Print("Left Mouse click at: ", lastKnownMousePosition);
                 // else if (eventMouseButton.ButtonIndex == 2)
-                //     GD.Print("Right Mouse Click when Mochi is at: ", lastKnownMousePosition);
+                //     GD.Print("Right Mouse click at: ", lastKnownMousePosition);
                 // else
                 //     GD.Print("Mochi.cs Input function: This shouldn't be happening!");
-                hasMouseMovement = true;
+                mouseCursor.Show();
+                #if GODOT_HTML5
+                if (Input.MouseMode != Input.MouseModeEnum.Captured)
+                    Input.MouseMode = Input.MouseModeEnum.Captured;
+                #endif
             }
             else
             {
-                SetMouseMode("Captured");
-                lastKnownMousePosition = eventMouseButton.Position;
                 mouseOffsetFromCenterOfWheel = Vector2.Zero;
+                mouseCursor.Position = Vector2.Zero;
                 // if (eventMouseButton.ButtonIndex == 1)
                 //     GD.Print("Left Mouse Unclick at: ", eventMouseButton.Position);
                 // else if (eventMouseButton.ButtonIndex == 2)
                 //     GD.Print("Right Mouse Unclick at: ", eventMouseButton.Position);
                 // else
                 //     GD.Print("Mochi.cs Input function: This shouldn't be happening!");
-                hasMouseMovement = true;
+                mouseCursor.Hide();
             }
-        }
-        else if (@event is InputEventMouseMotion eventMouseMotion) {
-            mouseOffsetFromCenterOfWheel = eventMouseMotion.Position - centerOfWheel;
-            lastKnownMousePosition = eventMouseMotion.Position;
-            hasMouseMovement = true;
         }
     }
 
@@ -175,37 +144,5 @@ public class Mochi : KinematicBody2D
 
         // Final velocity
         velocity = MoveAndSlide(velocity, FLOOR_NORMAL);
-
-        // Mouse positioning code
-        // If there is a change to centerOfWheel, adjust the centerOfWheel
-        Vector2 newCenterOfWheel = GetGlobalTransformWithCanvas().origin;
-        Vector2 wheelOffset = newCenterOfWheel - centerOfWheel;
-
-        // Mr Toh's code.
-        // if (!hasMouseMovement && Input.MouseMode == Input.MouseModeEnum.Confined)
-        // {
-        //     if ((Input.IsActionPressed("move_right") || Input.IsActionPressed("move_left")) || (!IsOnFloor()))
-        //     {
-        //         //Input.WarpMousePosition(newCenterOfWheel);
-        //         Input.WarpMousePosition(centerOfWheel + mouseOffsetFromCenterOfWheel);
-        //         GD.Print(mouseOffsetFromCenterOfWheel);
-        //     }
-        //     // Store value of current centerOfWheel
-        //     centerOfWheel = newCenterOfWheel;
-        // }
-        // hasMouseMovement = false;
-
-        if (GetMouseMode() == "Confined") 
-        {
-            // Prevent any insignificant movements from moving the mouse
-            // (usually caused by float to int rounding errors)
-            if ((wheelOffset.x < -0.9f || wheelOffset.x > 0.9f) || (wheelOffset.y < -0.9f || wheelOffset.y > 0.9f))
-            {
-                Vector2 newMousePosition = centerOfWheel + wheelOffset + mouseOffsetFromCenterOfWheel;
-                Input.WarpMousePosition(newMousePosition);
-                // Store value of current centerOfWheel
-                centerOfWheel = newCenterOfWheel;
-            }
-        }
     }
 }
