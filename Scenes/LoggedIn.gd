@@ -8,8 +8,7 @@ signal logout
 func _ready():
 	var _error = PlayFabManager.client.connect("api_error", self, "_on_PlayFab_api_error")
 	$VBoxContainer/StartButton.self_modulate = color_green
-	OS.window_fullscreen = true
-
+	#OS.window_fullscreen = true
 
 # Called when the node enters the scene tree for the first time.
 func update():
@@ -37,15 +36,15 @@ func _on_get_title_data(response):
 
 func _on_PlayFab_api_error(error: ApiErrorWrapper):
 	print_debug(error.errorMessage)
-	if error.errorMessage == "User not found": # Email does not exist on PLayfab
-		# Add code here to return to main menu and show error message
-		pass
-	elif error.errorMessage == "Invalid email address or password": # Wrong password
-		# Add code here to return to main menu and show error message
-		pass
-	elif error.errorMessage == "Invalid input parameters": # Something's wrong? but idk what
-		# Add code here to return to main menu and show error message
-		pass
+#	if error.errorMessage == "User not found": # Email does not exist on PLayfab
+#		# Add code here to return to main menu and show error message
+#		pass
+#	elif error.errorMessage == "Invalid email address or password": # Wrong password
+#		# Add code here to return to main menu and show error message
+#		pass
+#	elif error.errorMessage == "Invalid input parameters": # Something's wrong? but idk what
+#		# Add code here to return to main menu and show error message
+#		pass
 
 
 func _on_EventsPlayStream_pressed():
@@ -58,10 +57,6 @@ func _on_RequestBuilder_pressed():
 func _on_StartButton_pressed() -> void:
 	SceneManager.goto_scene("res://GameScenes/LevelTemplate.tscn")
 	pass
-
-func _on_MainMenuButton_pressed():
-	SceneManager.goto_scene("res://Scenes/Main.tscn")
-
 
 func _on_LogoutButton_pressed():
 	emit_signal("logout")
