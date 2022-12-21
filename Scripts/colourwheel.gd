@@ -8,10 +8,10 @@ func _ready() -> void:
 	self.visible = false
 	_animated_sprite.play("passive")
 
-func _on_area_entered(area: Area2D) -> void:
+func _on_area_entered(_area: Area2D) -> void:
 	_queuePlay = true
 
-func _on_area_exited(area: Area2D) -> void:
+func _on_area_exited(_area: Area2D) -> void:
 	_animated_sprite.play("passive")
 
 func _input(event):
@@ -23,7 +23,7 @@ func _input(event):
 			_animated_sprite.play("passive")
 			self.visible = false
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if (_queuePlay && !_doNotPlayOnThisFrame):
 		$AudioStreamPlayer2D.play()
 		_animated_sprite.play("active")

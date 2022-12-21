@@ -11,13 +11,26 @@ public class MouseCursor : Area2D
         sprite = GetNode<Sprite>("Sprite");
     }
 
-    private byte ReturnModulateAlphaValue(Vector2 position)
+    private void DrawMouseCursor(Vector2 position)
     {
-        int multiplier = 3;
+        float multiplier = 0.015f;
         float x = Math.Abs(position.x * multiplier);
         float y = Math.Abs(position.y * multiplier);
-        float largerNumber = Math.Min(Math.Max(x, y), 255);
-        return (byte)largerNumber;
+        float alpha = Math.Min(Math.Max(x, y), 1.0f);
+        DrawMouseCursor(alpha);
+    }
+
+    private void DrawMouseCursor(float alpha)
+    {
+        try 
+        {
+            sprite.Modulate = Color.ColorN("white", alpha);
+        }
+        catch (Exception e)
+        {
+            GD.Print("Error on MouseCursor.cs: check if alpha value is not between 0.0f and 1.0f!");
+            GD.Print("Here's more details about the error: ", e.Message);
+        }
     }
 
     public override void _Input(InputEvent @event)
@@ -27,7 +40,7 @@ public class MouseCursor : Area2D
         {
             if (eventMouseButton.IsPressed())
             {
-                sprite.Modulate = Color.Color8(255,255,255,0);
+                DrawMouseCursor(0.0f);
             }
             else
             {
@@ -43,8 +56,7 @@ public class MouseCursor : Area2D
             if (this.Visible == true)
             {
                 this.Position += eventMouseMotion.Relative;
-                // Adjust transparancy based on how far the mouseCursor is
-                sprite.Modulate = Color.Color8(255,255,255,ReturnModulateAlphaValue(this.Position));
+                DrawMouseCursor(this.Position); // Adjust transparancy based on how far the mouseCursor is
             }
             else
             {
