@@ -35,7 +35,6 @@ public class MouseCursor : Area2D
 
     public override void _Input(InputEvent @event)
     {
-        // Mouse in viewport coordinates.
         if (@event is InputEventMouseButton eventMouseButton)
         {
             if (eventMouseButton.IsPressed())

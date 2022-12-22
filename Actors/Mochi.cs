@@ -33,8 +33,6 @@ public class Mochi : KinematicBody2D
         #elif GODOT_WEB // Capture mouse on mouse click event instead
         #elif GODOT // In case someone compiles this code to run on an unintended OS
         Input.MouseMode = Input.MouseModeEnum.Captured;
-        #elif UNITY_5_3_OR_NEWER
-        GD.Print("Mochi.cs: Seems like you found a way to run this script on Unity. Cool!")
         #endif
     }
 
@@ -101,12 +99,12 @@ public class Mochi : KinematicBody2D
         Vector2 linearVelocity, 
         Vector2 direction, 
         bool isJumpInterrupted, 
-        Vector2 maxSpeed, 
-        Vector2? speed = null
+        Vector2 maxSpeed
         )
     {
-        if (speed == null)
-            speed = Vector2.Zero;
+        //Vector2 targetSpeed = direction * maxSpeed; // targetSpeed will either be maxSpeed or 0
+        //Vector2 speedDifference = targetSpeed - linearVelocity;
+        //Acceleration should reach from 0 to top speed in 0.6s
 
         // Calculate x
         float x = linearVelocity.x;
