@@ -1,8 +1,8 @@
 extends Area2D
 
 onready var _animated_sprite = $AnimatedSprite
-var _doNotPlayOnThisFrame: bool = false;
-var _queuePlay: bool = false;
+var _queuePlay: bool = false
+signal disable_player_movement(state)
 
 func _ready() -> void:
 	self.visible = false
@@ -18,14 +18,15 @@ func _input(event):
 	if event is InputEventMouseButton:
 		if event.pressed:
 			self.visible = true
-			_doNotPlayOnThisFrame = true
 		else:
 			_animated_sprite.play("passive")
 			self.visible = false
 
 func _process(_delta: float) -> void:
-	if (_queuePlay && !_doNotPlayOnThisFrame):
+	if (_queuePlay):
 		$AudioStreamPlayer2D.play()
 		_animated_sprite.play("active")
-	_doNotPlayOnThisFrame = false
+		
+		if get_tree().get_current_scene().get_name() == "LevelTemplate":
+			emit_signal("disable_player_movement", false)
 	_queuePlay = false

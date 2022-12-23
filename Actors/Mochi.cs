@@ -9,6 +9,7 @@ public class Mochi : KinematicBody2D
     [Export] private float gravity = 1500.0f;
     private Vector2 velocity = Vector2.Zero;
     private Vector2 FLOOR_NORMAL = Vector2.Up;
+    private bool disableMovement = false;
 
     // Better jump
     private float fallMultiplier = 2.5f, lowJumpMultiplier = 2.0f;
@@ -18,14 +19,20 @@ public class Mochi : KinematicBody2D
     private int maxCoyoteTimer = 10;
 
     // Mouse cursor node
-    private Area2D mouseCursor;
+    private Area2D mouseCursor; 
+    private Sprite LeftMouseClickHint;
+
+    // Signals
+    [Signal] delegate void destroy_left_mouse_click_hint();
 
     public override void _Ready()
     {
         //OS.WindowFullscreen = true;
         mouseCursor = GetNode<Area2D>("MouseCursor");
-        // Set the command below to toggle visibility instead of destroying the mouseCursor on spawn
         mouseCursor.Hide();
+
+        if (GetTree().CurrentScene.Name == "LevelTemplate")
+            LeftMouseClickHint = GetNode<Sprite>("../LeftMouseClickHint");
 
         // Captures the mouse if on PC
         #if GODOT_PC
@@ -70,6 +77,16 @@ public class Mochi : KinematicBody2D
         }
     }
 
+    // Incoming signal
+    public void _on_disable_player_movement(bool state = true)
+    {
+        disableMovement = state;
+
+        // Fire a signal to mouse hint to disappear
+        if (!state && GetTree().CurrentScene.Name == "LevelTemplate")
+            EmitSignal("destroy_left_mouse_click_hint");
+    }
+
     private Vector2 getDirection() 
     {
         float x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
@@ -102,10 +119,7 @@ public class Mochi : KinematicBody2D
         Vector2 maxSpeed
         )
     {
-        //Vector2 targetSpeed = direction * maxSpeed; // targetSpeed will either be maxSpeed or 0
-        //Vector2 speedDifference = targetSpeed - linearVelocity;
         //Acceleration should reach from 0 to top speed in 0.6s
-
         // Calculate x
         float x = linearVelocity.x;
         if (Input.IsActionPressed("move_down"))
@@ -153,7 +167,7 @@ public class Mochi : KinematicBody2D
         Vector2 direction = getDirection();
         velocity = calculateMoveVelocity(velocity, direction, isJumpInterrupted, maxSpeed);
 
-        // Final velocity
-        velocity = MoveAndSlide(velocity, FLOOR_NORMAL);
+        if (!disableMovement)
+            velocity = MoveAndSlide(velocity, FLOOR_NORMAL);
     }
 }

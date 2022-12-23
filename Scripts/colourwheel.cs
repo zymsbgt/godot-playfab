@@ -4,7 +4,8 @@ using System;
 public class colourwheel : Area2D
 {
     private AnimatedSprite _animatedSprite;
-    private bool doNotPlayOnThisFrame = false, queuePlay = false;
+    private bool queuePlay = false;
+    [Signal] delegate void disable_player_movement(bool state);
 
     public override void _Ready()
     {
@@ -27,10 +28,7 @@ public class colourwheel : Area2D
     {
         if (@event is InputEventMouseButton eventMouseButton)
             if (eventMouseButton.IsPressed())
-            {
                 this.Visible = true;
-                doNotPlayOnThisFrame = true;
-            }
             else if (!eventMouseButton.IsPressed())
             {
                 _animatedSprite.Play("passive");
@@ -40,12 +38,14 @@ public class colourwheel : Area2D
 
     public override void _Process(float delta)
     {
-        if (queuePlay && !doNotPlayOnThisFrame)
+        if (queuePlay)
         {
             GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D").Play();
 		    _animatedSprite.Play("active");
+            
+            if (GetTree().CurrentScene.Name == "LevelTemplate")
+                EmitSignal("disable_player_movement", false);
         }
-	    doNotPlayOnThisFrame = false;
 	    queuePlay = false;
     }
 	
