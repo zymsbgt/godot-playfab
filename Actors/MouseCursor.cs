@@ -28,7 +28,7 @@ public class MouseCursor : Area2D
         }
         catch (Exception e)
         {
-            GD.Print("Error on MouseCursor.cs: check if alpha value is not between 0.0f and 1.0f!");
+            GD.PushError("Error on MouseCursor.cs: check if alpha value is not between 0.0f and 1.0f!");
             GD.Print("Here's more details about the error: ", e.Message);
         }
     }
@@ -63,4 +63,22 @@ public class MouseCursor : Area2D
             }
         }
     }
+
+    // controller support, if mouse is moving make sure to override this!
+    // public override void _Process(float delta)
+    // {
+    //     float x = Input.GetActionStrength("sing_right_controller") - Input.GetActionStrength("sing_left_controller");
+    //     float y = Input.GetActionStrength("sing_down_controller") - Input.GetActionStrength("sing_up_controller");
+    //     if (x > 0.015f || y > 0.015f)
+    //     {
+    //         this.Visible = true;
+    //         x *= 100;
+    //         y *= 100;
+    //         this.Position = new Vector2(x,y);
+    //     }
+    //     else
+    //     {
+    //         this.Position = Vector2.Zero;
+    //     }
+    // }
 }
