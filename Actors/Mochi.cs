@@ -92,6 +92,9 @@ public class Mochi : KinematicBody2D
 
     private Vector2 getDirection()
     {
+        if (disableMovement)
+            return Vector2.Down;
+        
         float x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
         float y;
         if (Input.IsActionJustPressed("jump"))
@@ -152,7 +155,7 @@ public class Mochi : KinematicBody2D
         // else
         //     x *= direction.x;
 
-        // Calculating x rewrite
+        // Calculate x rewrite
         float x = currentVelocity.x;
         if (direction.x > 0.0f)
         {
@@ -195,21 +198,17 @@ public class Mochi : KinematicBody2D
 
         // Calculate y
         // Note: Complete jump process should ideally take between 650-750ms. Current time at 1500 gravity is 550-610ms.
-        if (isJumpInterrupted) // Triggered on the frame when Jump button is released
-        {
-            return new Vector2(x, 0.0f);
-        }
-
         float y = currentVelocity.y;
+        if (isJumpInterrupted) // Triggered on the frame when Jump button is released
+            y = 0.0f;
+
         if (direction.y == -1.0) // Player is moving upwards
         {
             y = maxSpeed.y * direction.y;
             y += gravity * (lowJumpMultiplier - 1.0f) * delta;
         }
         else // player is not moving upwards
-        {
             y += gravity * (fallMultiplier - 1.0f) * delta;
-        }
         return new Vector2(x, y);
     }
 
@@ -233,8 +232,6 @@ public class Mochi : KinematicBody2D
         bool isJumpInterrupted = (Input.IsActionJustReleased("jump") && velocity.y < 0.0f);
         Vector2 direction = getDirection();
         velocity = calculateMoveVelocity(velocity, direction, isJumpInterrupted, maxSpeed, delta);
-
-        if (!disableMovement)
-            velocity = MoveAndSlide(velocity, FLOOR_NORMAL);
+        velocity = MoveAndSlide(velocity, FLOOR_NORMAL); // FLOOR_NORMAL = Vector2.Up
     }
 }
