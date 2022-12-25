@@ -4,22 +4,19 @@ using System;
 public class Mochi : KinematicBody2D
 {
     // Movement related variables
+    private float gravity = 1500.0f;
     private float acceleration, deceleration, targetVelocity;
-    [Export] private Vector2 maxSpeed = new Vector2(800.0f, 1000.0f);
-    [Export] private float gravity = 1500.0f;
-    private Vector2 velocity = Vector2.Zero;
-    private Vector2 FLOOR_NORMAL = Vector2.Up;
+    private Vector2 maxSpeed = new Vector2(800.0f, 1000.0f);
+    private Vector2 velocity = Vector2.Zero, FLOOR_NORMAL = Vector2.Up;
     private bool disableMovement = false;
 
     // Better jump
     private float fallMultiplier = 2.5f, lowJumpMultiplier = 2.0f;
     private bool canJump;
-    private int coyoteTimer, jumpBuffer;
-    private int maxJumpBuffer = 10;
-    private int maxCoyoteTimer = 10;
+    private int coyoteTimer, jumpBuffer, maxJumpBuffer = 10, maxCoyoteTimer = 10;
 
     // Mouse cursor node
-    private Area2D mouseCursor; 
+    private Area2D mouseCursor;
     private Sprite LeftMouseClickHint;
 
     // Signals
@@ -27,16 +24,17 @@ public class Mochi : KinematicBody2D
 
     public override void _Ready()
     {
+        // Initialising variables
+        acceleration = maxSpeed.x * 10.0f;
+        deceleration = maxSpeed.x * 20.0f;
+
         //OS.WindowFullscreen = true;
         mouseCursor = GetNode<Area2D>("MouseCursor");
         mouseCursor.Hide();
 
         if (GetTree().CurrentScene.Name == "LevelTemplate")
             LeftMouseClickHint = GetNode<Sprite>("../LeftMouseClickHint");
-
-        acceleration = maxSpeed.x * 10.0f;
-        deceleration = maxSpeed.x * 20.0f;
-
+        
         // Captures the mouse if on PC
         #if GODOT_PC
         Input.MouseMode = Input.MouseModeEnum.Captured;
@@ -54,12 +52,6 @@ public class Mochi : KinematicBody2D
             if (eventMouseButton.IsPressed())
             {
                 mouseCursor.Position = Vector2.Zero;
-                // if (eventMouseButton.ButtonIndex == 1)
-                //     GD.Print("Left Mouse click at: ", lastKnownMousePosition);
-                // else if (eventMouseButton.ButtonIndex == 2)
-                //     GD.Print("Right Mouse click at: ", lastKnownMousePosition);
-                // else
-                //     GD.Print("Mochi.cs Input function: This shouldn't be happening!");
                 mouseCursor.Show();
                 #if GODOT_WEB
                 if (Input.MouseMode != Input.MouseModeEnum.Captured)
@@ -69,12 +61,6 @@ public class Mochi : KinematicBody2D
             else
             {
                 mouseCursor.Position = Vector2.Zero;
-                // if (eventMouseButton.ButtonIndex == 1)
-                //     GD.Print("Left Mouse Unclick at: ", eventMouseButton.Position);
-                // else if (eventMouseButton.ButtonIndex == 2)
-                //     GD.Print("Right Mouse Unclick at: ", eventMouseButton.Position);
-                // else
-                //     GD.Print("Mochi.cs Input function: This shouldn't be happening!");
                 mouseCursor.Hide();
             }
         }
@@ -83,6 +69,7 @@ public class Mochi : KinematicBody2D
     // Incoming signal
     public void _on_disable_player_movement(bool state = true)
     {
+        // This is an incoming signal from mouseCursor
         disableMovement = state;
 
         // Fire a signal to mouse hint to disappear
