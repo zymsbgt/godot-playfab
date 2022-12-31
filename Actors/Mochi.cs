@@ -35,11 +35,9 @@ public class Mochi : KinematicBody2D
         if (GetTree().CurrentScene.Name == "LevelTemplate")
             LeftMouseClickHint = GetNode<Sprite>("../LeftMouseClickHint");
         
-        // Captures the mouse if on PC
-        #if GODOT_PC
-        Input.MouseMode = Input.MouseModeEnum.Captured;
-        #elif GODOT_WEB // Capture mouse on mouse click event instead
-        #elif GODOT // In case someone compiles this code to run on an unintended OS
+        // Capture the mouse if on PC
+        #if GODOT_WEB // Capture mouse on mouse click event instead
+        #elif GODOT // for desktop and consoles. Mobile, if ever ported, should use this too
         Input.MouseMode = Input.MouseModeEnum.Captured;
         #endif
     }
