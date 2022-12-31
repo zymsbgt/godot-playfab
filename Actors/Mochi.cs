@@ -29,6 +29,11 @@ public class Mochi : KinematicBody2D
         deceleration = maxSpeed.x * 20.0f;
 
         //OS.WindowFullscreen = true;
+        //OS.WindowMaximized = true;
+        //#if GODOT_WINDOWS
+        //OS.WindowBorderless = true;
+        //#endif
+
         mouseCursor = GetNode<Area2D>("MouseCursor");
         mouseCursor.Hide();
 
@@ -42,27 +47,16 @@ public class Mochi : KinematicBody2D
         #endif
     }
 
+    #if GODOT_WEB
     public override void _Input(InputEvent @event)
     {
         // Mouse in viewport coordinates.
-        if (@event is InputEventMouseButton eventMouseButton)
-        {
-            if (eventMouseButton.IsPressed())
-            {
-                mouseCursor.Position = Vector2.Zero;
-                mouseCursor.Show();
-                #if GODOT_WEB
-                if (Input.MouseMode != Input.MouseModeEnum.Captured)
-                    Input.MouseMode = Input.MouseModeEnum.Captured;
-                #endif
-            }
-            else
-            {
-                mouseCursor.Position = Vector2.Zero;
-                mouseCursor.Hide();
-            }
-        }
+        if (@event is InputEventMouseButton eventMouseButton 
+            && eventMouseButton.IsPressed() 
+            && Input.MouseMode != Input.MouseModeEnum.Captured)
+                Input.MouseMode = Input.MouseModeEnum.Captured;
     }
+    #endif
 
     // Incoming signal
     public void _on_disable_player_movement(bool state = true)

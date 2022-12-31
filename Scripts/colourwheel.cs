@@ -29,7 +29,7 @@ public class colourwheel : Area2D
         if (@event is InputEventMouseButton eventMouseButton)
             if (eventMouseButton.IsPressed())
                 this.Visible = true;
-            else if (!eventMouseButton.IsPressed())
+            else
             {
                 _animatedSprite.Play("passive");
                 this.Visible = false;

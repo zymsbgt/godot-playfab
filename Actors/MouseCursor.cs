@@ -4,6 +4,7 @@ using System;
 public class MouseCursor : Area2D
 {
     private Sprite sprite;
+    private float doNotTriggerBelow = 0.01f;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -37,48 +38,41 @@ public class MouseCursor : Area2D
     {
         if (@event is InputEventMouseButton eventMouseButton)
         {
+            this.Position = Vector2.Zero;
             if (eventMouseButton.IsPressed())
             {
                 DrawMouseCursor(0.0f);
+                this.Show();
             }
             else
-            {
-                // if (eventMouseButton.ButtonIndex == 1)
-                //     GD.Print("Left Mouse Unclick at: ", eventMouseButton.Position);
-                // else if (eventMouseButton.ButtonIndex == 2)
-                //     GD.Print("Right Mouse Unclick at: ", eventMouseButton.Position);
-                // else
-                //     GD.Print("MouseCursor.cs Input function: This shouldn't be happening!");
-            }
+                this.Hide();
         }
         else if (@event is InputEventMouseMotion eventMouseMotion) {
-            if (this.Visible == true)
+            if (this.Visible)
             {
                 this.Position += eventMouseMotion.Relative;
                 DrawMouseCursor(this.Position); // Adjust transparancy based on how far the mouseCursor is
             }
             else
-            {
                 this.Position = Vector2.Zero;
-            }
         }
     }
 
-    // controller support, if mouse is moving make sure to override this!
-    // public override void _Process(float delta)
-    // {
-    //     float x = Input.GetActionStrength("sing_right_controller") - Input.GetActionStrength("sing_left_controller");
-    //     float y = Input.GetActionStrength("sing_down_controller") - Input.GetActionStrength("sing_up_controller");
-    //     if (x > 0.015f || y > 0.015f)
-    //     {
-    //         this.Visible = true;
-    //         x *= 100;
-    //         y *= 100;
-    //         this.Position = new Vector2(x,y);
-    //     }
-    //     else
-    //     {
-    //         this.Position = Vector2.Zero;
-    //     }
-    // }
+    //controller support, if mouse is moving make sure to override this!
+    public override void _Process(float delta)
+    {
+        float x = Input.GetActionStrength("sing_right_controller") - Input.GetActionStrength("sing_left_controller");
+        float y = Input.GetActionStrength("sing_down_controller") - Input.GetActionStrength("sing_up_controller");
+        if (x > doNotTriggerBelow || y > doNotTriggerBelow || x < -doNotTriggerBelow || y < -doNotTriggerBelow)
+        {
+            this.Visible = true;
+            x *= 100;
+            y *= 100;
+            this.Position = new Vector2(x,y);
+        }
+        else
+        {
+            this.Position = Vector2.Zero;
+        }
+    }
 }
