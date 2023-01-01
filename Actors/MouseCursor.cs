@@ -1,12 +1,10 @@
 using Godot;
 using System;
 
-public class MouseCursor : Area2D
+public class MouseCursor : ControllerWheel
 {
     private Sprite sprite;
-    private bool joystickMoved = false;
     private Vector2 lastControllerPosition; 
-    private Vector2? mouseOffset = null;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -48,67 +46,63 @@ public class MouseCursor : Area2D
 
     public override void _Input(InputEvent @event)
     {
+        base._Input(@event);
         if (@event is InputEventMouseButton eventMouseButton)
         {
-            this.Position = Vector2.Zero;
             if (eventMouseButton.IsPressed())
             {
-                DrawMouseCursor(mouseOffset = Vector2.Zero);
-                this.Show();
+                //if (GetLastKnownMousePosition() == null)
+                    DrawMouseCursor(this.Position = Vector2.Zero);
+                //else // joystick is active
+                //    DrawMouseCursor(this.Position = GetLastKnownMousePosition());
             }
             else
             {
-                mouseOffset = null;
-                if (!joystickMoved)
-                    this.Hide();
+                this.Position = Vector2.Zero;
             }
                 
         }
         else if (@event is InputEventMouseMotion eventMouseMotion) {
             if (this.Visible)
             {
-                mouseOffset += eventMouseMotion.Relative;
+                SetMouseOffset(GetMouseOffset() + eventMouseMotion.Relative);
                 this.Position += eventMouseMotion.Relative;
                 DrawMouseCursor(this.Position); // Adjust transparancy based on how far the mouseCursor is
             }
             else
             {
-                if (!joystickMoved)
+                if (!GetJoystickMoved())
                     this.Position = Vector2.Zero;
             }
+        }
+    }
+
+    public override void MoveCursorWithJoystick(float x = 0.0f, float y = 0.0f)
+    {
+        base.MoveCursorWithJoystick();
+        float multiplier = 100.0f;
+        Vector2 currentControllerPosition = new Vector2(x *= multiplier, y *= multiplier);
+        if (GetMouseOffset() == null)
+            this.Position += currentControllerPosition - lastControllerPosition + GetLastKnownMousePosition();
+        else
+            this.Position += currentControllerPosition - lastControllerPosition + (Vector2)GetMouseOffset();
+        DrawMouseCursor(this.Position);
+    }
+
+    public override void JoystickReleased(bool joystickMoved, Vector2? mouseOffset)
+    {
+        joystickMoved = false;
+        if (mouseOffset == null) // if mouse is released
+        {
+            this.Position = DrawMouseCursor(Vector2.Zero);
+            SetVisibility(false);
         }
     }
 
     //controller support, if mouse is moving make sure to override this!
     public override void _Process(float delta)
     {
-        // Get current position
         lastControllerPosition = this.Position;
-
-        // calculate GetActionStrength difference between current frame and previous frame
-        float doNotTriggerBelow = 0.01f;
-        float multiplier = 100.0f;
-        float x = Input.GetActionStrength("sing_right_controller") - Input.GetActionStrength("sing_left_controller");
-        float y = Input.GetActionStrength("sing_down_controller") - Input.GetActionStrength("sing_up_controller");
-        if (x > doNotTriggerBelow || y > doNotTriggerBelow || x < -doNotTriggerBelow || y < -doNotTriggerBelow)
-        {
-            joystickMoved = true;
-            this.Visible = true;
-            Vector2 currentControllerPosition = new Vector2(x *= multiplier, y *= multiplier);
-            if (mouseOffset == null)
-                this.Position += currentControllerPosition - lastControllerPosition;
-            else
-                this.Position += currentControllerPosition - lastControllerPosition + (Vector2)mouseOffset;
-            DrawMouseCursor(this.Position);
-        }
-        else
-        {
-            joystickMoved = false;
-            if (mouseOffset == null) // if mouse is released
-            {
-                this.Position = DrawMouseCursor(Vector2.Zero);
-                this.Hide();
-            }
-        }
+        base._Process(delta);
     }
 }
