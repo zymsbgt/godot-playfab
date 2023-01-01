@@ -4,7 +4,7 @@ using System;
 public class colourwheel : Area2D
 {
     private AnimatedSprite _animatedSprite;
-    private bool queuePlay = false;
+    private bool queuePlay = false, mouseDown = false, joystickMoved = false;
     [Signal] delegate void disable_player_movement(bool state);
 
     public override void _Ready()
@@ -27,17 +27,31 @@ public class colourwheel : Area2D
     public override void _Input(InputEvent @event)
     {
         if (@event is InputEventMouseButton eventMouseButton)
+        {
             if (eventMouseButton.IsPressed())
-                this.Visible = true;
+            {
+                mouseDown = true;
+                SetVisibility(true);
+            }
             else
             {
-                _animatedSprite.Play("passive");
-                this.Visible = false;
-            }
+                mouseDown = false;
+                if (!joystickMoved)
+                    SetVisibility(false);
+            }    
+        }
+    }
+
+    private void SetVisibility(bool visibility)
+    {
+        if (visibility == false)
+            _animatedSprite.Play("passive");
+        this.Visible = visibility;
     }
 
     public override void _Process(float delta)
     {
+        // queueplay
         if (queuePlay)
         {
             GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D").Play();
@@ -47,6 +61,21 @@ public class colourwheel : Area2D
                 EmitSignal("disable_player_movement", false);
         }
 	    queuePlay = false;
+
+        // controller
+        float doNotTriggerBelow = 0.01f;
+        float x = Input.GetActionStrength("sing_right_controller") - Input.GetActionStrength("sing_left_controller");
+        float y = Input.GetActionStrength("sing_down_controller") - Input.GetActionStrength("sing_up_controller");
+        if (x > doNotTriggerBelow || y > doNotTriggerBelow || x < -doNotTriggerBelow || y < -doNotTriggerBelow)
+        {
+            joystickMoved = true;
+            SetVisibility(true);
+        }
+        else
+        {
+            joystickMoved = false;
+            if (mouseDown == false)
+                SetVisibility(false);
+        }
     }
-	
 }
