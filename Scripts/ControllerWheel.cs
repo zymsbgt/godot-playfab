@@ -6,6 +6,11 @@ public class ControllerWheel : Area2D
     private bool joystickMoved = false;
     private Vector2? mouseOffset = null;
 
+    private void SetVisibility(bool visibility)
+    {
+        this.Visible = visibility;
+    }
+
     public override void _Input(InputEvent @event)
     {
         if (@event is InputEventMouseButton eventMouseButton)
