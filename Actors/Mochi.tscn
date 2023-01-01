@@ -1,10 +1,10 @@
 [gd_scene load_steps=33 format=2]
 
-[ext_resource path="res://Scripts/colourwheel.cs" type="Script" id=1]
 [ext_resource path="res://Sounds/c5_piano.wav" type="AudioStream" id=2]
 [ext_resource path="res://Sprites/colourwheel/inactive/02.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/colourwheel/active/02.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/mochi.png" type="Texture" id=5]
+[ext_resource path="res://Scripts/ColourWheel.cs" type="Script" id=6]
 [ext_resource path="res://Sprites/colourwheel/active/03.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/colourwheel/active/04.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/colourwheel/inactive/03.png" type="Texture" id=9]
@@ -147,7 +147,7 @@ texture = ExtResource( 5 )
 [node name="05" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
-script = ExtResource( 1 )
+script = ExtResource( 6 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="05"]
 position = Vector2( 1, -312 )
@@ -163,7 +163,7 @@ animation = "passive"
 [node name="06" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
-script = ExtResource( 1 )
+script = ExtResource( 6 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="06"]
 position = Vector2( 1, -312 )
@@ -179,7 +179,7 @@ animation = "passive"
 [node name="07" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
-script = ExtResource( 1 )
+script = ExtResource( 6 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="07"]
 position = Vector2( 1, -312 )
@@ -195,7 +195,7 @@ animation = "passive"
 [node name="08" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
-script = ExtResource( 1 )
+script = ExtResource( 6 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="08"]
 position = Vector2( 1, -312 )
@@ -211,7 +211,7 @@ animation = "passive"
 [node name="01" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
-script = ExtResource( 1 )
+script = ExtResource( 6 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="01"]
 position = Vector2( 1, -312 )
@@ -227,7 +227,7 @@ animation = "passive"
 [node name="02" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
-script = ExtResource( 1 )
+script = ExtResource( 6 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="02"]
 position = Vector2( 1, -312 )
@@ -243,7 +243,7 @@ animation = "passive"
 [node name="03" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
-script = ExtResource( 1 )
+script = ExtResource( 6 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="03"]
 position = Vector2( 1, -312 )
@@ -259,7 +259,7 @@ animation = "passive"
 [node name="04" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
-script = ExtResource( 1 )
+script = ExtResource( 6 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="04"]
 position = Vector2( 1, -312 )
