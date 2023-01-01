@@ -42,7 +42,7 @@ public class colourwheel : Area2D
         }
     }
 
-    private void SetVisibility(bool visibility)
+    public void SetVisibility(bool visibility)
     {
         if (visibility == false)
             _animatedSprite.Play("passive");

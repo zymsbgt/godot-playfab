@@ -6,7 +6,7 @@ public class ControllerWheel : Area2D
     private bool joystickMoved = false;
     private Vector2? mouseOffset = null;
 
-    private void SetVisibility(bool visibility)
+    public virtual void SetVisibility(bool visibility)
     {
         this.Visible = visibility;
     }
@@ -18,13 +18,13 @@ public class ControllerWheel : Area2D
             if (eventMouseButton.IsPressed())
             {
                 mouseOffset = Vector2.Zero;
-                //SetVisibility(true);
+                SetVisibility(true);
             }
             else
             {
                 mouseOffset = null;
-                if (!joystickMoved) {}
-                    //SetVisibility(false);
+                if (!joystickMoved)
+                    SetVisibility(false);
             }
                 
         }
@@ -39,13 +39,13 @@ public class ControllerWheel : Area2D
         if (x > doNotTriggerBelow || y > doNotTriggerBelow || x < -doNotTriggerBelow || y < -doNotTriggerBelow)
         {
             joystickMoved = true;
-            //SetVisibility(true);
+            SetVisibility(true);
         }
         else
         {
             joystickMoved = false;
-            if (mouseOffset == null) {}
-                //SetVisibility(false);
+            if (mouseOffset == null)
+                SetVisibility(false);
         }
     }
 }
