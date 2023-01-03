@@ -37,8 +37,6 @@ public class MouseCursor : ControllerWheel
 
     private Vector2 DrawMouseCursor(Vector2? position)
     {
-        //if (position == null)
-        //    position = Vector2.Zero;
         Vector2 output = (Vector2)position;
         DrawMouseCursor(output);
         return output;
@@ -57,10 +55,7 @@ public class MouseCursor : ControllerWheel
                 //    DrawMouseCursor(this.Position = GetLastKnownMousePosition());
             }
             else
-            {
-                this.Position = Vector2.Zero;
-            }
-                
+                this.Position = Vector2.Zero; 
         }
         else if (@event is InputEventMouseMotion eventMouseMotion) {
             if (this.Visible)
@@ -80,7 +75,7 @@ public class MouseCursor : ControllerWheel
     public override void MoveCursorWithJoystick(float x = 0.0f, float y = 0.0f)
     {
         base.MoveCursorWithJoystick();
-        float multiplier = 100.0f;
+        float multiplier = 250.0f;
         Vector2 currentControllerPosition = new Vector2(x *= multiplier, y *= multiplier);
         if (GetMouseOffset() == null)
             this.Position += currentControllerPosition - lastControllerPosition + GetLastKnownMousePosition();
