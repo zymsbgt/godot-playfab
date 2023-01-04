@@ -3,6 +3,9 @@ using System;
 
 public class Mochi : KinematicBody2D
 {
+    // Initialising variables
+    private bool isInitialising;
+
     // Movement related variables
     private float gravity = 1500.0f;
     private float acceleration, deceleration, targetVelocity;
@@ -30,21 +33,28 @@ public class Mochi : KinematicBody2D
 
         //OS.WindowFullscreen = true;
         //OS.WindowMaximized = true;
-        //#if GODOT_WINDOWS
-        //OS.WindowBorderless = true;
-        //#endif
+        // #if GODOT_WINDOWS
+        // OS.WindowBorderless = true;
+        // #endif
 
         mouseCursor = GetNode<Area2D>("MouseCursor");
         mouseCursor.Hide();
 
-        if (GetTree().CurrentScene.Name == "LevelTemplate")
-            LeftMouseClickHint = GetNode<Sprite>("../LeftMouseClickHint");
+        isInitialising = true;
         
         // Capture the mouse if on PC
         #if GODOT_WEB // Capture mouse on mouse click event instead
-        #elif GODOT // for desktop and consoles. Mobile, if ever ported, should use this too
+        #elif GODOT // for devices with mouse(s)
         Input.MouseMode = Input.MouseModeEnum.Captured;
         #endif
+    }
+
+    private void Initialise() // called on the first frame of the scene
+    {
+        if (GetTree().CurrentScene.Name == "LevelTemplate")
+            LeftMouseClickHint = GetNode<Sprite>("../LeftMouseClickHint");
+        
+        isInitialising = false;
     }
 
     #if GODOT_WEB
@@ -193,6 +203,9 @@ public class Mochi : KinematicBody2D
 
     public override void _PhysicsProcess(float delta) 
     {
+        if (isInitialising) 
+            Initialise();
+
         // Set velocity.y
         velocity.y += gravity * delta;
         

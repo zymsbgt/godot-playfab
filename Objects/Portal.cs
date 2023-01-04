@@ -6,10 +6,11 @@ public class Portal : Area2D
 {
     [Export] private PackedScene nextScene;
     private AnimationPlayer animationPlayer;
-
+    
     public override void _Ready()
     {
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+        //testScene = ResourceLoader.Load<PackedScene>("res://GameScenes/Level1.tscn");
     }
 
     public override string _GetConfigurationWarning()
@@ -32,10 +33,4 @@ public class Portal : Area2D
         await ToSignal(animationPlayer, "animation_finished");
         GetTree().ChangeSceneTo(nextScene);
     }
-
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
 }

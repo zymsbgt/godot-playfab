@@ -69,7 +69,8 @@ public class Sword : Area2D
             clickHintTransparancy -= delta * multiplier;
             if (clickHintTransparancy <= 0.0f)
             {
-                ReturnHintSprite().QueueFree();
+                LeftMouseClickHint.QueueFree();
+                ControllerJoyHint.QueueFree();
                 this.QueueFree();
             }
             else

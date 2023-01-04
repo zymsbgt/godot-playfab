@@ -131,6 +131,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=18]
+radius = 1.05409
 
 [node name="Mochi" type="KinematicBody2D"]
 collision_mask = 8

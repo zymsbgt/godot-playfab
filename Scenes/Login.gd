@@ -36,8 +36,7 @@ func remember_login():
 
 
 func update_login_button_states():
-	# Reset button colours
-	$Login/Login.self_modulate = color_white
+	# Reset button colour
 	$Login/AnonLogin.self_modulate = color_white
 
 	if PlayFabManager.client_config.is_logged_in():
