@@ -8,6 +8,7 @@ public class Portal : Area2D
     private AnimationPlayer animationPlayer;
     public Node CurrentScene { get; set; }
     public Node Conductor { get; set; }
+    [Signal] public delegate void changeScene();
     
     public override void _Ready()
     {
@@ -37,8 +38,12 @@ public class Portal : Area2D
         CallDeferred(nameof(DeferredGotoScene), nextScene);
     }
 
-    public void DeferredGotoScene(PackedScene nextScene)
+    private void DeferredGotoScene(PackedScene nextScene)
     {
+        // Broadcast a signal to show that scene has changed
+        EmitSignal("changeScene");
+
+        // Queue current scene for deletion
         CurrentScene.QueueFree();
 
         // Instance the new scene.

@@ -6,7 +6,10 @@ public class Bird : KinematicBody2D
     private AnimatedSprite animatedSprite;
     private Sprite cueSprite;
     private AudioStreamPlayer audioStreamPlayer;
+    private VisibilityEnabler2D visibilityEnabler2D;
     private float timer;
+    private int birdWaitTime = 8;
+    private bool playCueOnThisBeat = false;
     private enum CueAnimationState
     {
         off,
@@ -21,35 +24,25 @@ public class Bird : KinematicBody2D
         audioStreamPlayer = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
     }
 
-    public void _on_AudioStreamPlayer_finished()
+    public void _on_beatSignal(int song_position_in_beats)
     {
-        GD.Print("My callback!");
+        if (song_position_in_beats % birdWaitTime == 1)
+        {
+            audioStreamPlayer.Play();
+            playCueOnThisBeat = true;
+        }
+        else
+            playCueOnThisBeat = false;
+    }
+
+    public void _on_measureSignal(int measure)
+    {
+        
     }
 
     public override void _Process(float delta)
     {
         animatedSprite.Play("flying");
-        switch (cueAnimationState)
-        {
-            case CueAnimationState.off:
-                if (timer > 3.5f)
-                {
-                    audioStreamPlayer.Play();
-                    cueAnimationState = CueAnimationState.one;
-                    timer = 0.0f;
-                }
-                cueSprite.Visible = false;
-                timer += delta;
-                return;
-            case CueAnimationState.one:
-                if (timer > 0.5f)
-                {
-                    cueAnimationState = CueAnimationState.off;
-                    timer = 0.0f;
-                }
-                cueSprite.Visible = true;
-                timer += delta;
-                return;
-        }
+        cueSprite.Visible = playCueOnThisBeat;
     }
 }

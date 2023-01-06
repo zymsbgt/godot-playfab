@@ -5,7 +5,7 @@
 [ext_resource path="res://GameScenes/LevelTemplate.tscn" type="PackedScene" id=3]
 [ext_resource path="res://GameScenes/Conductor.cs" type="Script" id=4]
 [ext_resource path="res://Scripts/BackgroundMusic.cs" type="Script" id=5]
-[ext_resource path="res://Music/level1_110bpm.mp3" type="AudioStream" id=6]
+[ext_resource path="res://Music/levelone_110bpm.mp3" type="AudioStream" id=6]
 
 [node name="Conductor" type="Node"]
 script = ExtResource( 4 )
@@ -23,7 +23,7 @@ margin_bottom = 64.0
 script = ExtResource( 2 )
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 6 )
 script = ExtResource( 5 )
+audioStream = ExtResource( 6 )
 
 [node name="LevelTemplate" parent="." instance=ExtResource( 3 )]

@@ -20,6 +20,7 @@ public class Conductor : Node
     private AudioStreamPlayer backgroundMusic;
     private Node globalSignal;
     private PackedScene packedScene;
+    private Node2D currentScene;
 
     [Signal] public delegate void beatSignal();
     [Signal] public delegate void measureSignal();
@@ -30,11 +31,29 @@ public class Conductor : Node
         backgroundMusic = GetNode<AudioStreamPlayer>("BackgroundMusic");
         backgroundMusic.Play();
         backgroundMusic.VolumeDb = -3;
+        _on_changeScene();
     }
 
     // Signals
-    
+    public void _on_changeScene()
+    {
+        CallDeferred(nameof(DeferredGotoScene));
+        GD.Print("Change of scene detected!");
+    }
     // End of Signals
+
+    private void DeferredGotoScene()
+    {
+        int j = 0;
+        foreach(Node i in GetChildren())
+        {
+            if (i is Node2D)
+                currentScene = (Node2D)GetChild(j);
+            j++;
+        }
+        Connect("beatSignal", currentScene, "_on_BeatSignal");
+        Connect("measureSignal", currentScene, "_on_measureSignal");
+    }
 
     public override void _PhysicsProcess(float _delta)
     {
