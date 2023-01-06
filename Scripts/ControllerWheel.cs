@@ -22,11 +22,6 @@ public class ControllerWheel : Area2D
         return lastKnownMousePosition;
     }
 
-    // public void SetLastKnownMousePosition(Vector2 value)
-    // {
-    //     lastKnownMousePosition = value;
-    // }
-
     public bool GetJoystickMoved()
     {
         return joystickMoved;

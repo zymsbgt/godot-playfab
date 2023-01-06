@@ -21,10 +21,6 @@ public class Sword : Area2D
     {
         LeftMouseClickHint = GetNode<Sprite>("../LeftMouseClickHint");
         ControllerJoyHint = GetNode<Sprite>("../ControllerJoyHint");
-        if (Input.GetConnectedJoypads().Count == 0)
-            controllerAttached = false;
-        else
-            controllerAttached = true;
     }
 
     private Sprite ReturnHintSprite()
@@ -35,11 +31,15 @@ public class Sword : Area2D
             return LeftMouseClickHint;
     }
 
-    public void _on_body_entered(Area2D _area)
+    public void _on_body_entered(Area2D _area) // triggered when player collects sword
     {
         if (this.Visible)
         {
             this.Visible = false;
+            if (Input.GetConnectedJoypads().Count == 0)
+                controllerAttached = false;
+            else
+                controllerAttached = true;
             ReturnHintSprite().Visible = true;
             ReturnHintSprite().Modulate = Color.ColorN("white", clickHintTransparancy = 0.0f);
             clickHintAnimationState = ClickHintAnimationState.fadeIn;
