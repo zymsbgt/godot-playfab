@@ -1,5 +1,6 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=40 format=2]
 
+[ext_resource path="res://Sounds/f4_piano.wav" type="AudioStream" id=1]
 [ext_resource path="res://Sounds/c5_piano.wav" type="AudioStream" id=2]
 [ext_resource path="res://Sprites/colourwheel/inactive/02.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/colourwheel/active/02.png" type="Texture" id=4]
@@ -22,6 +23,12 @@
 [ext_resource path="res://Actors/Mochi.cs" type="Script" id=21]
 [ext_resource path="res://Sprites/round_metal.png" type="Texture" id=22]
 [ext_resource path="res://Actors/MouseCursor.cs" type="Script" id=23]
+[ext_resource path="res://Sounds/d4_piano.wav" type="AudioStream" id=24]
+[ext_resource path="res://Sounds/e4_piano.wav" type="AudioStream" id=25]
+[ext_resource path="res://Sounds/a5_piano.wav" type="AudioStream" id=26]
+[ext_resource path="res://Sounds/b5_piano.wav" type="AudioStream" id=27]
+[ext_resource path="res://Sounds/g4_piano.wav" type="AudioStream" id=28]
+[ext_resource path="res://Sounds/c4_piano.wav" type="AudioStream" id=29]
 
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 59.5, 60 )
@@ -155,7 +162,7 @@ position = Vector2( 1, -312 )
 polygon = PoolVector2Array( 119, 599, -1, 636, -115, 599, -63, 474, 0, 487, 66, 475 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="05"]
-stream = ExtResource( 2 )
+stream = ExtResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="05"]
 frames = SubResource( 14 )
@@ -171,7 +178,7 @@ position = Vector2( 1, -312 )
 polygon = PoolVector2Array( 287, 430, 236, 534, 122, 597, 71, 471, 127, 435, 161, 379 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="06"]
-stream = ExtResource( 2 )
+stream = ExtResource( 28 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="06"]
 frames = SubResource( 15 )
@@ -187,7 +194,7 @@ position = Vector2( 1, -312 )
 polygon = PoolVector2Array( 285, 196, 330, 311, 288, 429, 163, 376, 175, 313, 161, 244 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="07"]
-stream = ExtResource( 2 )
+stream = ExtResource( 26 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="07"]
 frames = SubResource( 16 )
@@ -203,7 +210,7 @@ position = Vector2( 1, -312 )
 polygon = PoolVector2Array( 121, 26, 235, 87, 285, 193, 161, 243, 124, 188, 68, 150 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="08"]
-stream = ExtResource( 2 )
+stream = ExtResource( 27 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="08"]
 frames = SubResource( 17 )
@@ -235,7 +242,7 @@ position = Vector2( 1, -312 )
 polygon = PoolVector2Array( -286, 193, -231, 87, -120, 27, -67, 151, -127, 193, -159, 244 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="02"]
-stream = ExtResource( 2 )
+stream = ExtResource( 29 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="02"]
 frames = SubResource( 2 )
@@ -251,7 +258,7 @@ position = Vector2( 1, -312 )
 polygon = PoolVector2Array( -287, 432, -324, 308, -286, 196, -160, 247, -174, 314, -160, 378 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="03"]
-stream = ExtResource( 2 )
+stream = ExtResource( 24 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="03"]
 frames = SubResource( 13 )
@@ -267,7 +274,7 @@ position = Vector2( 1, -312 )
 polygon = PoolVector2Array( -119, 601, -227, 539, -287, 433, -160, 381, -125, 436, -70, 472 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="04"]
-stream = ExtResource( 2 )
+stream = ExtResource( 25 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="04"]
 frames = SubResource( 11 )

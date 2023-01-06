@@ -6,11 +6,14 @@ public class Portal : Area2D
 {
     [Export] private PackedScene nextScene;
     private AnimationPlayer animationPlayer;
+    public Node CurrentScene { get; set; }
+    public Node Conductor { get; set; }
     
     public override void _Ready()
     {
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-        //testScene = ResourceLoader.Load<PackedScene>("res://GameScenes/Level1.tscn");
+        Conductor = GetNode<Node>("../../");
+        CurrentScene = GetNode<Node2D>("../");
     }
 
     public override string _GetConfigurationWarning()
@@ -31,6 +34,20 @@ public class Portal : Area2D
     {
         animationPlayer.Play("fade_to_black");
         await ToSignal(animationPlayer, "animation_finished");
-        GetTree().ChangeSceneTo(nextScene);
+        CallDeferred(nameof(DeferredGotoScene), nextScene);
+    }
+
+    public void DeferredGotoScene(PackedScene nextScene)
+    {
+        CurrentScene.QueueFree();
+
+        // Instance the new scene.
+        CurrentScene = nextScene.Instance();
+
+        // Add it to the active scene, as child of root.
+        Conductor.AddChild(CurrentScene);
+
+        // Optionally, to make it compatible with the SceneTree.change_scene() API.
+        //GetTree().CurrentScene = CurrentScene;
     }
 }

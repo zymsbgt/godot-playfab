@@ -75,7 +75,7 @@ public class Mochi : KinematicBody2D
         disableMovement = state;
 
         // Fire a signal to mouse hint to disappear
-        if (!state && GetTree().CurrentScene.Name == "LevelTemplate")
+        if (!state && GetNode<Node2D>("../").Name == "LevelTemplate")
             EmitSignal("destroy_left_mouse_click_hint");
     }
 
