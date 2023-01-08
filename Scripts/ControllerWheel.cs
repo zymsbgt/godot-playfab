@@ -29,7 +29,7 @@ public class ControllerWheel : Area2D
 
     public virtual void SetVisibility(bool visibility)
     {
-        this.Visible = visibility;
+        Visible = visibility;
     }
 
     public override void _Input(InputEvent @event)

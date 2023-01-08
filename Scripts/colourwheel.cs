@@ -6,7 +6,9 @@ public class ColourWheel : ControllerWheel
     private AnimatedSprite _animatedSprite;
     private AudioStreamPlayer2D _audioStreamPlayer2D;
     private bool queuePlay = false;
+    [Export] private int note;
     [Signal] delegate void disable_player_movement(bool state);
+    [Signal] delegate void _on_ColourWheel_area_entered(int note);
 
     public override void _Ready()
     {
@@ -20,6 +22,8 @@ public class ColourWheel : ControllerWheel
     public void _on_area_entered(Area2D area)
     {
         queuePlay = true;
+        // pass down the note type to Mochi
+        EmitSignal("_on_ColourWheel_area_entered", note);
     }
 
     public void _on_area_exited(Area2D area)
@@ -30,7 +34,7 @@ public class ColourWheel : ControllerWheel
 
     public override void SetVisibility(bool visibility)
     {
-        if (visibility == false)
+        if (!visibility)
             _animatedSprite.Play("passive");
         base.SetVisibility(visibility);
     }

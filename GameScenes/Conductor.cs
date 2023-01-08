@@ -18,7 +18,6 @@ public class Conductor : Node
     private double time_off_beat = 0.0;
     // Attach to nodes
     private AudioStreamPlayer backgroundMusic;
-    private Node globalSignal;
     private PackedScene packedScene;
     private Node2D currentScene;
 
@@ -27,10 +26,9 @@ public class Conductor : Node
     public override void _Ready()
     {
         sec_per_beat = 60.0 / bpm;
-        globalSignal = GetNode<Node>("/root/GlobalSignal");
         backgroundMusic = GetNode<AudioStreamPlayer>("BackgroundMusic");
         backgroundMusic.Play();
-        backgroundMusic.VolumeDb = -3;
+        backgroundMusic.VolumeDb = -6;
         _on_changeScene();
     }
 
@@ -38,7 +36,6 @@ public class Conductor : Node
     public void _on_changeScene()
     {
         CallDeferred(nameof(DeferredGotoScene));
-        GD.Print("Change of scene detected!");
     }
     // End of Signals
 
@@ -64,7 +61,7 @@ public class Conductor : Node
 
         // GetNode<LineEdit>("VBoxContainer/AudioOutputLatencyContainer/Edit").Text = AudioServer.GetOutputLatency().ToString();
         // GetNode<LineEdit>("VBoxContainer/SongPositionContainer/Edit").Text = song_position.ToString();
-        // GetNode<LineEdit>("VBoxContainer/SongPositionInBeatsContainer/Edit").Text = song_position_in_beats.ToString();
+        GetNode<Label>("HUD/Label").Text = "Song position in beats: " + song_position_in_beats.ToString();
         ReportBeat();
     }
 

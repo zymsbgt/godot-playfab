@@ -4,10 +4,11 @@ using System;
 public class Mochi : KinematicBody2D
 {
     // Initialising variables
-    private bool isInitialising;
+    private bool isInitialising = false;
 
     // Movement related variables
-    private float gravity = 1500.0f;
+    private float gravity, tempGravity, lowGravityTimer = 0.0f, maxGravityTimer = 0.5f;
+    private bool lowerGravityOnJump;
     private float acceleration, deceleration, targetVelocity;
     private Vector2 maxSpeed = new Vector2(800.0f, 1000.0f);
     private Vector2 velocity = Vector2.Zero, FLOOR_NORMAL = Vector2.Up;
@@ -18,18 +19,23 @@ public class Mochi : KinematicBody2D
     private bool canJump;
     private int coyoteTimer, jumpBuffer, maxJumpBuffer = 10, maxCoyoteTimer = 10;
 
+    // Note detection
+    private int[] last10notes = new int[10];
+
     // Mouse cursor node
     private Area2D mouseCursor;
     private Sprite LeftMouseClickHint;
 
     // Signals
     [Signal] delegate void destroy_left_mouse_click_hint();
+    [Signal] delegate void ColourWheel_area_entered();
 
     public override void _Ready()
     {
         // Initialising variables
         acceleration = maxSpeed.x * 10.0f;
         deceleration = maxSpeed.x * 20.0f;
+        SetGravity();
 
         //OS.WindowFullscreen = true;
         //OS.WindowMaximized = true;
@@ -40,7 +46,13 @@ public class Mochi : KinematicBody2D
         mouseCursor = GetNode<Area2D>("MouseCursor");
         mouseCursor.Hide();
 
-        isInitialising = true;
+        // If screen resolution is 1920x1080, set camera zoom to 1.6
+        // If screen resolution is 1024x600, set camera zoom to 2.0
+        Vector2 displaySize = GetViewport().Size;
+        //GD.Print(displaySize);
+
+        //isInitialising = true; // enable this and comment line below to delay initialising by 1 frame
+        Initialise();
         
         // Capture the mouse if on PC
         #if GODOT_WEB // Capture mouse on mouse click event instead
@@ -68,7 +80,33 @@ public class Mochi : KinematicBody2D
     }
     #endif
 
-    // Incoming signal
+    public int[] GetLast10Notes()
+    {
+        return last10notes;
+    }
+
+    public int GetLast10Notes(int i)
+    {
+        return last10notes[i];
+    }
+
+    #region buffs
+    public void SetGravity(float i = 1500.0f, bool isTemporary = false)
+    {
+        if (isTemporary)
+        {
+            lowerGravityOnJump = true;
+            lowGravityTimer = maxGravityTimer;
+            tempGravity = i;
+        }
+        else
+        {
+            gravity = i;
+        }
+    }
+    #endregion
+
+    #region signals
     public void _on_disable_player_movement(bool state = true)
     {
         // This is an incoming signal from mouseCursor
@@ -78,6 +116,18 @@ public class Mochi : KinematicBody2D
         if (!state && GetNode<Node2D>("../").Name == "LevelTemplate")
             EmitSignal("destroy_left_mouse_click_hint");
     }
+
+    public void _on_ColourWheel_area_entered(int note)
+    {
+        for (int i = last10notes.Length - 1; i > 0; i--)
+        {
+            last10notes[i] = last10notes[i - 1];
+        }
+        last10notes[0] = note;
+        // Create a gateway to share this information with birds
+        EmitSignal("ColourWheel_area_entered", note);
+    }
+    #endregion signal
 
     private Vector2 getDirection()
     {
@@ -95,14 +145,24 @@ public class Mochi : KinematicBody2D
                 jumpBuffer = 0;
                 canJump = false;
                 if (Input.IsActionPressed("jump"))
+                {
+                    if (lowerGravityOnJump)
+                    {
+                        gravity = tempGravity;
+                        lowerGravityOnJump = false;
+                    }  
                     y = -1.0f;
+                }
                 else
+                {
                     y = 0.0f;
+                }
                 return new Vector2(x,y);
             }
             else
                 jumpBuffer--;
         }
+
         y = 1.0f;
         return new Vector2(x,y);
     }
@@ -121,7 +181,7 @@ public class Mochi : KinematicBody2D
             targetVelocity *= 0.5f;
 
         //Acceleration should reach from 0 to top speed in 6 frames and decelerate from top speed to 0 in 3 frames
-        // Calculate x
+        // Calculate x (legacy code)
         //float x = Math.Abs(currentVelocity.x);
         // x += acceleration * delta;
         // if (IsOnFloor() && Input.IsActionPressed("move_down"))
@@ -189,7 +249,11 @@ public class Mochi : KinematicBody2D
         // Note: Complete jump process should ideally take between 650-750ms. Current time at 1500 gravity is 550-610ms.
         float y = currentVelocity.y;
         if (isJumpInterrupted) // Triggered on the frame when Jump button is released
+        {
             y = 0.0f;
+            SetGravity();
+        }
+            
 
         if (direction.y == -1.0) // Player is moving upwards
         {
@@ -214,11 +278,17 @@ public class Mochi : KinematicBody2D
         {
             canJump = true;
             coyoteTimer = maxCoyoteTimer;
+            SetGravity();
         }
         else if (coyoteTimer == 0)
             canJump = false;
         else
             coyoteTimer--;
+
+        if (!lowerGravityOnJump)
+        {
+            lowGravityTimer -= Math.Min(delta, lowGravityTimer);
+        }
 
         //Keyboard controls (exclusive to Mochi)
         bool isJumpInterrupted = (Input.IsActionJustReleased("jump") && velocity.y < 0.0f);
