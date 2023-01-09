@@ -13,6 +13,7 @@ public class Conductor : Node
     private int last_reported_beat = 0;
     private int beats_before_start = 0;
     private int measure = 1;
+    private double last_frame_song_position;
     // Determining how close to the beat an event is
     private int closest = 0;
     private double time_off_beat = 0.0;
@@ -29,6 +30,7 @@ public class Conductor : Node
         backgroundMusic = GetNode<AudioStreamPlayer>("BackgroundMusic");
         backgroundMusic.Play();
         backgroundMusic.VolumeDb = -6;
+        backgroundMusic.GetPlaybackPosition();
         _on_changeScene();
     }
 
@@ -74,7 +76,11 @@ public class Conductor : Node
             EmitSignal("beatSignal", song_position_in_beats);
             EmitSignal("measureSignal", measure);
 		    last_reported_beat = song_position_in_beats;
+            
 		    measure += 1;
         }
+        if (song_position < last_frame_song_position)
+            last_reported_beat = 0;
+        last_frame_song_position = backgroundMusic.GetPlaybackPosition();
     }
 }

@@ -164,6 +164,9 @@ smoothing_speed = 60.0
 drag_margin_left = 0.0
 drag_margin_right = 0.0
 
+[node name="Listener2D" type="Listener2D" parent="."]
+current = true
+
 [node name="01" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
