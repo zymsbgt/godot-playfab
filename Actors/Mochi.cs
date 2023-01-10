@@ -80,12 +80,12 @@ public class Mochi : KinematicBody2D
     }
     #endif
 
-    public int[] GetLast10Notes()
+    public int[] GetNote()
     {
         return last10notes;
     }
 
-    public int GetLast10Notes(int i)
+    public int GetNote(int i)
     {
         return last10notes[i];
     }

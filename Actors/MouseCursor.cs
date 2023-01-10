@@ -50,25 +50,22 @@ public class MouseCursor : ControllerWheel
             if (eventMouseButton.IsPressed())
             {
                 //if (GetLastKnownMousePosition() == null)
-                    DrawMouseCursor(this.Position = Vector2.Zero);
+                    DrawMouseCursor(Position = Vector2.Zero);
                 //else // joystick is active
                 //    DrawMouseCursor(this.Position = GetLastKnownMousePosition());
             }
             else
-                this.Position = Vector2.Zero; 
+                Position = Vector2.Zero; 
         }
         else if (@event is InputEventMouseMotion eventMouseMotion) {
-            if (this.Visible)
+            if (Visible)
             {
-                SetMouseOffset(GetMouseOffset() + eventMouseMotion.Relative);
-                this.Position += eventMouseMotion.Relative;
-                DrawMouseCursor(this.Position); // Adjust transparancy based on how far the mouseCursor is
+                mouseOffset += eventMouseMotion.Relative;
+                Position += eventMouseMotion.Relative;
+                DrawMouseCursor(Position); // Adjust transparancy based on how far the mouseCursor is
             }
-            else
-            {
-                if (!GetJoystickMoved())
-                    this.Position = Vector2.Zero;
-            }
+            else if (!joystickMoved)
+                Position = Vector2.Zero;
         }
     }
 
@@ -77,11 +74,11 @@ public class MouseCursor : ControllerWheel
         base.MoveCursorWithJoystick();
         float multiplier = 250.0f;
         Vector2 currentControllerPosition = new Vector2(x *= multiplier, y *= multiplier);
-        if (GetMouseOffset() == null)
-            this.Position += currentControllerPosition - lastControllerPosition + GetLastKnownMousePosition();
+        if (mouseOffset == null)
+            Position += currentControllerPosition - lastControllerPosition + lastKnownMousePosition;
         else
-            this.Position += currentControllerPosition - lastControllerPosition + (Vector2)GetMouseOffset();
-        DrawMouseCursor(this.Position);
+            Position += currentControllerPosition - lastControllerPosition + (Vector2)mouseOffset;
+        DrawMouseCursor(Position);
     }
 
     public override void JoystickReleased(bool joystickMoved, Vector2? mouseOffset)
@@ -89,7 +86,7 @@ public class MouseCursor : ControllerWheel
         joystickMoved = false;
         if (mouseOffset == null) // if mouse is released
         {
-            this.Position = DrawMouseCursor(Vector2.Zero);
+            Position = DrawMouseCursor(Vector2.Zero);
             SetVisibility(false);
         }
     }
@@ -97,7 +94,7 @@ public class MouseCursor : ControllerWheel
     //controller support, if mouse is moving make sure to override this!
     public override void _Process(float delta)
     {
-        lastControllerPosition = this.Position;
+        lastControllerPosition = Position;
         base._Process(delta);
     }
 }

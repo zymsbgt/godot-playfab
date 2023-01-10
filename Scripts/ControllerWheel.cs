@@ -2,30 +2,9 @@ using Godot;
 
 public class ControllerWheel : Area2D
 {
-    private bool joystickMoved = false;
-    private Vector2 lastKnownMousePosition = Vector2.Zero;
-    private Vector2? mouseOffset = null;
-
-    // Getting and Setting variables
-    public Vector2? GetMouseOffset()
-    {
-        return mouseOffset;
-    }
-
-    public void SetMouseOffset(Vector2? value)
-    {
-        mouseOffset = value;
-    }
-
-    public Vector2 GetLastKnownMousePosition()
-    {
-        return lastKnownMousePosition;
-    }
-
-    public bool GetJoystickMoved()
-    {
-        return joystickMoved;
-    }
+    public bool joystickMoved = false;
+    public Vector2 lastKnownMousePosition = Vector2.Zero;
+    public Vector2? mouseOffset = null;
 
     public virtual void SetVisibility(bool visibility)
     {
@@ -71,7 +50,6 @@ public class ControllerWheel : Area2D
             SetVisibility(false);
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
         float doNotTriggerBelow = 0.01f;

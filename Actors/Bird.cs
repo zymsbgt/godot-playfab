@@ -10,8 +10,10 @@ public class Bird : KinematicBody2D
     private AudioStreamPlayer2D audioStreamPlayer2D;
     private float happyCountdownTimer;
     private int birdWaitTime = 8;
+    [Export] private int[] birdPattern;
     private bool playCueOnThisBeat = false, canBeHappy = false;
-    private Vector2 origin;
+    private Vector2 spawnPosition;
+    private Vector2 positionOnCanvas, centerOfCanvas;
     private enum CueAnimationState
     {
         off,
@@ -41,8 +43,16 @@ public class Bird : KinematicBody2D
         mochi.Connect("ColourWheel_area_entered", this, "_on_ColourWheel_area_entered");
 
         // Set origin position (the position where the bird spawns at)
-        origin = Position;
-        //origin = animatedSprite.Position;
+        spawnPosition = Position;
+        //spawnPosition = animatedSprite.Position;
+
+        // Code to make sure all hints are visible regardless of player viewport or resolution
+
+        positionOnCanvas = GetGlobalTransformWithCanvas().origin;
+        //GD.Print(positionOnCanvas);
+
+        centerOfCanvas = GetViewport().Size / 2;
+        //GD.Print(centerOfCanvas);
     }
 
     #region signals
@@ -53,7 +63,8 @@ public class Bird : KinematicBody2D
             if (song_position_in_beats % birdWaitTime == 1)
             {
                 audioStreamPlayer2D.Play();
-                playCueOnThisBeat = true;
+                if (currentLevel.Name == "Level1-1") // temporary bandaid while I get the segment naming convention settled
+                    playCueOnThisBeat = true;
             }
             else
                 playCueOnThisBeat = false;
@@ -80,13 +91,24 @@ public class Bird : KinematicBody2D
 
     public void _on_ColourWheel_area_entered(int note)
     {
-        if (note == 3 && canBeHappy)
-        //if (mochi.GetLast10Notes(0) == 3 && canBeHappy)
+        if (canBeHappy)
         {
-            happyState = HappyState.happy;
-            happyCountdownTimer = 0.5f;
-            mochi.SetGravity(500.0f, true);
+            int correctNotes = 0;
+            int j = birdPattern.Length - 1;
+            for (int i = 0; i < birdPattern.Length; i++)
+            {
+                if (mochi.GetNote(i) == birdPattern[j])
+                    correctNotes++;
+                j--;
+            }
+            if (correctNotes == birdPattern.Length) // pattern success
+            {
+                happyState = HappyState.happy;
+                happyCountdownTimer = 0.5f;
+                mochi.SetGravity(500.0f, true);
+            }
         }
+        // if (mochi.GetLast10Notes()[0] == birdPattern[0]) {}
     }
     #endregion
 
@@ -99,8 +121,8 @@ public class Bird : KinematicBody2D
             if (happyCountdownTimer == 0.0f)
             {
                 happyState = HappyState.unhappy;
-                Position = origin;
-                //animatedSprite.Position = origin;
+                Position = spawnPosition;
+                //animatedSprite.Position = spawnPosition;
             }
             else
                 Position = mochi.Position + new Vector2(0.0f, -128.0f);

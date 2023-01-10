@@ -6,7 +6,7 @@
 [ext_resource path="res://Assets/left_mouse_click.png" type="Texture" id=4]
 [ext_resource path="res://Objects/Portal.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Assets/ControllerJoyHint.png" type="Texture" id=6]
-[ext_resource path="res://GameScenes/Level1.tscn" type="PackedScene" id=7]
+[ext_resource path="res://GameScenes/Level1-1.tscn" type="PackedScene" id=7]
 [ext_resource path="res://GameScenes/Level.cs" type="Script" id=8]
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
