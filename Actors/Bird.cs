@@ -3,6 +3,7 @@ using System;
 
 public class Bird : KinematicBody2D
 {
+    private Node2D currentLevel;
     private Mochi mochi;
     private AnimatedSprite animatedSprite;
     private Sprite cueSprite;
@@ -26,19 +27,27 @@ public class Bird : KinematicBody2D
 
     public override void _Ready()
     {
+        // Attach to parent and sibling nodes in scene
+        currentLevel = GetNode<Node2D>("../");
         mochi = GetNode<Mochi>("../Mochi");
-        mochi.Connect("ColourWheel_area_entered", this, "_on_ColourWheel_area_entered");
+
+        // Attach to child nodes
         animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
         cueSprite = GetNode<Sprite>("Cue/Sprite");
         audioStreamPlayer2D = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
+
+        // Connect signals
+        currentLevel.Connect("beatSignal", this, "_on_beatSignal");
+        mochi.Connect("ColourWheel_area_entered", this, "_on_ColourWheel_area_entered");
+
+        // Set origin position (the position where the bird spawns at)
         origin = Position;
+        //origin = animatedSprite.Position;
     }
 
     #region signals
     public void _on_beatSignal(int song_position_in_beats)
     {
-        // Bug: The signal cuts off after beat 463
-        //GD.Print("Beat Signal ", song_position_in_beats);
         if (happyState == HappyState.unhappy)
         {
             if (song_position_in_beats % birdWaitTime == 1)
@@ -91,9 +100,11 @@ public class Bird : KinematicBody2D
             {
                 happyState = HappyState.unhappy;
                 Position = origin;
+                //animatedSprite.Position = origin;
             }
             else
                 Position = mochi.Position + new Vector2(0.0f, -128.0f);
+                //animatedSprite.Position = mochi.Position - Position + new Vector2(0.0f, -128.0f);
         }  
     }
 

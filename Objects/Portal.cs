@@ -15,6 +15,7 @@ public class Portal : Area2D
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         Conductor = GetNode<Node>("../../");
         CurrentScene = GetNode<Node2D>("../");
+        Connect("changeScene", CurrentScene, "_on_changeScene");
     }
 
     public override string _GetConfigurationWarning()

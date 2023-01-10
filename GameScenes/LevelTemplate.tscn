@@ -68,6 +68,5 @@ position = Vector2( 3581, 863 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 6 )
 
-[connection signal="changeScene" from="Portal2D" to="." method="_on_changeScene"]
 [connection signal="destroy_left_mouse_click_hint" from="Mochi" to="Sword" method="_on_destroy_left_mouse_click_hint"]
 [connection signal="disable_player_movement" from="Sword" to="Mochi" method="_on_disable_player_movement"]

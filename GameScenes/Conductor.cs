@@ -37,6 +37,7 @@ public class Conductor : Node
     // Signals
     public void _on_changeScene()
     {
+        GD.Print("Change of scene detected by conductor!");
         CallDeferred(nameof(DeferredGotoScene));
     }
     // End of Signals
