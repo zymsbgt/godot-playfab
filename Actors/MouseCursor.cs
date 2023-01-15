@@ -10,19 +10,17 @@ public class MouseCursor : ControllerWheel
     public override void _Ready()
     {
         sprite = GetNode<Sprite>("Sprite");
+
+        // Capture the mouse if on PC
+        #if GODOT_WEB // Capture mouse on mouse click event instead
+        #elif GODOT // for devices with mouse(s)
+        Input.MouseMode = Input.MouseModeEnum.Captured;
+        #endif
     }
 
     private void DrawMouseCursor(float alpha)
     {
-        try 
-        {
-            sprite.Modulate = Color.ColorN("white", alpha);
-        }
-        catch (Exception e)
-        {
-            GD.PushError("Error on MouseCursor.cs: check if alpha value is not between 0.0f and 1.0f!");
-            GD.Print("Here's more details about the error: ", e.Message);
-        }
+        sprite.Modulate = Color.ColorN("white", alpha);
     }
 
     private Vector2 DrawMouseCursor(Vector2 position)
@@ -53,6 +51,12 @@ public class MouseCursor : ControllerWheel
                     DrawMouseCursor(Position = Vector2.Zero);
                 //else // joystick is active
                 //    DrawMouseCursor(this.Position = GetLastKnownMousePosition());
+
+                // If exported to web browser, capture the mouse
+                #if GODOT_WEB
+                if (Input.MouseMode != Input.MouseModeEnum.Captured)
+                    Input.MouseMode = Input.MouseModeEnum.Captured;
+                #endif
             }
             else
                 Position = Vector2.Zero; 

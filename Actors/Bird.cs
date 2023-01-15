@@ -7,11 +7,11 @@ public class Bird : KinematicBody2D
     private Mochi mochi;
     private AnimatedSprite animatedSprite;
     private Sprite cueSprite;
-    private AudioStreamPlayer2D audioStreamPlayer2D;
+    private AudioStreamPlayer2D PlayC, PlayD, PlayE, PlayG;
     private float happyCountdownTimer;
     private int birdWaitTime = 8;
     [Export] private int[] birdPattern;
-    private bool playCueOnThisBeat = false, canBeHappy = false;
+    private bool playCueOnThisBeat = false, canBeHappy = true;
     private Vector2 spawnPosition;
     private Vector2 positionOnCanvas, centerOfCanvas;
     private enum CueAnimationState
@@ -36,7 +36,10 @@ public class Bird : KinematicBody2D
         // Attach to child nodes
         animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
         cueSprite = GetNode<Sprite>("Cue/Sprite");
-        audioStreamPlayer2D = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
+        PlayC = GetNode<AudioStreamPlayer2D>("PlayC");
+        PlayD = GetNode<AudioStreamPlayer2D>("PlayD");
+        PlayE = GetNode<AudioStreamPlayer2D>("PlayE");
+        PlayG = GetNode<AudioStreamPlayer2D>("PlayG");
 
         // Connect signals
         currentLevel.Connect("beatSignal", this, "_on_beatSignal");
@@ -62,9 +65,29 @@ public class Bird : KinematicBody2D
         {
             if (song_position_in_beats % birdWaitTime == 1)
             {
-                audioStreamPlayer2D.Play();
-                if (currentLevel.Name == "Level1-1") // temporary bandaid while I get the segment naming convention settled
-                    playCueOnThisBeat = true;
+                switch (currentLevel.Name)
+                {
+                    case "Level1-1":
+                        playCueOnThisBeat = true;
+                        PlayE.Play();
+                        break;
+                    case "Level1-2":
+                        playCueOnThisBeat = false;
+                        PlayD.Play();
+                        break;
+                }
+            }
+            else if (song_position_in_beats % birdWaitTime == 2)
+            {
+                if (currentLevel.Name == "Level1-2")
+                    PlayG.Play();
+                playCueOnThisBeat = false;
+            }
+            else if (song_position_in_beats % birdWaitTime == 3)
+            {
+                if (currentLevel.Name == "Level1-2")
+                    PlayC.Play();
+                playCueOnThisBeat = false;
             }
             else
                 playCueOnThisBeat = false;
@@ -72,21 +95,33 @@ public class Bird : KinematicBody2D
         else if (happyState == HappyState.happy)
         {
             if (song_position_in_beats % birdWaitTime == 1)
-                audioStreamPlayer2D.Play();
+            {
+                switch (currentLevel.Name)
+                {
+                    case "Level1-1":
+                        PlayE.Play();
+                        break;
+                    case "Level1-2":
+                        PlayD.Play();
+                        break;
+                }
+            }
+            else if (song_position_in_beats % birdWaitTime == 2 && currentLevel.Name == "Level1-2")
+                PlayG.Play();
+            else if (song_position_in_beats % birdWaitTime == 3 && currentLevel.Name == "Level1-2")
+                PlayC.Play();
             playCueOnThisBeat = false;
         }
     }
 
-    public void _on_body_entered(Node node) 
+    public void _on_screen_entered() 
     {
-        if (node is Mochi)
-            canBeHappy = true;
+        canBeHappy = true;
     }
 
-    public void _on_body_exited(Node node) 
+    public void _on_screen_exited() 
     {
-        if (node is Mochi)
-            canBeHappy = false;
+        canBeHappy = false;
     }
 
     public void _on_ColourWheel_area_entered(int note)

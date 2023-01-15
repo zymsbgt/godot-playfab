@@ -51,34 +51,19 @@ public class Mochi : KinematicBody2D
         Vector2 displaySize = GetViewport().Size;
         //GD.Print(displaySize);
 
-        //isInitialising = true; // enable this and comment line below to delay initialising by 1 frame
-        Initialise();
-        
-        // Capture the mouse if on PC
-        #if GODOT_WEB // Capture mouse on mouse click event instead
-        #elif GODOT // for devices with mouse(s)
-        Input.MouseMode = Input.MouseModeEnum.Captured;
-        #endif
+        isInitialising = true; // enable this and comment line below to delay initialising by 1 frame
+        //Initialise();
     }
 
     private void Initialise() // called on the first frame of the scene
     {
+        // Add code to set hard limit for camera right based on level
+
         if (GetTree().CurrentScene.Name == "LevelTemplate")
             LeftMouseClickHint = GetNode<Sprite>("../LeftMouseClickHint");
         
         isInitialising = false;
     }
-
-    #if GODOT_WEB
-    public override void _Input(InputEvent @event)
-    {
-        // Mouse in viewport coordinates.
-        if (@event is InputEventMouseButton eventMouseButton 
-            && eventMouseButton.IsPressed() 
-            && Input.MouseMode != Input.MouseModeEnum.Captured)
-                Input.MouseMode = Input.MouseModeEnum.Captured;
-    }
-    #endif
 
     public int[] GetNote()
     {
@@ -269,6 +254,9 @@ public class Mochi : KinematicBody2D
     {
         if (isInitialising) 
             Initialise();
+
+        if (Input.IsActionJustPressed("fullscreen"))
+            OS.WindowFullscreen = !OS.WindowFullscreen;
 
         // Set velocity.y
         velocity.y += gravity * delta;

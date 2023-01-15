@@ -89,7 +89,8 @@ func _on_logged_in(login_result: LoginResult):
 
 	$LoggedIn.login_result = login_result
 	$LoggedIn.update()
-	$LoggedIn.show()
+	# $LoggedIn.show()
+	SceneManager.goto_scene("res://GameScenes/Conductor.tscn")
 
 func _on_api_error(api_error_wrapper: ApiErrorWrapper):
 	_hide_progess()
