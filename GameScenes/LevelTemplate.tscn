@@ -65,7 +65,7 @@ texture = ExtResource( 4 )
 
 [node name="ControllerJoyHint" type="Sprite" parent="."]
 visible = false
-position = Vector2( 3581, 863 )
+position = Vector2( 3568, 1083 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 6 )
 

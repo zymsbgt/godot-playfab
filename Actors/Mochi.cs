@@ -108,7 +108,7 @@ public class Mochi : KinematicBody2D
     #region signals
     public void _on_disable_player_movement(bool state = true)
     {
-        // This is an incoming signal from mouseCursor
+        // This is an incoming signal from mouseCursor or Mochi's colour wheel segments
         disableMovement = state;
 
         // Fire a signal to mouse hint to disappear

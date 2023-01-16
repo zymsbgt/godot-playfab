@@ -51,44 +51,29 @@ public class Bird : KinematicBody2D
         //GD.Print(centerOfCanvas);
     }
 
+    private void HideAllVisualCues()
+    {
+        for (int i = 0; i <= 7; i++)
+            GetNode<BirdCue>("Cue" + i).HideCue();
+    }
+
     #region signals
     public void _on_beatSignal(int song_position_in_beats)
     {
-        if (happyState == HappyState.unhappy)
-        {
-            // Hide all visual cues
-            for (int i = 0; i <= 7; i++)
-            {
-                GetNode<BirdCue>("Cue" + i).HideCue();
-            }
+        HideAllVisualCues();
 
-            // Now, display the cues
-            if (song_position_in_beats % birdWaitTime == 1 && birdPattern.Length >= 1)
-                GetNode<BirdCue>("Cue" + birdPattern[0]).Play(true);
-            else if (song_position_in_beats % birdWaitTime == 2 && birdPattern.Length >= 2)
-                GetNode<BirdCue>("Cue" + birdPattern[1]).Play(true);
-            else if (song_position_in_beats % birdWaitTime == 3 && birdPattern.Length >= 3)
-                GetNode<BirdCue>("Cue" + birdPattern[2]).Play(true);
-        }
-        else if (happyState == HappyState.happy)
-        {
-            if (song_position_in_beats % birdWaitTime == 1)
-            {
-                switch (currentLevel.Name)
-                {
-                    case "Level1-1":
-                        GetNode<BirdCue>("Cue3").Play(false);
-                        break;
-                    case "Level1-2":
-                        GetNode<BirdCue>("Cue2").Play(false);
-                        break;
-                }
-            }
-            else if (song_position_in_beats % birdWaitTime == 2 && currentLevel.Name == "Level1-2")
-                GetNode<BirdCue>("Cue5").Play(false);
-            else if (song_position_in_beats % birdWaitTime == 3 && currentLevel.Name == "Level1-2")
-                GetNode<BirdCue>("Cue1").Play(false);
-        }
+        bool showVisualHint;
+        if (happyState == HappyState.unhappy)
+            showVisualHint = true;
+        else //if (happyState == HappyState.happy)
+            showVisualHint = false;
+        
+        if (song_position_in_beats % birdWaitTime == 1 && birdPattern.Length >= 1)
+            GetNode<BirdCue>("Cue" + birdPattern[0]).Play(showVisualHint);
+        else if (song_position_in_beats % birdWaitTime == 2 && birdPattern.Length >= 2)
+            GetNode<BirdCue>("Cue" + birdPattern[1]).Play(showVisualHint);
+        else if (song_position_in_beats % birdWaitTime == 3 && birdPattern.Length >= 3)
+            GetNode<BirdCue>("Cue" + birdPattern[2]).Play(showVisualHint);
     }
 
     public void _on_screen_entered() 
@@ -118,6 +103,7 @@ public class Bird : KinematicBody2D
                 happyState = HappyState.happy;
                 happyCountdownTimer = 0.5f;
                 mochi.SetGravity(500.0f, true);
+                HideAllVisualCues();
             }
         }
         // if (mochi.GetLast10Notes()[0] == birdPattern[0]) {}

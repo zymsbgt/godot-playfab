@@ -76,7 +76,7 @@ public class MouseCursor : ControllerWheel
     public override void MoveCursorWithJoystick(float x = 0.0f, float y = 0.0f)
     {
         base.MoveCursorWithJoystick();
-        float multiplier = 250.0f;
+        float multiplier = 290.0f;
         Vector2 currentControllerPosition = new Vector2(x *= multiplier, y *= multiplier);
         if (mouseOffset == null)
             Position += currentControllerPosition - lastControllerPosition + lastKnownMousePosition;
