@@ -52,13 +52,14 @@ tile_data = PoolIntArray( -1, 0, 0, -65536, 0, 0, -65535, 0, 0, -65534, 0, 0, -6
 
 [node name="Mochi" parent="." instance=ExtResource( 2 )]
 position = Vector2( 488, 964 )
+cameraLimitRight = 5200
 
 [node name="Sword" parent="." instance=ExtResource( 3 )]
-position = Vector2( 3576, 823 )
+position = Vector2( 3567, 822 )
 
 [node name="LeftMouseClickHint" type="Sprite" parent="."]
 visible = false
-position = Vector2( 3581, 863 )
+position = Vector2( 3576, 1109 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 4 )
 

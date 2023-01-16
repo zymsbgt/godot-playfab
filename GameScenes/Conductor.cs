@@ -34,16 +34,17 @@ public class Conductor : Node
         _on_changeScene();
     }
 
-    // Signals
+    #region signals
     public void _on_changeScene()
     {
         GD.Print("Change of scene detected by conductor!");
         CallDeferred(nameof(DeferredGotoScene));
     }
-    // End of Signals
+    #endregion
 
     private void DeferredGotoScene()
     {
+        // Get the current Node2D scene in the remote scene list
         int j = 0;
         foreach(Node i in GetChildren())
         {
@@ -51,6 +52,8 @@ public class Conductor : Node
                 currentScene = (Node2D)GetChild(j);
             j++;
         }
+
+        // Connect signals
         Connect("beatSignal", currentScene, "_on_BeatSignal");
         Connect("measureSignal", currentScene, "_on_measureSignal");
     }

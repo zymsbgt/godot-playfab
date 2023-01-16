@@ -50,6 +50,7 @@ nextScene = ExtResource( 6 )
 
 [node name="Mochi" parent="." instance=ExtResource( 2 )]
 position = Vector2( 712, 1526 )
+cameraLimitRight = 5280
 
 [node name="Bird" parent="." instance=ExtResource( 3 )]
 position = Vector2( 2631, 1091 )

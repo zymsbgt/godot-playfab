@@ -6,12 +6,10 @@ public class Bird : KinematicBody2D
     private Node2D currentLevel;
     private Mochi mochi;
     private AnimatedSprite animatedSprite;
-    private Sprite cueSprite;
-    private AudioStreamPlayer2D PlayC, PlayD, PlayE, PlayG;
     private float happyCountdownTimer;
-    private int birdWaitTime = 8;
+    public int birdWaitTime = 8;
     [Export] private int[] birdPattern;
-    private bool playCueOnThisBeat = false, canBeHappy = true;
+    private bool canBeHappy = true;
     private Vector2 spawnPosition;
     private Vector2 positionOnCanvas, centerOfCanvas;
     private enum CueAnimationState
@@ -20,12 +18,12 @@ public class Bird : KinematicBody2D
         one
     }
     private CueAnimationState cueAnimationState = CueAnimationState.off;
-    private enum HappyState
+    public enum HappyState
     {
         unhappy,
         happy
     }
-    private HappyState happyState = HappyState.unhappy;
+    public HappyState happyState = HappyState.unhappy;
 
     public override void _Ready()
     {
@@ -35,11 +33,6 @@ public class Bird : KinematicBody2D
 
         // Attach to child nodes
         animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
-        cueSprite = GetNode<Sprite>("Cue/Sprite");
-        PlayC = GetNode<AudioStreamPlayer2D>("PlayC");
-        PlayD = GetNode<AudioStreamPlayer2D>("PlayD");
-        PlayE = GetNode<AudioStreamPlayer2D>("PlayE");
-        PlayG = GetNode<AudioStreamPlayer2D>("PlayG");
 
         // Connect signals
         currentLevel.Connect("beatSignal", this, "_on_beatSignal");
@@ -63,34 +56,19 @@ public class Bird : KinematicBody2D
     {
         if (happyState == HappyState.unhappy)
         {
-            if (song_position_in_beats % birdWaitTime == 1)
+            // Hide all visual cues
+            for (int i = 0; i <= 7; i++)
             {
-                switch (currentLevel.Name)
-                {
-                    case "Level1-1":
-                        playCueOnThisBeat = true;
-                        PlayE.Play();
-                        break;
-                    case "Level1-2":
-                        playCueOnThisBeat = false;
-                        PlayD.Play();
-                        break;
-                }
+                GetNode<BirdCue>("Cue" + i).HideCue();
             }
-            else if (song_position_in_beats % birdWaitTime == 2)
-            {
-                if (currentLevel.Name == "Level1-2")
-                    PlayG.Play();
-                playCueOnThisBeat = false;
-            }
-            else if (song_position_in_beats % birdWaitTime == 3)
-            {
-                if (currentLevel.Name == "Level1-2")
-                    PlayC.Play();
-                playCueOnThisBeat = false;
-            }
-            else
-                playCueOnThisBeat = false;
+
+            // Now, display the cues
+            if (song_position_in_beats % birdWaitTime == 1 && birdPattern.Length >= 1)
+                GetNode<BirdCue>("Cue" + birdPattern[0]).Play(true);
+            else if (song_position_in_beats % birdWaitTime == 2 && birdPattern.Length >= 2)
+                GetNode<BirdCue>("Cue" + birdPattern[1]).Play(true);
+            else if (song_position_in_beats % birdWaitTime == 3 && birdPattern.Length >= 3)
+                GetNode<BirdCue>("Cue" + birdPattern[2]).Play(true);
         }
         else if (happyState == HappyState.happy)
         {
@@ -99,18 +77,17 @@ public class Bird : KinematicBody2D
                 switch (currentLevel.Name)
                 {
                     case "Level1-1":
-                        PlayE.Play();
+                        GetNode<BirdCue>("Cue3").Play(false);
                         break;
                     case "Level1-2":
-                        PlayD.Play();
+                        GetNode<BirdCue>("Cue2").Play(false);
                         break;
                 }
             }
             else if (song_position_in_beats % birdWaitTime == 2 && currentLevel.Name == "Level1-2")
-                PlayG.Play();
+                GetNode<BirdCue>("Cue5").Play(false);
             else if (song_position_in_beats % birdWaitTime == 3 && currentLevel.Name == "Level1-2")
-                PlayC.Play();
-            playCueOnThisBeat = false;
+                GetNode<BirdCue>("Cue1").Play(false);
         }
     }
 
@@ -150,7 +127,6 @@ public class Bird : KinematicBody2D
     public override void _Process(float delta)
     {
         animatedSprite.Play("flying");
-        cueSprite.Visible = playCueOnThisBeat;
         if (happyState == HappyState.happy)
         {
             if (happyCountdownTimer == 0.0f)

@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/BirdD.wav-85075383115eda90ccf56c99428b76aa.sample"
+path="res://.import/Bird2.wav-c65d0177fd29d773d1ac3f51e9de2549.sample"
 
 [deps]
 
-source_file="res://Sounds/bird/BirdD.wav"
-dest_files=[ "res://.import/BirdD.wav-85075383115eda90ccf56c99428b76aa.sample" ]
+source_file="res://Sounds/bird/Bird2.wav"
+dest_files=[ "res://.import/Bird2.wav-c65d0177fd29d773d1ac3f51e9de2549.sample" ]
 
 [params]
 

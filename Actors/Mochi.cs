@@ -1,6 +1,7 @@
 using Godot;
 using System;
 
+//[Tool]
 public class Mochi : KinematicBody2D
 {
     // Initialising variables
@@ -22,9 +23,11 @@ public class Mochi : KinematicBody2D
     // Note detection
     private int[] last10notes = new int[10];
 
-    // Mouse cursor node
+    // Reference nodes
     private Area2D mouseCursor;
     private Sprite LeftMouseClickHint;
+    private Camera2D camera2D;
+    [Export] private int cameraLimitRight;
 
     // Signals
     [Signal] delegate void destroy_left_mouse_click_hint();
@@ -45,6 +48,7 @@ public class Mochi : KinematicBody2D
 
         mouseCursor = GetNode<Area2D>("MouseCursor");
         mouseCursor.Hide();
+        camera2D = GetNode<Camera2D>("Camera2D");
 
         // If screen resolution is 1920x1080, set camera zoom to 1.6
         // If screen resolution is 1024x600, set camera zoom to 2.0
@@ -58,12 +62,22 @@ public class Mochi : KinematicBody2D
     private void Initialise() // called on the first frame of the scene
     {
         // Add code to set hard limit for camera right based on level
+        if (cameraLimitRight > 0)
+            camera2D.LimitRight = cameraLimitRight;
 
         if (GetTree().CurrentScene.Name == "LevelTemplate")
             LeftMouseClickHint = GetNode<Sprite>("../LeftMouseClickHint");
         
         isInitialising = false;
     }
+
+    // public override string _GetConfigurationWarning()
+    // {
+    //     if (cameraLimitRight <= 0)
+    //         return "Please set a camera right limit!";
+    //     else
+    //         return "";
+    // }
 
     public int[] GetNote()
     {
