@@ -24,14 +24,22 @@ public class Mochi : KinematicBody2D
     private int[] last10notes = new int[10];
 
     // Reference nodes
+    private Node Conductor;
+    private Node currentScene;
     private Area2D mouseCursor;
     private Sprite LeftMouseClickHint;
+    private AnimationPlayer animationPlayer;
     private Camera2D camera2D;
     [Export] private int cameraLimitRight;
+
+    // How far below Mochi can go before the game determines that Mochi has failed the level
+    [Export] private int theVoid;
+    private bool voidTriggered = false;
 
     // Signals
     [Signal] delegate void destroy_left_mouse_click_hint();
     [Signal] delegate void ColourWheel_area_entered();
+    [Signal] public delegate void changeScene();
 
     public override void _Ready()
     {
@@ -48,26 +56,30 @@ public class Mochi : KinematicBody2D
 
         mouseCursor = GetNode<Area2D>("MouseCursor");
         mouseCursor.Hide();
+        animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         camera2D = GetNode<Camera2D>("Camera2D");
-
+        // Add code to set hard limit for camera right based on level
+        if (cameraLimitRight > 0)
+            camera2D.LimitRight = cameraLimitRight;
         // If screen resolution is 1920x1080, set camera zoom to 1.6
         // If screen resolution is 1024x600, set camera zoom to 2.0
         Vector2 displaySize = GetViewport().Size;
         //GD.Print(displaySize);
 
-        isInitialising = true; // enable this and comment line below to delay initialising by 1 frame
-        //Initialise();
+        //isInitialising = true; // enable this and comment line below to delay initialising by 1 frame
+        Initialise();
     }
 
     private void Initialise() // called on the first frame of the scene
     {
-        // Add code to set hard limit for camera right based on level
-        if (cameraLimitRight > 0)
-            camera2D.LimitRight = cameraLimitRight;
-
-        if (GetTree().CurrentScene.Name == "LevelTemplate")
-            LeftMouseClickHint = GetNode<Sprite>("../LeftMouseClickHint");
+        // Not sure if this code is needed anymore since conductor has been implemented
+        //if (GetTree().CurrentScene.Name == "LevelTemplate")
+        //    LeftMouseClickHint = GetNode<Sprite>("../LeftMouseClickHint");
         
+        Conductor = GetNode<Node>("../../");
+        currentScene = GetNode<Node>("../");
+        Connect("changeScene", currentScene, "_on_changeScene");
+
         isInitialising = false;
     }
 
@@ -89,6 +101,31 @@ public class Mochi : KinematicBody2D
         return last10notes[i];
     }
 
+    private async void RestartLevel()
+    {
+        voidTriggered = true; // prevent this function from being called again
+        // Uncommenting these two lines somehow results on all wheel notes playing at once
+        animationPlayer.Play("fade_to_black");
+        await ToSignal(animationPlayer, "animation_finished");
+        CallDeferred(nameof(DeferredRestartScene), currentScene);
+    }
+
+    private void DeferredRestartScene(Node currentScene)
+    {
+        // Broadcast a signal to show that scene has changed
+        EmitSignal("changeScene");
+
+        // Queue current scene for deletion
+        currentScene.QueueFree();
+
+        // Instance the new scene.
+        PackedScene restartScene = (PackedScene)ResourceLoader.Load(currentScene.Filename);
+        currentScene = restartScene.Instance();
+
+        // Add it to the active scene, as child of root.
+        Conductor.AddChild(currentScene);
+    }
+
     #region buffs
     public void SetGravity(float i = 1500.0f, bool isTemporary = false)
     {
@@ -99,9 +136,7 @@ public class Mochi : KinematicBody2D
             tempGravity = i;
         }
         else
-        {
             gravity = i;
-        }
     }
     #endregion
 
@@ -271,6 +306,11 @@ public class Mochi : KinematicBody2D
 
         if (Input.IsActionJustPressed("fullscreen"))
             OS.WindowFullscreen = !OS.WindowFullscreen;
+
+        if (Position.y > theVoid && theVoid != 0 && !voidTriggered)
+        {
+            RestartLevel();
+        }
 
         // Set velocity.y
         velocity.y += gravity * delta;

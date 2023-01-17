@@ -3,8 +3,10 @@ extends MarginContainer
 const color_green = Color(0, 1, 0, 0.5)
 const color_white = Color(1, 1, 1, 1)
 const color_red = Color(1, 0, 0, 0.5)
+var debug = false;
 
 func _ready():
+	# _on_LogoutButton_pressed() # <-- Uncomment this line to force logout
 	var _error = PlayFabManager.client.connect("api_error", self, "_on_api_error")
 	_error = PlayFabManager.client.connect("logged_in", self, "_on_logged_in")
 	_error = $LoggedIn.connect("logout", self, "_on_LogoutButton_pressed")	
@@ -65,6 +67,21 @@ func _on_Login_pressed():
 
 
 func _on_AnonLogin_pressed():
+	debug = false
+	$Login.hide()
+	_show_progess()
+	var combined_info_request_params = GetPlayerCombinedInfoRequestParams.new()
+	combined_info_request_params.show_all()
+	var player_profile_view_constraints = PlayerProfileViewConstraints.new()
+	combined_info_request_params.ProfileConstraints = player_profile_view_constraints
+
+	if PlayFabManager.client_config.login_type == PlayFabClientConfig.LoginType.LOGIN_CUSTOM_ID:
+		PlayFabManager.client.login_with_custom_id(PlayFabManager.client_config.login_id, false, combined_info_request_params)
+	else:
+		PlayFabManager.client.login_with_custom_id(UUID.v4(), true, combined_info_request_params)
+
+func _on_AnonLoginDebug_pressed() -> void:
+	debug = true
 	$Login.hide()
 	_show_progess()
 	var combined_info_request_params = GetPlayerCombinedInfoRequestParams.new()
@@ -89,8 +106,10 @@ func _on_logged_in(login_result: LoginResult):
 
 	$LoggedIn.login_result = login_result
 	$LoggedIn.update()
-	# $LoggedIn.show()
-	SceneManager.goto_scene("res://GameScenes/Conductor.tscn")
+	if debug == true:
+		$LoggedIn.show()
+	else:
+		SceneManager.goto_scene("res://GameScenes/Conductor.tscn")
 
 func _on_api_error(api_error_wrapper: ApiErrorWrapper):
 	_hide_progess()

@@ -63,5 +63,14 @@ rect_min_size = Vector2( 0, 27 )
 size_flags_horizontal = 3
 text = "Play as Guest"
 
+[node name="AnonLoginDebug" type="Button" parent="MarginContainer/Login"]
+margin_top = 68.0
+margin_right = 924.0
+margin_bottom = 95.0
+rect_min_size = Vector2( 0, 27 )
+size_flags_horizontal = 3
+text = "Go to Debug Menu"
+
 [connection signal="pressed" from="MarginContainer/Login/StayLoggedInCheckbox" to="MarginContainer" method="_on_StayLoggedInCheckbox_pressed"]
 [connection signal="pressed" from="MarginContainer/Login/AnonLogin" to="MarginContainer" method="_on_AnonLogin_pressed"]
+[connection signal="pressed" from="MarginContainer/Login/AnonLoginDebug" to="MarginContainer" method="_on_AnonLoginDebug_pressed"]

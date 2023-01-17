@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Sprites/bird.png" type="Texture" id=1]
 [ext_resource path="res://Actors/Bird.cs" type="Script" id=2]
@@ -15,6 +15,10 @@
 [ext_resource path="res://Sounds/bird/Bird2.wav" type="AudioStream" id=13]
 [ext_resource path="res://Sounds/bird/Bird5.wav" type="AudioStream" id=14]
 [ext_resource path="res://Scripts/BirdCue.cs" type="Script" id=15]
+[ext_resource path="res://Sounds/bird/Bird0.wav" type="AudioStream" id=16]
+[ext_resource path="res://Sounds/bird/Bird4.wav" type="AudioStream" id=17]
+[ext_resource path="res://Sounds/bird/Bird6.wav" type="AudioStream" id=18]
+[ext_resource path="res://Sounds/bird/Bird7.wav" type="AudioStream" id=19]
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
@@ -76,15 +80,17 @@ animation = "flying"
 script = ExtResource( 15 )
 
 [node name="Sprite" type="Sprite" parent="Cue0"]
+visible = false
 texture = ExtResource( 8 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Cue0"]
-stream = ExtResource( 4 )
+stream = ExtResource( 16 )
 
 [node name="Cue1" type="Node2D" parent="."]
 script = ExtResource( 15 )
 
 [node name="Sprite" type="Sprite" parent="Cue1"]
+visible = false
 texture = ExtResource( 5 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Cue1"]
@@ -94,6 +100,7 @@ stream = ExtResource( 12 )
 script = ExtResource( 15 )
 
 [node name="Sprite" type="Sprite" parent="Cue2"]
+visible = false
 texture = ExtResource( 7 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Cue2"]
@@ -103,6 +110,7 @@ stream = ExtResource( 13 )
 script = ExtResource( 15 )
 
 [node name="Sprite" type="Sprite" parent="Cue3"]
+visible = false
 texture = ExtResource( 3 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Cue3"]
@@ -112,15 +120,17 @@ stream = ExtResource( 4 )
 script = ExtResource( 15 )
 
 [node name="Sprite" type="Sprite" parent="Cue4"]
+visible = false
 texture = ExtResource( 11 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Cue4"]
-stream = ExtResource( 4 )
+stream = ExtResource( 17 )
 
 [node name="Cue5" type="Node2D" parent="."]
 script = ExtResource( 15 )
 
 [node name="Sprite" type="Sprite" parent="Cue5"]
+visible = false
 texture = ExtResource( 9 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Cue5"]
@@ -130,19 +140,21 @@ stream = ExtResource( 14 )
 script = ExtResource( 15 )
 
 [node name="Sprite" type="Sprite" parent="Cue6"]
+visible = false
 texture = ExtResource( 6 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Cue6"]
-stream = ExtResource( 4 )
+stream = ExtResource( 18 )
 
 [node name="Cue7" type="Node2D" parent="."]
 script = ExtResource( 15 )
 
 [node name="Sprite" type="Sprite" parent="Cue7"]
+visible = false
 texture = ExtResource( 10 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Cue7"]
-stream = ExtResource( 4 )
+stream = ExtResource( 19 )
 
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
 position = Vector2( 4.50001, -1.49997 )

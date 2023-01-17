@@ -42,7 +42,7 @@ public class Bird : KinematicBody2D
         spawnPosition = Position;
         //spawnPosition = animatedSprite.Position;
 
-        // Code to make sure all hints are visible regardless of player viewport or resolution
+        // Todo: Code to make sure all hints are visible regardless of player viewport or resolution
 
         positionOnCanvas = GetGlobalTransformWithCanvas().origin;
         //GD.Print(positionOnCanvas);
@@ -68,20 +68,18 @@ public class Bird : KinematicBody2D
         else //if (happyState == HappyState.happy)
             showVisualHint = false;
         
-        if (song_position_in_beats % birdWaitTime == 1 && birdPattern.Length >= 1)
-            GetNode<BirdCue>("Cue" + birdPattern[0]).Play(showVisualHint);
-        else if (song_position_in_beats % birdWaitTime == 2 && birdPattern.Length >= 2)
-            GetNode<BirdCue>("Cue" + birdPattern[1]).Play(showVisualHint);
-        else if (song_position_in_beats % birdWaitTime == 3 && birdPattern.Length >= 3)
-            GetNode<BirdCue>("Cue" + birdPattern[2]).Play(showVisualHint);
+        int cueToPlay = song_position_in_beats % birdWaitTime;
+        if (cueToPlay >= 1 && cueToPlay <= 7)
+            if (birdPattern.Length >= cueToPlay)
+                GetNode<BirdCue>("Cue" + birdPattern[--cueToPlay]).Play(showVisualHint);
     }
 
-    public void _on_screen_entered() 
+    public void _on_screen_entered()
     {
         canBeHappy = true;
     }
 
-    public void _on_screen_exited() 
+    public void _on_screen_exited()
     {
         canBeHappy = false;
     }

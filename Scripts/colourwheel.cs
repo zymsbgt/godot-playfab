@@ -44,7 +44,7 @@ public class ColourWheel : ControllerWheel
     public override void _Process(float delta)
     {
         base._Process(delta);
-        GD.Print(active);
+        //GD.Print(active); // there are 8 segments in total, only one of them will return true at any given time
 
         if (queuePlay)
         {

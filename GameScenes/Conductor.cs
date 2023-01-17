@@ -38,11 +38,11 @@ public class Conductor : Node
     public void _on_changeScene()
     {
         GD.Print("Change of scene detected by conductor!");
-        CallDeferred(nameof(DeferredGotoScene));
+        CallDeferred(nameof(DeferredChangeScene));
     }
     #endregion
 
-    private void DeferredGotoScene()
+    private void DeferredChangeScene()
     {
         // Get the current Node2D scene in the remote scene list
         int j = 0;
