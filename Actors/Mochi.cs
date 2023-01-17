@@ -153,6 +153,7 @@ public class Mochi : KinematicBody2D
 
     public void _on_ColourWheel_area_entered(int note)
     {
+        // This signal is fired from the coloured wheels
         for (int i = last10notes.Length - 1; i > 0; i--)
         {
             last10notes[i] = last10notes[i - 1];

@@ -7,11 +7,12 @@ public class Bird : KinematicBody2D
     private Mochi mochi;
     private AnimatedSprite animatedSprite;
     private float happyCountdownTimer;
-    public int birdWaitTime = 8;
+    private int birdWaitTime = 8;
+    [Export] private int birdPatternSize;
     [Export] private int[] birdPattern;
+    private int[] emptyArray;
     private bool canBeHappy = true;
-    private Vector2 spawnPosition;
-    private Vector2 positionOnCanvas, centerOfCanvas;
+    private Vector2 spawnPosition, positionOnCanvas, centerOfCanvas;
     private enum CueAnimationState
     {
         off,
@@ -49,6 +50,20 @@ public class Bird : KinematicBody2D
 
         centerOfCanvas = GetViewport().Size / 2;
         //GD.Print(centerOfCanvas);
+
+        // Randomise the bird patterns
+        GD.Randomize();
+
+        if (birdPattern == emptyArray)
+        {
+            birdPattern = new int[birdPatternSize];
+            for (int i = 0; i < birdPatternSize; i++)
+            {
+                int randomNumber = Math.Abs((int)GD.Randi() % 6);
+                birdPattern[i] = randomNumber;
+                GD.Print(randomNumber);
+            }
+        }
     }
 
     private void HideAllVisualCues()
@@ -68,10 +83,10 @@ public class Bird : KinematicBody2D
         else //if (happyState == HappyState.happy)
             showVisualHint = false;
         
-        int cueToPlay = song_position_in_beats % birdWaitTime;
-        if (cueToPlay >= 1 && cueToPlay <= 7)
-            if (birdPattern.Length >= cueToPlay)
-                GetNode<BirdCue>("Cue" + birdPattern[--cueToPlay]).Play(showVisualHint);
+        int cueToPlay = (song_position_in_beats % birdWaitTime) - 1;
+        if (cueToPlay >= 0 && cueToPlay <= 6)
+            if (birdPattern.Length - 1 >= cueToPlay)
+                GetNode<BirdCue>("Cue" + birdPattern[cueToPlay]).Play(showVisualHint);
     }
 
     public void _on_screen_entered()
@@ -86,6 +101,7 @@ public class Bird : KinematicBody2D
 
     public void _on_ColourWheel_area_entered(int note)
     {
+        // This signal is fired by Mochi, which is relayed from colour wheels
         if (canBeHappy)
         {
             int correctNotes = 0;

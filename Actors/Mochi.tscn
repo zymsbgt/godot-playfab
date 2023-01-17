@@ -226,7 +226,6 @@ current = true
 collision_layer = 16
 collision_mask = 16
 script = ExtResource( 6 )
-note = 8
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="01"]
 position = Vector2( 1, -312 )

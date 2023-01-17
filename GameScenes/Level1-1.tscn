@@ -54,4 +54,4 @@ cameraLimitRight = 3600
 
 [node name="Bird" parent="." instance=ExtResource( 3 )]
 position = Vector2( 2164, 1190 )
-birdPattern = PoolIntArray( 3 )
+birdPatternSize = 1
