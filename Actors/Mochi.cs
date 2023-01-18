@@ -39,6 +39,7 @@ public class Mochi : KinematicBody2D
     // Signals
     [Signal] delegate void destroy_left_mouse_click_hint();
     [Signal] delegate void ColourWheel_area_entered();
+    [Signal] delegate void ColourWheel_area_exited();
     [Signal] public delegate void changeScene();
 
     public override void _Ready()
@@ -161,6 +162,11 @@ public class Mochi : KinematicBody2D
         last10notes[0] = note;
         // Create a gateway to share this information with birds
         EmitSignal("ColourWheel_area_entered", note);
+    }
+
+    public void _on_ColourWheel_area_exited(int note)
+    {
+        EmitSignal("ColourWheel_area_exited", note);
     }
     #endregion signal
 

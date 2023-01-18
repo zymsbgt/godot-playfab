@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/BardG4-3.wav-e018268803de4ecce3aec67552bacbee.sample"
+
+[deps]
+
+source_file="res://Sounds/BardG4-3.wav"
+dest_files=[ "res://.import/BardG4-3.wav-e018268803de4ecce3aec67552bacbee.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

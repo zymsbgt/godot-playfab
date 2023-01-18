@@ -29,7 +29,7 @@ public class Conductor : Node
         sec_per_beat = 60.0 / bpm;
         backgroundMusic = GetNode<AudioStreamPlayer>("BackgroundMusic");
         backgroundMusic.Play();
-        backgroundMusic.VolumeDb = -6;
+        backgroundMusic.VolumeDb = -12;
         backgroundMusic.GetPlaybackPosition();
         _on_changeScene();
     }

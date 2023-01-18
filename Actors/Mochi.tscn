@@ -1,11 +1,11 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://Sounds/f4_piano.wav" type="AudioStream" id=1]
-[ext_resource path="res://Sounds/c5_piano.wav" type="AudioStream" id=2]
+[ext_resource path="res://Sounds/BardC4-1.wav" type="AudioStream" id=2]
 [ext_resource path="res://Sprites/colourwheel/inactive/02.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/colourwheel/active/02.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/mochi.png" type="Texture" id=5]
-[ext_resource path="res://Scripts/ColourWheel.cs" type="Script" id=6]
+[ext_resource path="res://Sounds/BardC5-2.wav" type="AudioStream" id=6]
 [ext_resource path="res://Sprites/colourwheel/active/03.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/colourwheel/active/04.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/colourwheel/inactive/03.png" type="Texture" id=9]
@@ -28,7 +28,27 @@
 [ext_resource path="res://Sounds/a5_piano.wav" type="AudioStream" id=26]
 [ext_resource path="res://Sounds/b5_piano.wav" type="AudioStream" id=27]
 [ext_resource path="res://Sounds/g4_piano.wav" type="AudioStream" id=28]
-[ext_resource path="res://Sounds/c4_piano.wav" type="AudioStream" id=29]
+[ext_resource path="res://Sounds/c5_piano.wav" type="AudioStream" id=29]
+[ext_resource path="res://Scripts/ColourWheelNew.cs" type="Script" id=30]
+[ext_resource path="res://Sounds/BardC4-2.wav" type="AudioStream" id=31]
+[ext_resource path="res://Sounds/BardC4-3.wav" type="AudioStream" id=32]
+[ext_resource path="res://Sounds/BardD4-1.wav" type="AudioStream" id=33]
+[ext_resource path="res://Sounds/BardD4-2.wav" type="AudioStream" id=34]
+[ext_resource path="res://Sounds/BardD4-3.wav" type="AudioStream" id=35]
+[ext_resource path="res://Sounds/BardE4-1.wav" type="AudioStream" id=36]
+[ext_resource path="res://Sounds/BardE4-2.wav" type="AudioStream" id=37]
+[ext_resource path="res://Sounds/BardF4-2.wav" type="AudioStream" id=38]
+[ext_resource path="res://Sounds/BardF4-3.wav" type="AudioStream" id=39]
+[ext_resource path="res://Sounds/BardF4-1.wav" type="AudioStream" id=40]
+[ext_resource path="res://Sounds/BardG4-1.wav" type="AudioStream" id=41]
+[ext_resource path="res://Sounds/BardG4-2.wav" type="AudioStream" id=42]
+[ext_resource path="res://Sounds/BardG4-3.wav" type="AudioStream" id=43]
+[ext_resource path="res://Sounds/BardA5-1.wav" type="AudioStream" id=44]
+[ext_resource path="res://Sounds/BardA5-2.wav" type="AudioStream" id=45]
+[ext_resource path="res://Sounds/BardB5-1.wav" type="AudioStream" id=46]
+[ext_resource path="res://Sounds/BardB5-2.wav" type="AudioStream" id=47]
+[ext_resource path="res://Sounds/BardB5-3.wav" type="AudioStream" id=48]
+[ext_resource path="res://Sounds/BardC5-1.wav" type="AudioStream" id=49]
 
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 59.5, 60 )
@@ -225,14 +245,15 @@ current = true
 [node name="01" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
-script = ExtResource( 6 )
+script = ExtResource( 30 )
+MochisVoices = [ ExtResource( 49 ), ExtResource( 6 ) ]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="01"]
 position = Vector2( 1, -312 )
 polygon = PoolVector2Array( -117, 25, 0, -16, 116, 26, 66, 150, 0, 137, -64, 149 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="01"]
-stream = ExtResource( 2 )
+stream = ExtResource( 29 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="01"]
 frames = SubResource( 12 )
@@ -241,15 +262,16 @@ animation = "passive"
 [node name="02" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
-script = ExtResource( 6 )
+script = ExtResource( 30 )
 note = 1
+MochisVoices = [ ExtResource( 2 ), ExtResource( 31 ), ExtResource( 32 ) ]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="02"]
 position = Vector2( 1, -312 )
 polygon = PoolVector2Array( -286, 193, -231, 87, -120, 27, -67, 151, -127, 193, -159, 244 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="02"]
-stream = ExtResource( 29 )
+stream = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="02"]
 frames = SubResource( 2 )
@@ -258,8 +280,9 @@ animation = "passive"
 [node name="03" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
-script = ExtResource( 6 )
+script = ExtResource( 30 )
 note = 2
+MochisVoices = [ ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ) ]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="03"]
 position = Vector2( 1, -312 )
@@ -275,8 +298,9 @@ animation = "passive"
 [node name="04" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
-script = ExtResource( 6 )
+script = ExtResource( 30 )
 note = 3
+MochisVoices = [ ExtResource( 36 ), ExtResource( 37 ) ]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="04"]
 position = Vector2( 1, -312 )
@@ -292,8 +316,9 @@ animation = "passive"
 [node name="05" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
-script = ExtResource( 6 )
+script = ExtResource( 30 )
 note = 4
+MochisVoices = [ ExtResource( 40 ), ExtResource( 38 ), ExtResource( 39 ) ]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="05"]
 position = Vector2( 1, -312 )
@@ -309,8 +334,9 @@ animation = "passive"
 [node name="06" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
-script = ExtResource( 6 )
+script = ExtResource( 30 )
 note = 5
+MochisVoices = [ ExtResource( 41 ), ExtResource( 42 ), ExtResource( 43 ) ]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="06"]
 position = Vector2( 1, -312 )
@@ -326,8 +352,9 @@ animation = "passive"
 [node name="07" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
-script = ExtResource( 6 )
+script = ExtResource( 30 )
 note = 6
+MochisVoices = [ ExtResource( 44 ), ExtResource( 45 ) ]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="07"]
 position = Vector2( 1, -312 )
@@ -343,8 +370,9 @@ animation = "passive"
 [node name="08" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
-script = ExtResource( 6 )
+script = ExtResource( 30 )
 note = 7
+MochisVoices = [ ExtResource( 46 ), ExtResource( 47 ), ExtResource( 48 ) ]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="08"]
 position = Vector2( 1, -312 )
@@ -383,35 +411,40 @@ color = Color( 0, 0, 0, 0 )
 anims/START = SubResource( 19 )
 anims/fade_to_black = SubResource( 20 )
 
-[connection signal="_on_ColourWheel_area_entered" from="01" to="." method="_on_ColourWheel_area_entered"]
 [connection signal="area_entered" from="01" to="01" method="_on_area_entered"]
 [connection signal="area_exited" from="01" to="01" method="_on_area_exited"]
-[connection signal="disable_player_movement" from="01" to="." method="_on_disable_player_movement"]
 [connection signal="_on_ColourWheel_area_entered" from="02" to="." method="_on_ColourWheel_area_entered"]
+[connection signal="_on_ColourWheel_area_exited" from="02" to="." method="_on_ColourWheel_area_exited"]
 [connection signal="area_entered" from="02" to="02" method="_on_area_entered"]
 [connection signal="area_exited" from="02" to="02" method="_on_area_exited"]
 [connection signal="disable_player_movement" from="02" to="." method="_on_disable_player_movement"]
 [connection signal="_on_ColourWheel_area_entered" from="03" to="." method="_on_ColourWheel_area_entered"]
+[connection signal="_on_ColourWheel_area_exited" from="03" to="." method="_on_ColourWheel_area_exited"]
 [connection signal="area_entered" from="03" to="03" method="_on_area_entered"]
 [connection signal="area_exited" from="03" to="03" method="_on_area_exited"]
 [connection signal="disable_player_movement" from="03" to="." method="_on_disable_player_movement"]
 [connection signal="_on_ColourWheel_area_entered" from="04" to="." method="_on_ColourWheel_area_entered"]
+[connection signal="_on_ColourWheel_area_exited" from="04" to="." method="_on_ColourWheel_area_exited"]
 [connection signal="area_entered" from="04" to="04" method="_on_area_entered"]
 [connection signal="area_exited" from="04" to="04" method="_on_area_exited"]
 [connection signal="disable_player_movement" from="04" to="." method="_on_disable_player_movement"]
 [connection signal="_on_ColourWheel_area_entered" from="05" to="." method="_on_ColourWheel_area_entered"]
+[connection signal="_on_ColourWheel_area_exited" from="05" to="." method="_on_ColourWheel_area_exited"]
 [connection signal="area_entered" from="05" to="05" method="_on_area_entered"]
 [connection signal="area_exited" from="05" to="05" method="_on_area_exited"]
 [connection signal="disable_player_movement" from="05" to="." method="_on_disable_player_movement"]
 [connection signal="_on_ColourWheel_area_entered" from="06" to="." method="_on_ColourWheel_area_entered"]
+[connection signal="_on_ColourWheel_area_exited" from="06" to="." method="_on_ColourWheel_area_exited"]
 [connection signal="area_entered" from="06" to="06" method="_on_area_entered"]
 [connection signal="area_exited" from="06" to="06" method="_on_area_exited"]
 [connection signal="disable_player_movement" from="06" to="." method="_on_disable_player_movement"]
 [connection signal="_on_ColourWheel_area_entered" from="07" to="." method="_on_ColourWheel_area_entered"]
+[connection signal="_on_ColourWheel_area_exited" from="07" to="." method="_on_ColourWheel_area_exited"]
 [connection signal="area_entered" from="07" to="07" method="_on_area_entered"]
 [connection signal="area_exited" from="07" to="07" method="_on_area_exited"]
 [connection signal="disable_player_movement" from="07" to="." method="_on_disable_player_movement"]
 [connection signal="_on_ColourWheel_area_entered" from="08" to="." method="_on_ColourWheel_area_entered"]
+[connection signal="_on_ColourWheel_area_exited" from="08" to="." method="_on_ColourWheel_area_exited"]
 [connection signal="area_entered" from="08" to="08" method="_on_area_entered"]
 [connection signal="area_exited" from="08" to="08" method="_on_area_exited"]
 [connection signal="disable_player_movement" from="08" to="." method="_on_disable_player_movement"]
