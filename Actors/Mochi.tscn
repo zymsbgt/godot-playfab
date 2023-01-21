@@ -246,6 +246,7 @@ current = true
 collision_layer = 16
 collision_mask = 16
 script = ExtResource( 30 )
+note = 8
 MochisVoices = [ ExtResource( 49 ), ExtResource( 6 ) ]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="01"]

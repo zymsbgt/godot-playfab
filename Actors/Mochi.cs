@@ -49,11 +49,13 @@ public class Mochi : KinematicBody2D
         deceleration = maxSpeed.x * 20.0f;
         SetGravity();
 
-        //OS.WindowFullscreen = true;
+        
         //OS.WindowMaximized = true;
+        #if GODOT_PC
         // #if GODOT_WINDOWS
+        OS.WindowFullscreen = true;
         // OS.WindowBorderless = true;
-        // #endif
+        #endif
 
         mouseCursor = GetNode<Area2D>("MouseCursor");
         mouseCursor.Hide();

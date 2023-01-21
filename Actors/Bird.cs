@@ -59,7 +59,7 @@ public class Bird : KinematicBody2D
             birdPattern = new int[birdPatternSize];
             for (int i = 0; i < birdPatternSize; i++)
             {
-                int randomNumber = Math.Abs((int)GD.Randi() % 6 + 1);
+                int randomNumber = Math.Abs((int)GD.Randi() % 7) + 1;
                 birdPattern[i] = randomNumber;
                 GD.Print(randomNumber);
             }
@@ -68,7 +68,7 @@ public class Bird : KinematicBody2D
 
     private void HideAllVisualCues()
     {
-        for (int i = 0; i <= 7; i++)
+        for (int i = 1; i <= 8; i++)
             GetNode<BirdCue>("Cue" + i).HideCue();
     }
 
