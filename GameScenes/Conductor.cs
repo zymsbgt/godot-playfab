@@ -32,6 +32,16 @@ public class Conductor : Node
         backgroundMusic.VolumeDb = -12;
         backgroundMusic.GetPlaybackPosition();
         _on_changeScene();
+
+        //OS.WindowMaximized = true;
+        #if GODOT_PC
+        // #if GODOT_WINDOWS
+        // OS.WindowFullscreen = true;
+        // OS.WindowMaximized = true;
+        // OS.WindowBorderless = true;
+        #endif
+
+        GD.Print("Viewport resolution is: ", GetViewport().Size);
     }
 
     #region signals
@@ -65,9 +75,17 @@ public class Conductor : Node
         song_position -= AudioServer.GetOutputLatency();
         song_position_in_beats = (int)Math.Round(song_position / sec_per_beat) + beats_before_start;
 
-        // GetNode<LineEdit>("VBoxContainer/AudioOutputLatencyContainer/Edit").Text = AudioServer.GetOutputLatency().ToString();
         // GetNode<LineEdit>("VBoxContainer/SongPositionContainer/Edit").Text = song_position.ToString();
-        GetNode<Label>("HUD/Label").Text = "Song position in beats: " + song_position_in_beats.ToString();
+        GetNode<Label>("HUD/DebugLabel").Text = "Debug Info:";
+        #if GODOT_WINDOWS || GODOT_X11
+        int SpeakerLatencyLabel = (int)Math.Round((AudioServer.GetTimeSinceLastMix() + AudioServer.GetOutputLatency()) * 1000);
+        GetNode<Label>("HUD/AudioHardwareLatencyLabel").Text = "Speaker Output Latency: " + SpeakerLatencyLabel.ToString() + "ms";
+        #else
+        GetNode<Label>("HUD/AudioHardwareLatencyLabel").Text = "Speaker Output Latency: " + "Not Detected";
+        #endif
+        GetNode<Label>("HUD/SongPositionInBeatsLabel").Text = "Song position in beats: " + song_position_in_beats.ToString();
+        if (currentScene != null)
+            GetNode<Label>("HUD/LevelLabel").Text = "Current " + currentScene.Name;
         ReportBeat();
     }
 
@@ -86,5 +104,11 @@ public class Conductor : Node
         if (song_position < last_frame_song_position)
             last_reported_beat = 0;
         last_frame_song_position = backgroundMusic.GetPlaybackPosition();
+    }
+
+    public override void _Process(float delta)
+    {
+        if (Input.IsActionJustPressed("fullscreen"))
+            OS.WindowFullscreen = !OS.WindowFullscreen;
     }
 }

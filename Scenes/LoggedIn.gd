@@ -2,12 +2,14 @@ extends Control
 class_name LoggedIn
 
 var login_result: LoginResult
-const color_green = Color(0, 1, 0, 0.5)
+const color_green = Color(0, 1, 0, 0.6)
+const color_red = Color(1, 0, 0, 0.8)
 signal logout
 
 func _ready():
 	var _error = PlayFabManager.client.connect("api_error", self, "_on_PlayFab_api_error")
 	$VBoxContainer/StartButton.self_modulate = color_green
+	$VBoxContainer/LogoutButton.self_modulate = color_red
 	#OS.window_fullscreen = true
 
 # Called when the node enters the scene tree for the first time.

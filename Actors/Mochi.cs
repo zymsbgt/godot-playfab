@@ -8,7 +8,7 @@ public class Mochi : KinematicBody2D
     private bool isInitialising = false;
 
     // Movement related variables
-    private float gravity, tempGravity, lowGravityTimer = 0.0f, maxGravityTimer = 0.5f;
+    private float gravity, tempGravity, lowGravityTimer = 0.0f, maxGravityTimer = 0.75f;
     private bool lowerGravityOnJump;
     private float acceleration, deceleration, targetVelocity;
     private Vector2 maxSpeed = new Vector2(800.0f, 1000.0f);
@@ -29,7 +29,8 @@ public class Mochi : KinematicBody2D
     private Area2D mouseCursor;
     private Sprite LeftMouseClickHint;
     private AnimationPlayer animationPlayer;
-    private Camera2D camera2D;
+    private Camera2D camera;
+    Vector2 screenResolution;
     [Export] private int cameraLimitRight;
 
     // How far below Mochi can go before the game determines that Mochi has failed the level
@@ -49,25 +50,16 @@ public class Mochi : KinematicBody2D
         deceleration = maxSpeed.x * 20.0f;
         SetGravity();
 
-        
-        //OS.WindowMaximized = true;
-        #if GODOT_PC
-        // #if GODOT_WINDOWS
-        OS.WindowFullscreen = true;
-        // OS.WindowBorderless = true;
-        #endif
-
         mouseCursor = GetNode<Area2D>("MouseCursor");
         mouseCursor.Hide();
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-        camera2D = GetNode<Camera2D>("Camera2D");
+        camera = GetNode<Camera2D>("Camera2D");
         // Add code to set hard limit for camera right based on level
         if (cameraLimitRight > 0)
-            camera2D.LimitRight = cameraLimitRight;
+            camera.LimitRight = cameraLimitRight;
         // If screen resolution is 1920x1080, set camera zoom to 1.6
         // If screen resolution is 1024x600, set camera zoom to 2.0
-        Vector2 displaySize = GetViewport().Size;
-        //GD.Print(displaySize);
+        screenResolution = GetViewport().Size;
 
         //isInitialising = true; // enable this and comment line below to delay initialising by 1 frame
         Initialise();
@@ -78,6 +70,8 @@ public class Mochi : KinematicBody2D
         // Not sure if this code is needed anymore since conductor has been implemented
         //if (GetTree().CurrentScene.Name == "LevelTemplate")
         //    LeftMouseClickHint = GetNode<Sprite>("../LeftMouseClickHint");
+
+        GD.Print("Viewport resolution is: ", screenResolution);
         
         Conductor = GetNode<Node>("../../");
         currentScene = GetNode<Node>("../");
@@ -312,9 +306,6 @@ public class Mochi : KinematicBody2D
     {
         if (isInitialising) 
             Initialise();
-
-        if (Input.IsActionJustPressed("fullscreen"))
-            OS.WindowFullscreen = !OS.WindowFullscreen;
 
         if (Position.y > theVoid && theVoid != 0 && !voidTriggered)
         {

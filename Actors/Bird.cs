@@ -6,7 +6,7 @@ public class Bird : KinematicBody2D
     private Node2D currentLevel;
     private Mochi mochi;
     private AnimatedSprite animatedSprite;
-    private float happyCountdownTimer;
+    private float happyCountdownTimer, maxHappyCountdownTimer = 0.75f;
     private int birdWaitTime = 8;
     [Export] private int birdPatternSize;
     [Export] private int[] birdPattern;
@@ -115,7 +115,7 @@ public class Bird : KinematicBody2D
             if (correctNotes == birdPattern.Length) // pattern success
             {
                 happyState = HappyState.happy;
-                happyCountdownTimer = 0.5f;
+                happyCountdownTimer = maxHappyCountdownTimer;
                 mochi.SetGravity(500.0f, true);
                 HideAllVisualCues();
             }
@@ -143,9 +143,8 @@ public class Bird : KinematicBody2D
 
     public override void _PhysicsProcess(float delta)
     {
-        if (Input.IsActionPressed("jump") && happyState == HappyState.happy)
-        {
-            happyCountdownTimer -= Math.Min(happyCountdownTimer, delta);
-        }
+        if (happyState == HappyState.happy)
+            if (Input.IsActionPressed("jump") || happyCountdownTimer < maxHappyCountdownTimer)
+                happyCountdownTimer -= Math.Min(happyCountdownTimer, delta);
     }
 }

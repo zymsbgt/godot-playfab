@@ -21,7 +21,13 @@ public class BirdCue : Node2D
     public void Play(bool showVisualHint = true)
     {
         cueSprite.Visible = showVisualHint;
+
+        #if GODOT_WEB
+        //if (!audioStreamPlayer2D.Playing)
+            audioStreamPlayer2D.Play();
+        #else
         audioStreamPlayer2D.Play();
+        #endif
     }
 
     public void HideCue()

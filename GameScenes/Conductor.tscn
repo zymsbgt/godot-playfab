@@ -14,8 +14,23 @@ audioStream = ExtResource( 6 )
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
-[node name="Label" type="Label" parent="HUD"]
+[node name="DebugLabel" type="Label" parent="HUD"]
 margin_right = 40.0
 margin_bottom = 21.0
+
+[node name="AudioHardwareLatencyLabel" type="Label" parent="HUD"]
+margin_top = 20.0
+margin_right = 40.0
+margin_bottom = 41.0
+
+[node name="SongPositionInBeatsLabel" type="Label" parent="HUD"]
+margin_top = 40.0
+margin_right = 40.0
+margin_bottom = 61.0
+
+[node name="LevelLabel" type="Label" parent="HUD"]
+margin_top = 60.0
+margin_right = 40.0
+margin_bottom = 81.0
 
 [node name="LevelTemplate" parent="." instance=ExtResource( 1 )]

@@ -71,6 +71,15 @@ rect_min_size = Vector2( 0, 27 )
 size_flags_horizontal = 3
 text = "Go to Debug Menu"
 
+[node name="MOTD" type="Label" parent="MarginContainer/Login"]
+visible = false
+margin_top = 99.0
+margin_right = 924.0
+margin_bottom = 168.0
+text = "MOTD
+
+Hi"
+
 [connection signal="pressed" from="MarginContainer/Login/StayLoggedInCheckbox" to="MarginContainer" method="_on_StayLoggedInCheckbox_pressed"]
 [connection signal="pressed" from="MarginContainer/Login/AnonLogin" to="MarginContainer" method="_on_AnonLogin_pressed"]
 [connection signal="pressed" from="MarginContainer/Login/AnonLoginDebug" to="MarginContainer" method="_on_AnonLoginDebug_pressed"]

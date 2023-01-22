@@ -246,7 +246,7 @@ size_flags_vertical = 3
 margin_top = 573.0
 margin_right = 1024.0
 margin_bottom = 600.0
-text = "Logout"
+text = "Forget this session permanently"
 
 [connection signal="pressed" from="VBoxContainer/GetTitleDataButton" to="." method="_on_GetTitleDataButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/EventsPlayStream" to="." method="_on_EventsPlayStream_pressed"]
