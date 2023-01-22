@@ -231,7 +231,7 @@ Display=8
 [application]
 
 config/name="mochis-musical-adventure"
-run/main_scene="res://GameScenes/Conductor.tscn"
+run/main_scene="res://Scenes/Login.tscn"
 
 [autoload]
 
