@@ -11,7 +11,7 @@ public class Bird : KinematicBody2D
     [Export] private int birdPatternSize;
     [Export] private int[] birdPattern;
     private int[] emptyArray;
-    private bool canBeHappy = true;
+    private bool canBeHappy = true, BirdJumpBoostActivated = false;
     private Vector2 spawnPosition, positionOnCanvas, centerOfCanvas;
     private enum CueAnimationState
     {
@@ -38,6 +38,7 @@ public class Bird : KinematicBody2D
         // Connect signals
         currentLevel.Connect("beatSignal", this, "_on_beatSignal");
         mochi.Connect("ColourWheel_area_entered", this, "_on_ColourWheel_area_entered");
+        mochi.Connect("BirdJumpBoostActivated", this, "_on_BirdJumpBoostActivated");
 
         // Set origin position (the position where the bird spawns at)
         spawnPosition = Position;
@@ -122,6 +123,11 @@ public class Bird : KinematicBody2D
         }
         // if (mochi.GetLast10Notes()[0] == birdPattern[0]) {}
     }
+
+    public void _on_BirdJumpBoostActivated()
+    {
+        BirdJumpBoostActivated = true;
+    }
     #endregion
 
     public override void _Process(float delta)
@@ -144,7 +150,10 @@ public class Bird : KinematicBody2D
     public override void _PhysicsProcess(float delta)
     {
         if (happyState == HappyState.happy)
-            if (Input.IsActionPressed("jump") || happyCountdownTimer < maxHappyCountdownTimer)
+            if (BirdJumpBoostActivated || happyCountdownTimer < maxHappyCountdownTimer)
+            {
+                BirdJumpBoostActivated = false;
                 happyCountdownTimer -= Math.Min(happyCountdownTimer, delta);
+            }
     }
 }

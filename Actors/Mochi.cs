@@ -9,11 +9,10 @@ public class Mochi : KinematicBody2D
 
     // Movement related variables
     private float gravity, tempGravity, lowGravityTimer = 0.0f, maxGravityTimer = 0.75f;
-    private bool lowerGravityOnJump;
+    private bool lowerGravityOnJump, disableMovement = false;
     private float acceleration, deceleration, targetVelocity;
     private Vector2 maxSpeed = new Vector2(800.0f, 1000.0f);
     private Vector2 velocity = Vector2.Zero, FLOOR_NORMAL = Vector2.Up;
-    private bool disableMovement = false;
 
     // Better jump
     private float fallMultiplier = 2.5f, lowJumpMultiplier = 2.0f;
@@ -41,7 +40,8 @@ public class Mochi : KinematicBody2D
     [Signal] delegate void destroy_left_mouse_click_hint();
     [Signal] delegate void ColourWheel_area_entered();
     [Signal] delegate void ColourWheel_area_exited();
-    [Signal] public delegate void changeScene();
+    [Signal] delegate void changeScene();
+    [Signal] delegate void BirdJumpBoostActivated();
 
     public override void _Ready()
     {
@@ -71,7 +71,7 @@ public class Mochi : KinematicBody2D
         //if (GetTree().CurrentScene.Name == "LevelTemplate")
         //    LeftMouseClickHint = GetNode<Sprite>("../LeftMouseClickHint");
 
-        GD.Print("Viewport resolution is: ", screenResolution);
+        //GD.Print("Viewport resolution is: ", screenResolution);
         
         Conductor = GetNode<Node>("../../");
         currentScene = GetNode<Node>("../");
@@ -187,6 +187,8 @@ public class Mochi : KinematicBody2D
                     {
                         gravity = tempGravity;
                         lowerGravityOnJump = false;
+                        // Tell bird to start countdown
+                        EmitSignal("BirdJumpBoostActivated");
                     }  
                     y = -1.0f;
                 }

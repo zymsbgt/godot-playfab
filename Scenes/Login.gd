@@ -67,6 +67,9 @@ func _on_Login_pressed():
 
 
 func _on_AnonLogin_pressed():
+	if OS.get_name() == "HTML5":
+		SceneManager.goto_scene("res://GameScenes/Conductor.tscn")
+		return
 	debug = false
 	$Login.hide()
 	_show_progess()
