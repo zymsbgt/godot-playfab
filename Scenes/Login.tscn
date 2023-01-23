@@ -64,23 +64,39 @@ rect_min_size = Vector2( 0, 27 )
 size_flags_horizontal = 3
 text = "Play as Guest"
 
-[node name="AnonLoginDebug" type="Button" parent="MarginContainer/Login"]
+[node name="OfflinePlay" type="Button" parent="MarginContainer/Login"]
 margin_top = 68.0
 margin_right = 924.0
 margin_bottom = 95.0
 rect_min_size = Vector2( 0, 27 )
 size_flags_horizontal = 3
+text = "Play Offline (no analytics)"
+
+[node name="AnonLoginDebug" type="Button" parent="MarginContainer/Login"]
+margin_top = 99.0
+margin_right = 924.0
+margin_bottom = 126.0
+rect_min_size = Vector2( 0, 27 )
+size_flags_horizontal = 3
 text = "Go to Debug Menu"
 
 [node name="MOTD" type="Label" parent="MarginContainer/Login"]
-margin_top = 99.0
+margin_top = 130.0
 margin_right = 924.0
-margin_bottom = 168.0
-text = "MOTD
-
-Hi"
+margin_bottom = 175.0
+text = "Text that goes hard goes here. If you see this, 
+this game is either bugged or you peeked at the source code."
 script = ExtResource( 4 )
+
+[node name="News" type="Label" parent="MarginContainer/Login"]
+margin_top = 179.0
+margin_right = 924.0
+margin_bottom = 248.0
+text = "23 Jan: What's new?
+- Offline play is now possible for those who downloaded the Windows/Linux version of the game.
+  This gameplay mode will not send analytics about how you play this game to PlayFab."
 
 [connection signal="pressed" from="MarginContainer/Login/StayLoggedInCheckbox" to="MarginContainer" method="_on_StayLoggedInCheckbox_pressed"]
 [connection signal="pressed" from="MarginContainer/Login/AnonLogin" to="MarginContainer" method="_on_AnonLogin_pressed"]
+[connection signal="pressed" from="MarginContainer/Login/OfflinePlay" to="MarginContainer" method="_on_OfflinePlay_pressed"]
 [connection signal="pressed" from="MarginContainer/Login/AnonLoginDebug" to="MarginContainer" method="_on_AnonLoginDebug_pressed"]

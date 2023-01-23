@@ -97,6 +97,9 @@ func _on_AnonLoginDebug_pressed() -> void:
 	else:
 		PlayFabManager.client.login_with_custom_id(UUID.v4(), true, combined_info_request_params)
 
+func _on_OfflinePlay_pressed() -> void:
+	SceneManager.goto_scene("res://GameScenes/Conductor.tscn")
+
 func _show_progess():
 	$ProgressCenter/LoadingIndicator.show()
 
