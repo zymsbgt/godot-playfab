@@ -1,13 +1,7 @@
 extends Label
 
-
-# Declare member variables here. Examples:
-# var a: int = 2
-# var b: String = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	JavaScript.eval("alert('Calling JavaScript per GDScript!');")
 	visible = false
 	if OS.get_name() == "HTML5":
 		visible = true
@@ -15,8 +9,3 @@ func _ready() -> void:
 	if OS.get_model_name() != "GenericDevice":
 		visible = true
 		text = "Warning: " + OS.get_model_name() + " device detected.\nThis game is designed for desktops and laptops only."
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-#	pass

@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Music/level1_intro_110bpm.wav" type="AudioStream" id=1]
+[ext_resource path="res://GameScenes/BgmManager.cs" type="Script" id=2]
+[ext_resource path="res://Music/level1_passive_110bpm.ogg" type="AudioStream" id=3]
+[ext_resource path="res://Music/level1_active_110bpm.ogg" type="AudioStream" id=4]
+
+[node name="BgmManager" type="Node"]
+script = ExtResource( 2 )
+
+[node name="BgmActive" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+
+[node name="BgmPassive" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+
+[node name="BgmIntro" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+
+[connection signal="finished" from="BgmIntro" to="." method="_on_BgmIntro_finished"]
