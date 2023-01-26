@@ -3,6 +3,9 @@ using System;
 
 public class Conductor : Node
 {
+    // Quitting the game
+    private int holdEscapeToQuit = 3;
+    // Fill in data about the song
     [Export] private int bpm = 110;
     [Export] private int measures = 4;
     [Export] private float offset = 0.2292f;
@@ -40,6 +43,8 @@ public class Conductor : Node
         #endif
 
         //GD.Print("Viewport resolution is: ", GetViewport().Size);
+        // Connect Signals
+        Connect("beatSignal", this, "_on_BeatSignal");
     }
 
     #region signals
@@ -47,6 +52,17 @@ public class Conductor : Node
     {
         GD.Print("Change of scene detected by conductor!");
         CallDeferred(nameof(DeferredChangeScene));
+    }
+
+    public void _on_BeatSignal(int i) // i = song_position_in_beats (which is not used)
+    {
+        if (Input.IsActionPressed("escape"))
+            if (holdEscapeToQuit <= 0)
+                GetTree().Quit(0);
+            else
+                holdEscapeToQuit -= 1;
+        else
+            holdEscapeToQuit = 3;
     }
     #endregion
 
@@ -82,7 +98,7 @@ public class Conductor : Node
         #else
         GetNode<Label>("HUD/AudioHardwareLatencyLabel").Text = "Speaker Output Latency: " + "Not Detected";
         #endif
-        GetNode<Label>("HUD/SongPositionInBeatsLabel").Text = "Song position in beats: " + song_position_in_beats.ToString();
+        GetNode<Label>("HUD/SongPositionInBeatsLabel").Text = "Beat " + song_position_in_beats.ToString();
         if (currentScene != null)
             GetNode<Label>("HUD/LevelLabel").Text = "Current " + currentScene.Name;
         ReportBeat();
@@ -112,5 +128,10 @@ public class Conductor : Node
     {
         if (Input.IsActionJustPressed("fullscreen"))
             OS.WindowFullscreen = !OS.WindowFullscreen;
+        
+        if (Input.IsActionPressed("escape"))
+            GetNode<Label>("HUD/HoldEscapeToQuit").Text = "Quitting in " + holdEscapeToQuit;
+        else
+            GetNode<Label>("HUD/HoldEscapeToQuit").Text = "";
     }
 }

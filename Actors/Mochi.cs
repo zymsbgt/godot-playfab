@@ -23,17 +23,14 @@ public class Mochi : KinematicBody2D
     private int[] last10notes = new int[10];
 
     // Reference nodes
-    private Node Conductor;
-    private Node currentScene;
+    private Node Conductor, currentScene;
     private Area2D mouseCursor;
     private Sprite LeftMouseClickHint;
     private AnimationPlayer animationPlayer;
     private Camera2D camera;
     Vector2 screenResolution;
     [Export] private int cameraLimitRight;
-
-    // How far below Mochi can go before the game determines that Mochi has failed the level
-    [Export] private int theVoid;
+    [Export] private int theVoid; // How far below Mochi can go before the game determines that Mochi has failed the level
     private bool voidTriggered = false;
 
     // Signals
@@ -67,12 +64,6 @@ public class Mochi : KinematicBody2D
 
     private void Initialise() // called on the first frame of the scene
     {
-        // Not sure if this code is needed anymore since conductor has been implemented
-        //if (GetTree().CurrentScene.Name == "LevelTemplate")
-        //    LeftMouseClickHint = GetNode<Sprite>("../LeftMouseClickHint");
-
-        //GD.Print("Viewport resolution is: ", screenResolution);
-        
         Conductor = GetNode<Node>("../../");
         currentScene = GetNode<Node>("../");
         Connect("changeScene", currentScene, "_on_changeScene");
@@ -164,7 +155,7 @@ public class Mochi : KinematicBody2D
     {
         EmitSignal("ColourWheel_area_exited", note);
     }
-    #endregion signal
+    #endregion
 
     private Vector2 getDirection()
     {
@@ -310,9 +301,7 @@ public class Mochi : KinematicBody2D
             Initialise();
 
         if (Position.y > theVoid && theVoid != 0 && !voidTriggered)
-        {
             RestartLevel();
-        }
 
         // Set velocity.y
         velocity.y += gravity * delta;
@@ -330,9 +319,7 @@ public class Mochi : KinematicBody2D
             coyoteTimer--;
 
         if (!lowerGravityOnJump)
-        {
             lowGravityTimer -= Math.Min(delta, lowGravityTimer);
-        }
 
         //Keyboard controls (exclusive to Mochi)
         bool isJumpInterrupted = (Input.IsActionJustReleased("jump") && velocity.y < 0.0f);
