@@ -4,7 +4,7 @@ using System;
 public class BgmManager : Node
 {
     private AudioStreamPlayer bgmIntro, bgmActive, bgmPassive;
-    private float maxVolume = -12.0f, muteVolume = -120.0f;
+    private float maxVolume = -9.0f, muteVolume = -120.0f;
     private enum MochiState
     {
         passive,
@@ -20,6 +20,18 @@ public class BgmManager : Node
         bgmPassive = GetNode<AudioStreamPlayer>("BgmPassive");
         bgmIntro.VolumeDb = maxVolume;
         bgmIntro.Play();
+    }
+
+    public float GetPlaybackPosition()
+    {
+        if (bgmIntro.Playing == true)
+        {
+            return bgmIntro.GetPlaybackPosition();
+        }
+        else
+        {
+            return bgmPassive.GetPlaybackPosition();
+        }
     }
 
     #region signals
@@ -43,16 +55,14 @@ public class BgmManager : Node
                 mochiState = MochiState.active;
             }
             else
-            {
-                bgmActive.VolumeDb = muteVolume;
                 mochiState = MochiState.passive;
-            }
         }
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
-    // public override void _Process(float delta)
-    // {
-    //  
-    // }
+    public override void _Process(float delta)
+    {
+        if (mochiState == MochiState.passive && bgmActive.VolumeDb > muteVolume)
+            bgmActive.VolumeDb -= Math.Min(Math.Abs(muteVolume - bgmActive.VolumeDb), delta * 100);
+    }
 }

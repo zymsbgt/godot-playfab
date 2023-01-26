@@ -5,6 +5,7 @@ public class Conductor : Node
 {
     [Export] private int bpm = 110;
     [Export] private int measures = 4;
+    [Export] private float offset = 0.2292f;
 
     // Tracking the beat and song position
     private double song_position = 0.0;
@@ -18,6 +19,7 @@ public class Conductor : Node
     private int closest = 0;
     private double time_off_beat = 0.0;
     // Attach to nodes
+    private BgmManager bgmManager;
     private AudioStreamPlayer backgroundMusic;
     private PackedScene packedScene;
     private Node2D currentScene;
@@ -27,10 +29,12 @@ public class Conductor : Node
     public override void _Ready()
     {
         sec_per_beat = 60.0 / bpm;
-        backgroundMusic = GetNode<AudioStreamPlayer>("BackgroundMusic");
-        backgroundMusic.Play();
-        backgroundMusic.VolumeDb = -12;
-        backgroundMusic.GetPlaybackPosition();
+
+        bgmManager = GetNode<BgmManager>("/root/BgmManager");
+
+        //backgroundMusic = GetNode<AudioStreamPlayer>("BackgroundMusic");
+        //backgroundMusic.Play();
+        //backgroundMusic.VolumeDb = -120;
         _on_changeScene();
 
         //OS.WindowMaximized = true;
@@ -70,9 +74,10 @@ public class Conductor : Node
 
     public override void _PhysicsProcess(float _delta)
     {
-        song_position = backgroundMusic.GetPlaybackPosition() + AudioServer.GetTimeSinceLastMix();
+        song_position = bgmManager.GetPlaybackPosition() + AudioServer.GetTimeSinceLastMix();
         // Compensate for output latency.
         song_position -= AudioServer.GetOutputLatency();
+        song_position -= offset;
         song_position_in_beats = (int)Math.Round(song_position / sec_per_beat) + beats_before_start;
 
         // GetNode<LineEdit>("VBoxContainer/SongPositionContainer/Edit").Text = song_position.ToString();
@@ -93,6 +98,9 @@ public class Conductor : Node
     {
         if (last_reported_beat < song_position_in_beats)
         {
+            #if GODOT_WEB
+            GD.Print(last_reported_beat, song_position_in_beats);
+            #endif
             if (measure > measures)
 			    measure = 1;
             EmitSignal("beatSignal", song_position_in_beats);
@@ -103,7 +111,7 @@ public class Conductor : Node
         }
         if (song_position < last_frame_song_position)
             last_reported_beat = 0;
-        last_frame_song_position = backgroundMusic.GetPlaybackPosition();
+        last_frame_song_position = bgmManager.GetPlaybackPosition() - offset;
     }
 
     public override void _Process(float delta)

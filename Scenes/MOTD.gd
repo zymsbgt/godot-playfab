@@ -1,7 +1,6 @@
 extends Label
 
 func _ready() -> void:
-	JavaScript.eval("alert('Calling JavaScript per GDScript!');")
 	visible = false
 	if OS.get_name() == "HTML5":
 		visible = true
