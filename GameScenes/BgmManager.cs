@@ -43,6 +43,12 @@ public class BgmManager : Node
         bgmActive.VolumeDb = muteVolume;
         bgmActive.Play();
     }
+
+    public void _on_ColourWheel_area_entered(int note)
+    {
+        bgmActive.VolumeDb = maxVolume;
+        mochiState = MochiState.active;
+    }
     #endregion
 
     public override void _Input(InputEvent @event)
@@ -51,8 +57,8 @@ public class BgmManager : Node
         {
             if (eventMouseButton.IsPressed())
             {
-                bgmActive.VolumeDb = maxVolume;
-                mochiState = MochiState.active;
+                //bgmActive.VolumeDb = maxVolume;
+                //mochiState = MochiState.active;
             }
             else
                 mochiState = MochiState.passive;
