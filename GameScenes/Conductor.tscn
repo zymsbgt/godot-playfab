@@ -1,17 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://GameScenes/LevelTutorial.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameScenes/Conductor.cs" type="Script" id=4]
-[ext_resource path="res://Scripts/BackgroundMusic.cs" type="Script" id=5]
-[ext_resource path="res://Music/levelone_110bpm.mp3" type="AudioStream" id=6]
 
 [node name="Conductor" type="Node"]
 script = ExtResource( 4 )
 offset = 0.229
-
-[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
-script = ExtResource( 5 )
-audioStream = ExtResource( 6 )
 
 [node name="HUD" type="CanvasLayer" parent="."]
 

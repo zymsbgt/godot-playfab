@@ -20,7 +20,6 @@ public class Conductor : Node
     private double time_off_beat = 0.0;
     // Attach to nodes
     private BgmManager bgmManager;
-    private AudioStreamPlayer backgroundMusic;
     private PackedScene packedScene;
     private Node2D currentScene;
 
@@ -29,12 +28,7 @@ public class Conductor : Node
     public override void _Ready()
     {
         sec_per_beat = 60.0 / bpm;
-
         bgmManager = GetNode<BgmManager>("/root/BgmManager");
-
-        //backgroundMusic = GetNode<AudioStreamPlayer>("BackgroundMusic");
-        //backgroundMusic.Play();
-        //backgroundMusic.VolumeDb = -120;
         _on_changeScene();
 
         //OS.WindowMaximized = true;
@@ -45,7 +39,7 @@ public class Conductor : Node
         // OS.WindowBorderless = true;
         #endif
 
-        GD.Print("Viewport resolution is: ", GetViewport().Size);
+        //GD.Print("Viewport resolution is: ", GetViewport().Size);
     }
 
     #region signals
@@ -99,7 +93,7 @@ public class Conductor : Node
         if (last_reported_beat < song_position_in_beats)
         {
             #if GODOT_WEB
-            GD.Print(last_reported_beat, song_position_in_beats);
+            GD.Print(last_reported_beat, ",", song_position_in_beats);
             #endif
             if (measure > measures)
 			    measure = 1;
