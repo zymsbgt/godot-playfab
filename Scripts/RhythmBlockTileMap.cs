@@ -18,7 +18,7 @@ public class RhythmBlockTileMap : TileMap
         mochi.Connect("ColourWheel_area_exited", this, "_on_ColourWheel_area_exited");
 
         //Visible = false;
-        Modulate = Color.ColorN("white", 0.15f);
+        Modulate = Color.Color8(173, 216, 230, 32);
         SetCollisionLayerBit(3, false);
     }
 
@@ -33,8 +33,7 @@ public class RhythmBlockTileMap : TileMap
     {
         if (note == ActivatingNote)
         {
-            //Visible = true;
-            Modulate = Color.ColorN("white", 1.0f);
+            Modulate = Color.Color8(173, 216, 230, 255);
             SetCollisionLayerBit(3, true);
         }
     }
@@ -43,8 +42,7 @@ public class RhythmBlockTileMap : TileMap
     {
         if (note == ActivatingNote)
         {
-            //Visible = false;
-            Modulate = Color.ColorN("white", 0.15f);
+            Modulate = Color.Color8(173, 216, 230, 32);
             SetCollisionLayerBit(3, false);
         }
     }
