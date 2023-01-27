@@ -3,12 +3,17 @@ using System;
 
 public class MouseCursor : ControllerWheel
 {
+    [Signal] public delegate void mochiPassive();
+    private BgmManager bgmManager;
     private Sprite sprite;
     private Vector2 lastControllerPosition; 
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        bgmManager = GetNode<BgmManager>("/root/BgmManager");
+        Connect("mochiPassive", bgmManager, "_on_mochiPassive");
+
         sprite = GetNode<Sprite>("Sprite");
 
         // Capture the mouse if on PC
@@ -59,7 +64,11 @@ public class MouseCursor : ControllerWheel
                 #endif
             }
             else
-                Position = Vector2.Zero; 
+            {
+                Position = Vector2.Zero;
+                EmitSignal("mochiPassive");
+            }
+                 
         }
         else if (@event is InputEventMouseMotion eventMouseMotion) {
             if (Visible)
@@ -92,6 +101,8 @@ public class MouseCursor : ControllerWheel
         {
             Position = DrawMouseCursor(Vector2.Zero);
             SetVisibility(false);
+            // To-do: Emit signal to tell BgmManager to stop playing active soundtrack
+            EmitSignal("mochiPassive");
         }
     }
 

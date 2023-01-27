@@ -46,6 +46,11 @@ public class BgmManager : Node
         mochiState = MochiState.active;
     }
 
+    public void _on_mochiPassive()
+    {
+        mochiState = MochiState.passive;
+    }
+
     public void _on_changeScene()
     {
         conductor = GetNode<Conductor>("/root/Conductor");

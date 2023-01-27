@@ -131,6 +131,9 @@ public class Conductor : Node
 
     public override void _PhysicsProcess(float _delta)
     {
+        if (Input.IsActionJustPressed("fullscreen"))
+            OS.WindowFullscreen = !OS.WindowFullscreen;
+        
         song_position = bgmManager.GetPlaybackPosition() + AudioServer.GetTimeSinceLastMix();
         // Compensate for output latency.
         song_position -= AudioServer.GetOutputLatency();
@@ -147,6 +150,12 @@ public class Conductor : Node
         GetNode<Label>("HUD/SongPositionInBeatsLabel").Text = "Beat " + song_position_in_beats.ToString();
         if (currentScene != null)
             GetNode<Label>("HUD/LevelLabel").Text = "Current " + currentScene.Name;
+        // Add code here to terminate the program after 3 seconds anyway (use ... to indicate)
+        if (Input.IsActionPressed("escape"))
+            GetNode<Label>("HUD/HoldEscapeToQuit").Text = "Quitting in " + holdEscapeToQuit;
+        else
+            GetNode<Label>("HUD/HoldEscapeToQuit").Text = "";
+        
         ReportBeat();
     }
 
@@ -168,16 +177,5 @@ public class Conductor : Node
         if (song_position < last_frame_song_position)
             last_reported_beat = 0;
         last_frame_song_position = bgmManager.GetPlaybackPosition() - offset;
-    }
-
-    public override void _Process(float delta)
-    {
-        if (Input.IsActionJustPressed("fullscreen"))
-            OS.WindowFullscreen = !OS.WindowFullscreen;
-        
-        if (Input.IsActionPressed("escape"))
-            GetNode<Label>("HUD/HoldEscapeToQuit").Text = "Quitting in " + holdEscapeToQuit;
-        else
-            GetNode<Label>("HUD/HoldEscapeToQuit").Text = "";
     }
 }
