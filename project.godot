@@ -239,6 +239,13 @@ SceneManager="*res://Scripts/SceneManager.gd"
 PlayFabManager="*res://addons/godot-playfab/PlayFabManager.gd"
 BgmManager="*res://GameScenes/BgmManager.tscn"
 
+[display]
+
+window/size/width=960
+window/size/height=540
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
+
 [editor_plugins]
 
 enabled=PoolStringArray( "res://addons/godot-playfab/plugin.cfg", "res://addons/godot-plugin-refresher/plugin.cfg", "res://addons/gut/plugin.cfg" )

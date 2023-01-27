@@ -88,4 +88,4 @@ nextScene = ExtResource( 7 )
 
 [node name="Mochi" parent="." instance=ExtResource( 2 )]
 position = Vector2( 657, 1516 )
-theVoid = 1760
+theVoid = 1920

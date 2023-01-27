@@ -52,8 +52,10 @@ public class Mochi : KinematicBody2D
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         camera = GetNode<Camera2D>("Camera2D");
         // Add code to set hard limit for camera right based on level
-        if (cameraLimitRight > 0)
+        if (cameraLimitRight > 540)
             camera.LimitRight = cameraLimitRight;
+        if (theVoid > 960)
+            camera.LimitBottom = theVoid;
         // If screen resolution is 1920x1080, set camera zoom to 1.6
         // If screen resolution is 1024x600, set camera zoom to 2.0
         screenResolution = GetViewport().Size;
