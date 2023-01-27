@@ -25,13 +25,9 @@ public class BgmManager : Node
     public float GetPlaybackPosition()
     {
         if (bgmIntro.Playing == true)
-        {
             return bgmIntro.GetPlaybackPosition();
-        }
         else
-        {
             return bgmPassive.GetPlaybackPosition();
-        }
     }
 
     #region signals
@@ -65,7 +61,16 @@ public class BgmManager : Node
             // case Level.Playlist.none:
             //     break;
             case Level.Playlist.dream:
+                bgmIntro.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_intro_110bpm.wav", "AudioStream", false);
+                bgmPassive.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_passive_110bpm.ogg", "AudioStream", false);
+                bgmActive.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_active_110bpm.ogg", "AudioStream", false);
                 bgmIntro.VolumeDb = maxVolume;
+                bgmIntro.Play();
+                break;
+            case Level.Playlist.dreamcastle:
+                bgmPassive.Stop();
+                bgmActive.Stop();
+                bgmIntro.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_castledoor_110bpm.ogg", "AudioStream", false);
                 bgmIntro.Play();
                 break;
             default:

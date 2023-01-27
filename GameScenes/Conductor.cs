@@ -4,7 +4,7 @@ using System;
 public class Conductor : Node
 {
     // Quitting the game
-    private int holdEscapeToQuit = 3;
+    private int holdEscapeToQuit = 4;
     // Fill in data about the song
     private int bpm, measures;
     private float offset;
@@ -25,12 +25,14 @@ public class Conductor : Node
     private BgmManager bgmManager;
     private PackedScene packedScene;
     public Level currentScene;
+    private AudioStreamPlayer exitBeep;
 
     [Signal] public delegate void beatSignal();
     [Signal] public delegate void measureSignal();
     [Signal] public delegate void changeScene();
     public override void _Ready()
     {
+        exitBeep = GetNode<AudioStreamPlayer>("ExitBeep");
         // Connect to BgmManager
         bgmManager = GetNode<BgmManager>("/root/BgmManager");
         Connect("changeScene", bgmManager, "_on_changeScene");
@@ -70,21 +72,34 @@ public class Conductor : Node
     }
 
     #region signals
-    public void _on_changeScene()
-    {
-        GD.Print("Change of scene detected by conductor!");
-        CallDeferred(nameof(DeferredChangeScene));
-    }
-
     public void _on_BeatSignal(int i) // i = song_position_in_beats (which is not used)
     {
         if (Input.IsActionPressed("escape"))
             if (holdEscapeToQuit <= 0)
                 GetTree().Quit(0);
+            else if (holdEscapeToQuit == 1)
+            {
+                holdEscapeToQuit--;
+                exitBeep.PitchScale = 2;
+                exitBeep.Play();
+            }
             else
-                holdEscapeToQuit -= 1;
+            {
+                holdEscapeToQuit--;
+                exitBeep.Play();
+            }
         else
-            holdEscapeToQuit = 3;
+        {
+            exitBeep.PitchScale = 1;
+            holdEscapeToQuit = 4;
+        } 
+    }
+
+    // Keep this function the last one in the Signals region
+    public void _on_changeScene()
+    {
+        GD.Print("Change of scene detected by conductor!");
+        CallDeferred(nameof(DeferredChangeScene));
     }
     #endregion
 

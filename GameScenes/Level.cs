@@ -8,6 +8,7 @@ public class Level : Node2D
     {
         none,
         dream,
+        dreamcastle,
         dreamboss
     }
     [Export] public Playlist soundtrack;
