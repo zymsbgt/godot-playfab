@@ -63,7 +63,7 @@ public class ColourWheel : ControllerWheel
             audioStreamPlayer2D.Play();
 		    animatedSprite.Play("active");
             
-            if (GetNode<Node2D>("../../").Name == "LevelTemplate")
+            if (GetNode<Node2D>("../../").Name == "LevelTutorial")
                 EmitSignal("disable_player_movement", false);
         }
 	    queuePlay = false;

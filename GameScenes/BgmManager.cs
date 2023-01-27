@@ -49,7 +49,6 @@ public class BgmManager : Node
     public void _on_changeScene()
     {
         conductor = GetNode<Conductor>("/root/Conductor");
-        GD.Print(conductor.currentScene);
 
         // Set the soundtrack
         if (conductor == null)
@@ -70,7 +69,7 @@ public class BgmManager : Node
             case Level.Playlist.dreamcastle:
                 bgmPassive.Stop();
                 bgmActive.Stop();
-                bgmIntro.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_castledoor_110bpm.ogg", "AudioStream", false);
+                bgmIntro.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_castledoor_110bpm.wav", "AudioStream", false);
                 bgmIntro.Play();
                 break;
             default:

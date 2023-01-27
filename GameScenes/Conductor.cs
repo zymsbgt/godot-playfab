@@ -64,6 +64,11 @@ public class Conductor : Node
                 measures = 4;
                 offset = 0.2292f;
                 break;
+            case Level.Playlist.dreamcastle:
+                bpm = 110;
+                measures = 4;
+                offset = 0.2292f;
+                break;
             default:
                 break;
         }
