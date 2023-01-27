@@ -6,6 +6,8 @@ const color_red = Color(1, 0, 0, 0.5)
 var debug = false;
 
 func _ready():
+	#OS.window_size = Vector2(960,540)
+	OS.window_fullscreen = true
 	# _on_LogoutButton_pressed() # <-- Uncomment this line to force logout
 	var _error = PlayFabManager.client.connect("api_error", self, "_on_api_error")
 	_error = PlayFabManager.client.connect("logged_in", self, "_on_logged_in")
@@ -95,6 +97,7 @@ func _on_AnonLoginDebug_pressed() -> void:
 		PlayFabManager.client.login_with_custom_id(UUID.v4(), true, combined_info_request_params)
 
 func _on_OfflinePlay_pressed() -> void:
+	OS.window_fullscreen = true
 	SceneManager.goto_scene("res://GameScenes/Conductor.tscn")
 
 func _show_progess():
@@ -114,7 +117,7 @@ func _on_logged_in(login_result: LoginResult):
 		$LoggedIn.show()
 	else:
 		# Add analytics here
-		
+		OS.window_fullscreen = true
 		SceneManager.goto_scene("res://GameScenes/Conductor.tscn")
 
 func _on_api_error(api_error_wrapper: ApiErrorWrapper):

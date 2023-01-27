@@ -28,7 +28,6 @@ public class Mochi : KinematicBody2D
     private Sprite LeftMouseClickHint;
     private AnimationPlayer animationPlayer;
     private Camera2D camera;
-    Vector2 screenResolution;
     [Export] private int cameraLimitRight;
     [Export] private int theVoid; // How far below Mochi can go before the game determines that Mochi has failed the level
     private bool voidTriggered = false;
@@ -56,9 +55,6 @@ public class Mochi : KinematicBody2D
             camera.LimitRight = cameraLimitRight;
         if (theVoid > 960)
             camera.LimitBottom = theVoid;
-        // If screen resolution is 1920x1080, set camera zoom to 1.6
-        // If screen resolution is 1024x600, set camera zoom to 2.0
-        screenResolution = GetViewport().Size;
 
         //isInitialising = true; // enable this and comment line below to delay initialising by 1 frame
         Initialise();

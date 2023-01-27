@@ -56,6 +56,7 @@ func _on_RequestBuilder_pressed():
 	SceneManager.goto_scene("res://Scenes/RequestBuilder.tscn")
 
 func _on_StartButton_pressed() -> void:
+	OS.window_fullscreen = true
 	SceneManager.goto_scene("res://GameScenes/Conductor.tscn")
 
 func _on_LogoutButton_pressed():

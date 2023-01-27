@@ -46,11 +46,13 @@ public class BgmManager : Node
     #region signals
     public void _on_BgmIntro_finished()
     {
-        // Play bgmPassive and bgmActive track (muted)
-        bgmPassive.VolumeDb = maxVolume;
-        bgmPassive.Play();
-        bgmActive.VolumeDb = muteVolume;
-        bgmActive.Play();
+        if (conductor.IsSongLoopable())
+        {
+            bgmPassive.VolumeDb = maxVolume;
+            bgmPassive.Play();
+            bgmActive.VolumeDb = muteVolume;
+            bgmActive.Play();
+        }
     }
 
     public void _on_ColourWheel_area_entered(int note)

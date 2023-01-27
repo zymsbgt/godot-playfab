@@ -22,20 +22,6 @@ public class RhythmBlockTileMap : TileMap
         SetCollisionLayerBit(3, false);
     }
 
-    // private void ToggleVisibility()
-    // {
-    //     if (Visible)
-    //     {
-    //         Visible = false;
-    //         SetCollisionLayerBit(3, false);
-    //     }
-    //     else
-    //     {
-    //         Visible = true;
-    //         SetCollisionLayerBit(3, true);
-    //     }
-    // }
-
     #region signals
     public void _on_beatSignal(int song_position_in_beats)
     {

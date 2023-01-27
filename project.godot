@@ -241,8 +241,8 @@ BgmManager="*res://GameScenes/BgmManager.tscn"
 
 [display]
 
-window/size/width=960
-window/size/height=540
+window/size/width=1920
+window/size/height=1080
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
@@ -322,6 +322,11 @@ fullscreen={
 escape={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777217,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+debug_window={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777253,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 

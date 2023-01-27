@@ -9,6 +9,7 @@ public class Conductor : Node
     // Fill in data about the song
     private int bpm, measures;
     private float offset;
+    private bool loopable;
     private Level.Playlist nowPlaying;
 
     // Tracking the beat and song position
@@ -52,7 +53,15 @@ public class Conductor : Node
         Connect("beatSignal", this, "_on_BeatSignal");
     }
 
-    public void GetMusicData()
+    public bool IsSongLoopable()
+    {
+        if (loopable)
+            return true;
+        else
+            return false;
+    }
+
+    private void GetMusicData()
     {
         if (nowPlaying == currentScene.soundtrack)
             return;
@@ -64,11 +73,13 @@ public class Conductor : Node
                 bpm = 110;
                 measures = 4;
                 offset = 0.2292f;
+                loopable = true;
                 break;
             case Level.Playlist.dreamcastle:
                 bpm = 110;
                 measures = 4;
                 offset = 0.2292f;
+                loopable = false;
                 break;
             default:
                 break;
@@ -137,6 +148,11 @@ public class Conductor : Node
     {
         if (Input.IsActionJustPressed("fullscreen"))
             OS.WindowFullscreen = !OS.WindowFullscreen;
+        if (Input.IsActionJustPressed("debug_window"))
+        {
+            OS.WindowFullscreen = false;
+            OS.WindowSize = new Vector2(960, 540);
+        }
         
         song_position = bgmManager.GetPlaybackPosition() + AudioServer.GetTimeSinceLastMix();
         // Compensate for output latency.
