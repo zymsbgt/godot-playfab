@@ -4,9 +4,14 @@ using System;
 public class Level : Node2D
 {
     private Node Conductor;
-    public int bpm;
-    public int measures;
-    public String music;
+    public enum Playlist
+    {
+        none,
+        dream,
+        dreamboss
+    }
+    [Export] public Playlist soundtrack;
+    // Signals
     [Signal] public delegate void beatSignal();
     [Signal] public delegate void measureSignal();
     [Signal] public delegate void changeScene();

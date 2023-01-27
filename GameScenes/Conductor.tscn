@@ -5,7 +5,6 @@
 
 [node name="Conductor" type="Node"]
 script = ExtResource( 4 )
-offset = 0.229
 
 [node name="HUD" type="CanvasLayer" parent="."]
 

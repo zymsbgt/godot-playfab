@@ -6,9 +6,9 @@ public class Conductor : Node
     // Quitting the game
     private int holdEscapeToQuit = 3;
     // Fill in data about the song
-    [Export] private int bpm = 110;
-    [Export] private int measures = 4;
-    [Export] private float offset = 0.2292f;
+    private int bpm, measures;
+    private float offset;
+    private Level.Playlist nowPlaying;
 
     // Tracking the beat and song position
     private double song_position = 0.0;
@@ -24,14 +24,16 @@ public class Conductor : Node
     // Attach to nodes
     private BgmManager bgmManager;
     private PackedScene packedScene;
-    private Node2D currentScene;
+    public Level currentScene;
 
     [Signal] public delegate void beatSignal();
     [Signal] public delegate void measureSignal();
+    [Signal] public delegate void changeScene();
     public override void _Ready()
     {
-        sec_per_beat = 60.0 / bpm;
+        // Connect to BgmManager
         bgmManager = GetNode<BgmManager>("/root/BgmManager");
+        Connect("changeScene", bgmManager, "_on_changeScene");
         _on_changeScene();
 
         //OS.WindowMaximized = true;
@@ -45,6 +47,26 @@ public class Conductor : Node
         //GD.Print("Viewport resolution is: ", GetViewport().Size);
         // Connect Signals
         Connect("beatSignal", this, "_on_BeatSignal");
+    }
+
+    public void GetMusicData()
+    {
+        if (nowPlaying == currentScene.soundtrack)
+            return;
+        switch (currentScene.soundtrack)
+        {
+            // case Level.Playlist.none:
+            //     break;
+            case Level.Playlist.dream:
+                bpm = 110;
+                measures = 4;
+                offset = 0.2292f;
+                break;
+            default:
+                break;
+        }
+        sec_per_beat = 60.0 / bpm;
+        nowPlaying = currentScene.soundtrack;
     }
 
     #region signals
@@ -72,10 +94,15 @@ public class Conductor : Node
         int j = 0;
         foreach(Node i in GetChildren())
         {
-            if (i is Node2D)
-                currentScene = (Node2D)GetChild(j);
+            if (i is Level)
+                currentScene = (Level)GetChild(j);
             j++;
         }
+
+        // Tell BgmManager that the scene has changed. Only call this signal after the scene has been determined.
+        EmitSignal("changeScene"); 
+
+        GetMusicData();
 
         // Connect signals
         Connect("beatSignal", currentScene, "_on_BeatSignal");
@@ -90,7 +117,6 @@ public class Conductor : Node
         song_position -= offset;
         song_position_in_beats = (int)Math.Round(song_position / sec_per_beat) + beats_before_start;
 
-        // GetNode<LineEdit>("VBoxContainer/SongPositionContainer/Edit").Text = song_position.ToString();
         GetNode<Label>("HUD/DebugLabel").Text = "Debug Info:";
         #if GODOT_WINDOWS || GODOT_X11
         int SpeakerLatencyLabel = (int)Math.Round((AudioServer.GetTimeSinceLastMix() + AudioServer.GetOutputLatency()) * 1000);
