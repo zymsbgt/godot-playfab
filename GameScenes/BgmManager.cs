@@ -22,6 +22,7 @@ public class BgmManager : Node
         bgmPassive = GetNode<AudioStreamPlayer>("BgmPassive");
     }
 
+    #region calling_functions
     public float GetPlaybackPosition()
     {
         if (bgmIntro.Playing == true)
@@ -29,6 +30,18 @@ public class BgmManager : Node
         else
             return bgmPassive.GetPlaybackPosition();
     }
+
+    public bool IsPlaying()
+    {
+        if (bgmIntro.Playing)
+            return true;
+        if (bgmPassive.Playing)
+            return true;
+        if (bgmActive.Playing)
+            return true;
+        return false;
+    }
+    #endregion
 
     #region signals
     public void _on_BgmIntro_finished()

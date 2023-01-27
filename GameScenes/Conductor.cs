@@ -4,7 +4,8 @@ using System;
 public class Conductor : Node
 {
     // Quitting the game
-    private int holdEscapeToQuit = 4;
+    private int holdEscapeToQuitBeats = 4;
+    private float holdEscapeToQuitSecs = 3.0f;
     // Fill in data about the song
     private int bpm, measures;
     private float offset;
@@ -79,25 +80,28 @@ public class Conductor : Node
     #region signals
     public void _on_BeatSignal(int i) // i = song_position_in_beats (which is not used)
     {
-        if (Input.IsActionPressed("escape"))
-            if (holdEscapeToQuit <= 0)
+        if (Input.IsActionPressed("escape") && bgmManager.IsPlaying())
+        {
+            if (holdEscapeToQuitBeats <= 0)
                 GetTree().Quit(0);
-            else if (holdEscapeToQuit == 1)
+            else if (holdEscapeToQuitBeats == 1)
             {
-                holdEscapeToQuit--;
+                holdEscapeToQuitBeats--;
                 exitBeep.PitchScale = 2;
                 exitBeep.Play();
             }
             else
             {
-                holdEscapeToQuit--;
+                holdEscapeToQuitBeats--;
                 exitBeep.Play();
             }
+        }
         else
         {
             exitBeep.PitchScale = 1;
-            holdEscapeToQuit = 4;
-        } 
+            holdEscapeToQuitBeats = 4;
+            holdEscapeToQuitSecs = 3.0f;
+        }
     }
 
     // Keep this function the last one in the Signals region
@@ -152,7 +156,13 @@ public class Conductor : Node
             GetNode<Label>("HUD/LevelLabel").Text = "Current " + currentScene.Name;
         // Add code here to terminate the program after 3 seconds anyway (use ... to indicate)
         if (Input.IsActionPressed("escape"))
-            GetNode<Label>("HUD/HoldEscapeToQuit").Text = "Quitting in " + holdEscapeToQuit;
+        {
+            if (bgmManager.IsPlaying())
+                GetNode<Label>("HUD/HoldEscapeToQuit").Text = "Quitting in " + holdEscapeToQuitBeats;
+            else
+                GetNode<Label>("HUD/HoldEscapeToQuit").Text = "Quitting in " + (int)Math.Floor(holdEscapeToQuitSecs);
+        }
+            
         else
             GetNode<Label>("HUD/HoldEscapeToQuit").Text = "";
         
@@ -177,5 +187,21 @@ public class Conductor : Node
         if (song_position < last_frame_song_position)
             last_reported_beat = 0;
         last_frame_song_position = bgmManager.GetPlaybackPosition() - offset;
+    }
+
+    public override void _Process(float delta)
+    {
+        if (Input.IsActionPressed("escape") && !bgmManager.IsPlaying())
+        {
+            if (holdEscapeToQuitSecs <= 0)
+                GetTree().Quit(0);
+            else
+                holdEscapeToQuitSecs -= delta;
+        }
+        else
+        {
+            //holdEscapeToQuitBeats = 4;
+            holdEscapeToQuitSecs = 3.0f;
+        } 
     }
 }
