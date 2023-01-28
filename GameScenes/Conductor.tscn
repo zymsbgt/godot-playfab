@@ -42,9 +42,14 @@ margin_top = 40.0
 margin_right = 40.0
 margin_bottom = 61.0
 
-[node name="HoldEscapeToQuit" type="Label" parent="HUD"]
+[node name="FPS" type="Label" parent="HUD"]
 margin_top = 80.0
 margin_right = 40.0
 margin_bottom = 101.0
+
+[node name="HoldEscapeToQuit" type="Label" parent="HUD"]
+margin_top = 100.0
+margin_right = 40.0
+margin_bottom = 121.0
 
 [node name="LevelTutorial" parent="." instance=ExtResource( 1 )]

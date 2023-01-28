@@ -170,7 +170,7 @@ public class Conductor : Node
         GetNode<Label>("HUD/SongPositionInBeatsLabel").Text = "Beat " + song_position_in_beats.ToString();
         if (currentScene != null)
             GetNode<Label>("HUD/LevelLabel").Text = "Current " + currentScene.Name;
-        // Add code here to terminate the program after 3 seconds anyway (use ... to indicate)
+        GetNode<Label>("HUD/FPS").Text = "FPS: " + Engine.GetFramesPerSecond();
         if (Input.IsActionPressed("escape"))
         {
             if (bgmManager.IsPlaying())
