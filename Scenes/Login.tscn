@@ -83,15 +83,16 @@ text = "Go to Debug Menu"
 [node name="MOTD" type="Label" parent="MarginContainer/Login"]
 margin_top = 130.0
 margin_right = 1820.0
-margin_bottom = 175.0
-text = "Text that goes hard goes here. If you see this, 
-this game is either bugged or you peeked at the source code."
+margin_bottom = 199.0
+text = "Heads up! This browser version of the game is provided for convenience and may be laggy or contain bugs.
+If you find any bugs, please test it on the Windows/Linux build before reporting!
+If the game lags, consider switching to the Windows/Linux build for better performance"
 script = ExtResource( 4 )
 
 [node name="News" type="Label" parent="MarginContainer/Login"]
-margin_top = 179.0
+margin_top = 203.0
 margin_right = 1820.0
-margin_bottom = 248.0
+margin_bottom = 272.0
 text = "23 Jan: What's new?
 - Offline play is now possible for those who downloaded the Windows/Linux version of the game.
   This gameplay mode will not send analytics about how you play this game to PlayFab."

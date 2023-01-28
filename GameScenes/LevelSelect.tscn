@@ -1,0 +1,69 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/MOTD.gd" type="Script" id=4]
+
+[node name="LevelSelect" type="Node2D"]
+
+[node name="Control" type="Control" parent="."]
+margin_right = 1920.0
+margin_bottom = 1080.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 50.0
+margin_top = 50.0
+margin_right = -50.0
+margin_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Login" type="VBoxContainer" parent="Control/MarginContainer"]
+margin_right = 1820.0
+margin_bottom = 980.0
+
+[node name="Output" type="RichTextLabel" parent="Control/MarginContainer/Login"]
+margin_right = 1820.0
+
+[node name="Title" type="Label" parent="Control/MarginContainer/Login"]
+margin_top = 4.0
+margin_right = 1820.0
+margin_bottom = 25.0
+text = "Level Select"
+script = ExtResource( 4 )
+
+[node name="AnonLogin" type="Button" parent="Control/MarginContainer/Login"]
+margin_top = 29.0
+margin_right = 1820.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 0, 27 )
+size_flags_horizontal = 3
+text = "Play as Guest"
+
+[node name="OfflinePlay" type="Button" parent="Control/MarginContainer/Login"]
+margin_top = 60.0
+margin_right = 1820.0
+margin_bottom = 87.0
+rect_min_size = Vector2( 0, 27 )
+size_flags_horizontal = 3
+text = "Play Offline (no analytics)"
+
+[node name="AnonLoginDebug" type="Button" parent="Control/MarginContainer/Login"]
+margin_top = 91.0
+margin_right = 1820.0
+margin_bottom = 118.0
+rect_min_size = Vector2( 0, 27 )
+size_flags_horizontal = 3
+text = "Go to Debug Menu"
+
+[node name="News" type="Label" parent="Control/MarginContainer/Login"]
+margin_top = 122.0
+margin_right = 1820.0
+margin_bottom = 191.0
+text = "23 Jan: What's new?
+- Offline play is now possible for those who downloaded the Windows/Linux version of the game.
+  This gameplay mode will not send analytics about how you play this game to PlayFab."
+
+[connection signal="pressed" from="Control/MarginContainer/Login/AnonLogin" to="Control/MarginContainer" method="_on_AnonLogin_pressed"]
+[connection signal="pressed" from="Control/MarginContainer/Login/OfflinePlay" to="Control/MarginContainer" method="_on_OfflinePlay_pressed"]
+[connection signal="pressed" from="Control/MarginContainer/Login/AnonLoginDebug" to="Control/MarginContainer" method="_on_AnonLoginDebug_pressed"]
