@@ -77,8 +77,10 @@ public class BgmManager : Node
             return;
         switch (conductor.currentScene.soundtrack)
         {
-            // case Level.Playlist.none:
-            //     break;
+            case Level.Playlist.levelselect:
+                bgmPassive.Stream = (AudioStream)ResourceLoader.Load("res://Music/levelselect_106bpm.ogg", "AudioStream", false);
+                bgmPassive.Play();
+                break;
             case Level.Playlist.dream:
                 bgmIntro.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_intro_110bpm.wav", "AudioStream", false);
                 bgmPassive.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_passive_110bpm.ogg", "AudioStream", false);
@@ -91,6 +93,8 @@ public class BgmManager : Node
                 bgmActive.Stop();
                 bgmIntro.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_castledoor_110bpm.wav", "AudioStream", false);
                 bgmIntro.Play();
+                break;
+            case Level.Playlist.dreamboss:
                 break;
             default:
                 break;

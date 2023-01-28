@@ -32,7 +32,7 @@ points = PoolVector2Array( 0, 0, 80, 0, 80, 80, 0, 80 )
 
 [node name="Level1-CastleDoor" type="Node2D"]
 script = ExtResource( 1 )
-soundtrack = 2
+soundtrack = 3
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 5 )

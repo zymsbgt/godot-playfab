@@ -21,44 +21,44 @@ grow_vertical = 2
 script = ExtResource( 1 )
 
 [node name="ProgressCenter" type="CenterContainer" parent="MarginContainer"]
-margin_right = 1820.0
-margin_bottom = 980.0
+margin_right = 870.0
+margin_bottom = 440.0
 
 [node name="LoadingIndicator" parent="MarginContainer/ProgressCenter" instance=ExtResource( 3 )]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 860.0
-margin_top = 440.0
-margin_right = 960.0
-margin_bottom = 540.0
+margin_left = 385.0
+margin_top = 170.0
+margin_right = 485.0
+margin_bottom = 270.0
 rect_min_size = Vector2( 100, 100 )
 
 [node name="LoggedIn" parent="MarginContainer" instance=ExtResource( 2 )]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1820.0
-margin_bottom = 980.0
+margin_right = 870.0
+margin_bottom = 440.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Login" type="VBoxContainer" parent="MarginContainer"]
-margin_right = 1820.0
-margin_bottom = 980.0
+margin_right = 870.0
+margin_bottom = 440.0
 
 [node name="Output" type="RichTextLabel" parent="MarginContainer/Login"]
-margin_right = 1820.0
+margin_right = 870.0
 
 [node name="StayLoggedInCheckbox" type="CheckBox" parent="MarginContainer/Login"]
 margin_top = 4.0
-margin_right = 1820.0
+margin_right = 870.0
 margin_bottom = 33.0
 text = "Remember session"
 
 [node name="AnonLogin" type="Button" parent="MarginContainer/Login"]
 margin_top = 37.0
-margin_right = 1820.0
+margin_right = 870.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 27 )
 size_flags_horizontal = 3
@@ -66,7 +66,7 @@ text = "Play as Guest"
 
 [node name="OfflinePlay" type="Button" parent="MarginContainer/Login"]
 margin_top = 68.0
-margin_right = 1820.0
+margin_right = 870.0
 margin_bottom = 95.0
 rect_min_size = Vector2( 0, 27 )
 size_flags_horizontal = 3
@@ -74,7 +74,7 @@ text = "Play Offline (no analytics)"
 
 [node name="AnonLoginDebug" type="Button" parent="MarginContainer/Login"]
 margin_top = 99.0
-margin_right = 1820.0
+margin_right = 870.0
 margin_bottom = 126.0
 rect_min_size = Vector2( 0, 27 )
 size_flags_horizontal = 3
@@ -82,7 +82,7 @@ text = "Go to Debug Menu"
 
 [node name="MOTD" type="Label" parent="MarginContainer/Login"]
 margin_top = 130.0
-margin_right = 1820.0
+margin_right = 870.0
 margin_bottom = 199.0
 text = "Heads up! This browser version of the game is provided for convenience and may be laggy or contain bugs.
 If you find any bugs, please test it on the Windows/Linux build before reporting!
@@ -91,7 +91,7 @@ script = ExtResource( 4 )
 
 [node name="News" type="Label" parent="MarginContainer/Login"]
 margin_top = 203.0
-margin_right = 1820.0
+margin_right = 870.0
 margin_bottom = 272.0
 text = "23 Jan: What's new?
 - Offline play is now possible for those who downloaded the Windows/Linux version of the game.

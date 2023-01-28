@@ -52,8 +52,5 @@ public class Portal : Area2D
 
         // Add it to the active scene, as child of root.
         Conductor.AddChild(CurrentScene);
-
-        // Optionally, to make it compatible with the SceneTree.change_scene() API.
-        //GetTree().CurrentScene = CurrentScene;
     }
 }

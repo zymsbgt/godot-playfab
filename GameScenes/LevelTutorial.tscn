@@ -37,7 +37,7 @@ points = PoolVector2Array( 0, 0, 80, 0, 80, 80, 0, 80 )
 
 [node name="LevelTutorial" type="Node2D"]
 script = ExtResource( 8 )
-soundtrack = 1
+soundtrack = 2
 
 [node name="Portal2D" parent="." instance=ExtResource( 5 )]
 position = Vector2( 5124, 874 )

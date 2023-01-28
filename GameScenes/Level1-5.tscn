@@ -63,7 +63,7 @@ points = PoolVector2Array( 0, 0, 80, 0, 80, 80, 0, 80 )
 
 [node name="Level1-5" type="Node2D"]
 script = ExtResource( 4 )
-soundtrack = 1
+soundtrack = 2
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2( 0, -880 )

@@ -7,6 +7,7 @@ public class Level : Node2D
     public enum Playlist
     {
         none,
+        levelselect,
         dream,
         dreamcastle,
         dreamboss

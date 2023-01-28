@@ -67,8 +67,12 @@ public class Conductor : Node
             return;
         switch (currentScene.soundtrack)
         {
-            // case Level.Playlist.none:
-            //     break;
+            case Level.Playlist.levelselect:
+                bpm = 106;
+                measures = 4;
+                offset = 0.2292f;
+                loopable = true;
+                break;
             case Level.Playlist.dream:
                 bpm = 110;
                 measures = 4;
@@ -77,6 +81,12 @@ public class Conductor : Node
                 break;
             case Level.Playlist.dreamcastle:
                 bpm = 110;
+                measures = 4;
+                offset = 0.2292f;
+                loopable = false;
+                break;
+            case Level.Playlist.dreamboss:
+                bpm = 106;
                 measures = 4;
                 offset = 0.2292f;
                 loopable = false;
