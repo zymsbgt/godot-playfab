@@ -8,14 +8,14 @@
 [node name="Conductor" type="Node"]
 script = ExtResource( 4 )
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = -1
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
-[node name="TextureRect" type="TextureRect" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = 5030.0
-margin_bottom = 1115.0
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.5, 1 )
+motion_mirroring = Vector2( 6054, 1715 )
+
+[node name="TestLongBg" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2( 3030, 857 )
 texture = ExtResource( 3 )
 
 [node name="ExitBeep" type="AudioStreamPlayer" parent="."]
