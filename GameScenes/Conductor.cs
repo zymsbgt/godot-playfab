@@ -70,7 +70,7 @@ public class Conductor : Node
             case Level.Playlist.levelselect:
                 bpm = 106;
                 measures = 4;
-                offset = 0.2292f;
+                offset = 0.2208f;
                 loopable = true;
                 break;
             case Level.Playlist.dream:
@@ -88,7 +88,7 @@ public class Conductor : Node
             case Level.Playlist.dreamboss:
                 bpm = 106;
                 measures = 4;
-                offset = 0.2292f;
+                offset = 0.215f;
                 loopable = false;
                 break;
             default:

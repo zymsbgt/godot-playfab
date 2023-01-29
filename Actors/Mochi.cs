@@ -9,9 +9,9 @@ public class Mochi : KinematicBody2D
 
     // Movement related variables
     private float gravity, tempGravity, lowGravityTimer = 0.0f, maxGravityTimer = 0.75f;
-    private bool lowerGravityOnJump, disableMovement = false;
-    private float acceleration, deceleration, targetVelocity;
-    private Vector2 maxSpeed = new Vector2(800.0f, 1000.0f);
+    private bool lowerGravityOnJump, disableMovement = false, isOnIce = false;
+    private float acceleration, deceleration, targetVelocity, iceAcceleration, iceDeceleration;
+    private Vector2 maxSpeed = new Vector2(800.0f, 1000.0f), maxIceSpeed = new Vector2(1000.0f, 1000.0f);
     private Vector2 velocity = Vector2.Zero, FLOOR_NORMAL = Vector2.Up;
 
     // Better jump
@@ -44,6 +44,8 @@ public class Mochi : KinematicBody2D
         // Initialising variables
         acceleration = maxSpeed.x * 10.0f;
         deceleration = maxSpeed.x * 20.0f;
+        iceAcceleration = maxIceSpeed.x * 0.75f;
+        iceDeceleration = maxIceSpeed.x * 1.25f;
         SetGravity();
 
         mouseCursor = GetNode<Area2D>("MouseCursor");
@@ -155,6 +157,30 @@ public class Mochi : KinematicBody2D
     }
     #endregion
 
+    private Vector2 GetMaxSpeed()
+    {
+        if (isOnIce)
+            return maxIceSpeed;
+        else
+            return maxSpeed;
+    }
+
+    private float GetAcceleration()
+    {
+        if (isOnIce)
+            return iceAcceleration;
+        else
+            return acceleration;
+    }
+
+    private float GetDeceleration()
+    {
+        if (isOnIce)
+            return iceDeceleration;
+        else
+            return deceleration;
+    }
+
     private Vector2 getDirection()
     {
         if (disableMovement)
@@ -238,12 +264,12 @@ public class Mochi : KinematicBody2D
         {
             if (targetVelocity > currentVelocity.x)
             {
-                x += acceleration * delta;
+                x += GetAcceleration() * delta;
                 x = Math.Min(x, targetVelocity);
             }
             else if (targetVelocity < currentVelocity.x)
             {
-                x -= deceleration * delta;
+                x -= GetDeceleration() * delta;
                 x = Math.Min(x, targetVelocity);
             }
         }
@@ -251,12 +277,12 @@ public class Mochi : KinematicBody2D
         {
             if (targetVelocity < currentVelocity.x)
             {
-                x -= acceleration * delta;
+                x -= GetAcceleration() * delta;
                 x = Math.Max(x, targetVelocity);
             }
             else if (targetVelocity > currentVelocity.x)
             {
-                x -= deceleration * delta;
+                x -= GetDeceleration() * delta;
                 x = Math.Max(x, targetVelocity);
             }
         }
@@ -264,11 +290,11 @@ public class Mochi : KinematicBody2D
         {
             if (currentVelocity.x < 0.0f) // player is moving left
             {
-                x += deceleration * delta;
+                x += GetDeceleration() * delta;
                 x = Math.Min(x, 0.0f);
             } 
             else if (currentVelocity.x > 0.0f) //player is moving right
-                x -= Math.Min(deceleration * delta, x);
+                x -= Math.Min(GetDeceleration() * delta, x);
             else
                 x = 0.0f;
         }
@@ -322,7 +348,21 @@ public class Mochi : KinematicBody2D
         //Keyboard controls (exclusive to Mochi)
         bool isJumpInterrupted = (Input.IsActionJustReleased("jump") && velocity.y < 0.0f);
         Vector2 direction = getDirection();
-        velocity = calculateMoveVelocity(velocity, direction, isJumpInterrupted, maxSpeed, delta);
+        velocity = calculateMoveVelocity(velocity, direction, isJumpInterrupted, GetMaxSpeed(), delta);
         velocity = MoveAndSlide(velocity, FLOOR_NORMAL); // FLOOR_NORMAL = Vector2.Up
+
+        // Determine if Mochi is on ice or not
+        int sc = GetSlideCount();
+        if (sc > 0)
+        {
+            for (int i = 0; i < sc; i++)
+            {
+                Node body = (Node)GetSlideCollision(i).Collider;
+                if (body.Name == "IceTileMap")
+                    isOnIce = true;
+                else
+                    isOnIce = false;
+            }
+        }
     }
 }

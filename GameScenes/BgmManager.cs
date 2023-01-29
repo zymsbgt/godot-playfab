@@ -95,6 +95,8 @@ public class BgmManager : Node
                 bgmIntro.Play();
                 break;
             case Level.Playlist.dreamboss:
+                bgmPassive.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_castleboss_106bpm.wav");
+                bgmPassive.Play();
                 break;
             default:
                 break;
