@@ -90,7 +90,7 @@ public class Mochi : KinematicBody2D
     private async void RestartLevel()
     {
         voidTriggered = true; // prevent this function from being called again
-        // Uncommenting these two lines somehow results on all wheel notes playing at once
+        Conductor.GetNode<AudioStreamPlayer>("death").Play();
         animationPlayer.Play("fade_to_black");
         await ToSignal(animationPlayer, "animation_finished");
         CallDeferred(nameof(DeferredRestartScene), currentScene);

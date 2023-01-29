@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/e4_piano.wav-4a2a86f4a6fdf8b9db14f9ee7c5019cd.sample"
+path="res://.import/death.wav-5886c56e03e9273eb11110082d749b17.sample"
 
 [deps]
 
-source_file="res://Sounds/e4_piano.wav"
-dest_files=[ "res://.import/e4_piano.wav-4a2a86f4a6fdf8b9db14f9ee7c5019cd.sample" ]
+source_file="res://Sounds/death.wav"
+dest_files=[ "res://.import/death.wav-5886c56e03e9273eb11110082d749b17.sample" ]
 
 [params]
 
