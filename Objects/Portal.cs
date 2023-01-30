@@ -26,11 +26,13 @@ public class Portal : Area2D
             return "";
     }
 
-    public void _on_body_entered(Area2D _area)
+    #region signals
+    public virtual void _on_body_entered(Area2D _area)
     {
         teleport();
         // maybe change this in future to show a speech bubble prompt to enter the portal?
     }
+    #endregion
 
     private async void teleport()
     {

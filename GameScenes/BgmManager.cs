@@ -5,7 +5,6 @@ public class BgmManager : Node
 {
     private Conductor conductor;
     private AudioStreamPlayer bgmIntro, bgmActive, bgmPassive;
-    private float maxVolume = -9.0f, muteVolume = -120.0f;
     private Level.Playlist nowPlaying;
     private enum MochiState
     {
@@ -20,6 +19,15 @@ public class BgmManager : Node
         bgmIntro = GetNode<AudioStreamPlayer>("BgmIntro");
         bgmActive = GetNode<AudioStreamPlayer>("BgmActive");
         bgmPassive = GetNode<AudioStreamPlayer>("BgmPassive");
+
+        conductor = GetNodeOrNull<Conductor>("/root/Conductor");
+        
+        if (conductor == null) // we're on the login screen
+        {
+            bgmPassive.Stream = (AudioStream)ResourceLoader.Load("res://Music/levelselect_106bpm.ogg", "AudioStream", false);
+            bgmPassive.VolumeDb = 6.0f;
+            bgmPassive.Play();
+        }
     }
 
     #region calling_functions
@@ -48,16 +56,16 @@ public class BgmManager : Node
     {
         if (conductor.IsSongLoopable())
         {
-            bgmPassive.VolumeDb = maxVolume;
+            bgmPassive.VolumeDb = conductor.maxVolume;
             bgmPassive.Play();
-            bgmActive.VolumeDb = muteVolume;
+            bgmActive.VolumeDb = conductor.muteVolume;
             bgmActive.Play();
         }
     }
 
     public void _on_ColourWheel_area_entered(int note)
     {
-        bgmActive.VolumeDb = maxVolume;
+        bgmActive.VolumeDb = conductor.maxVolume;
         mochiState = MochiState.active;
     }
 
@@ -78,14 +86,17 @@ public class BgmManager : Node
         switch (conductor.currentScene.soundtrack)
         {
             case Level.Playlist.levelselect:
+                if (bgmPassive.Stream == (AudioStream)ResourceLoader.Load("res://Music/levelselect_106bpm.ogg", "AudioStream", false) && bgmPassive.Playing)
+                    break;
                 bgmPassive.Stream = (AudioStream)ResourceLoader.Load("res://Music/levelselect_106bpm.ogg", "AudioStream", false);
+                bgmPassive.VolumeDb = conductor.maxVolume;
                 bgmPassive.Play();
                 break;
             case Level.Playlist.dream:
                 bgmIntro.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_intro_110bpm.wav", "AudioStream", false);
                 bgmPassive.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_passive_110bpm.ogg", "AudioStream", false);
                 bgmActive.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_active_110bpm.ogg", "AudioStream", false);
-                bgmIntro.VolumeDb = maxVolume;
+                bgmIntro.VolumeDb = conductor.maxVolume;
                 bgmIntro.Play();
                 break;
             case Level.Playlist.dreamcastle:
@@ -114,7 +125,8 @@ public class BgmManager : Node
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-        if (mochiState == MochiState.passive && bgmActive.VolumeDb > muteVolume)
-            bgmActive.VolumeDb -= Math.Min(Math.Abs(muteVolume - bgmActive.VolumeDb), delta * 100);
+        if (conductor != null)
+            if (mochiState == MochiState.passive && bgmActive.VolumeDb > conductor.muteVolume)
+                bgmActive.VolumeDb -= Math.Min(Math.Abs(conductor.muteVolume - bgmActive.VolumeDb), delta * 100);
     }
 }

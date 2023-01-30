@@ -8,7 +8,8 @@ public class Conductor : Node
     private float holdEscapeToQuitSecs = 3.0f;
     // Fill in data about the song
     private int bpm, measures;
-    private float offset;
+    private float offset; 
+    public float maxVolume, muteVolume;
     private bool loopable;
     private Level.Playlist nowPlaying;
 
@@ -71,24 +72,32 @@ public class Conductor : Node
                 bpm = 106;
                 measures = 4;
                 offset = 0.2208f;
+                muteVolume = 6.0f;
+                maxVolume = 6.0f;
                 loopable = true;
                 break;
             case Level.Playlist.dream:
                 bpm = 110;
                 measures = 4;
                 offset = 0.2292f;
+                muteVolume = -120.0f;
+                maxVolume = -9.0f;
                 loopable = true;
                 break;
             case Level.Playlist.dreamcastle:
                 bpm = 110;
                 measures = 4;
                 offset = 0.2292f;
+                muteVolume = -120.0f;
+                maxVolume = -9.0f;
                 loopable = false;
                 break;
             case Level.Playlist.dreamboss:
                 bpm = 106;
                 measures = 4;
                 offset = 0.215f;
+                muteVolume = 3.0f;
+                maxVolume = 3.0f;
                 loopable = false;
                 break;
             default:
@@ -144,10 +153,10 @@ public class Conductor : Node
             j++;
         }
 
-        // Tell BgmManager that the scene has changed. Only call this signal after the scene has been determined.
-        EmitSignal("changeScene"); 
-
         GetMusicData();
+
+        // Tell BgmManager that the scene has changed. Only call this signal after the scene and music data has been determined.
+        EmitSignal("changeScene"); 
 
         // Connect signals
         Connect("beatSignal", currentScene, "_on_BeatSignal");

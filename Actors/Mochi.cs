@@ -129,6 +129,11 @@ public class Mochi : KinematicBody2D
     #endregion
 
     #region signals
+    public void StartRhythmSequence()
+    {
+        
+    }
+
     public void _on_disable_player_movement(bool state = true)
     {
         // This is an incoming signal from mouseCursor or Mochi's colour wheel segments
