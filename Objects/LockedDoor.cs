@@ -16,7 +16,8 @@ public class LockedDoor : Portal
     public override void _on_body_entered(Area2D _area)
     {
         // Start a rhythm sequence for the player
-
+        mochi._on_disable_player_movement(true);
+        mochi.StartRhythmSequence();
     }
     #endregion
 
