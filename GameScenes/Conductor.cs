@@ -7,7 +7,8 @@ public class Conductor : Node
     private int holdEscapeToQuitBeats = 4;
     private float holdEscapeToQuitSecs = 3.0f;
     // Fill in data about the song
-    private int bpm, measures;
+    private int bpm;
+    private int measures;
     private float offset; 
     public float maxVolume, muteVolume;
     private bool loopable;
@@ -16,7 +17,7 @@ public class Conductor : Node
     // Tracking the beat and song position
     private double song_position = 0.0;
     private int song_position_in_beats = 1;
-    private double sec_per_beat; // initialise in Ready() function
+    public double sec_per_beat; // initialise in Ready() function
     private int last_reported_beat = 0;
     private int beats_before_start = 0;
     private int measure = 1;
@@ -243,6 +244,7 @@ public class Conductor : Node
 
             if (measure > measures)
 			    measure = 1;
+            
             EmitSignal("beatSignal", song_position_in_beats);
             EmitSignal("measureSignal", measure);
 		    last_reported_beat = song_position_in_beats;

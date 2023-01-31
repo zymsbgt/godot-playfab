@@ -29,6 +29,7 @@ public class LockedDoor : Portal
         animationPlayer.Play("fade_to_black");
         await ToSignal(animationPlayer, "animation_finished");
         CallDeferred(nameof(DeferredGotoScene), nextScene);
+        mochi._on_disable_player_movement(false);
     }
 
     public override void DeferredGotoScene(PackedScene nextScene)

@@ -34,13 +34,17 @@ public class Mochi : KinematicBody2D
     [Export] private int theVoid; // How far below Mochi can go before the game determines that Mochi has failed the level
     private bool voidTriggered = false;
 
+    // For MochiHint (Sing along part)
+    [Signal] delegate void showHint();
+    private bool dropFirstBeatSignal;
+    public int storeBeatForMochiHint;
+
     // Signals
     [Signal] delegate void destroy_left_mouse_click_hint();
     [Signal] delegate void ColourWheel_area_entered();
     [Signal] delegate void ColourWheel_area_exited();
     [Signal] delegate void changeScene();
     [Signal] delegate void BirdJumpBoostActivated();
-    [Signal] delegate void showHint();
 
     public override void _Ready()
     {
@@ -138,22 +142,28 @@ public class Mochi : KinematicBody2D
         // Connect beatSignal from Conductor
         conductor.Connect("beatSignal", this, "_on_beatSignal");
         mochiHints = new Godot.Collections.Dictionary<int, PackedScene>();
-
-        //mochiHints.Add(1, new PackedScene { /*Id = 1, Name = "John Doe"*/ });
-        //AddChild(mochiHints[0]);
+        dropFirstBeatSignal = true;
     }
 
     public void _on_beatSignal(int song_position_in_beats)
     {
+        if (dropFirstBeatSignal)
+        {
+            dropFirstBeatSignal = false;
+            return;
+        }
         // Generate new hints
         CallDeferred(nameof(InstanciateNewHint), song_position_in_beats);
+
+        // Store the current beat for MochiHint
+        storeBeatForMochiHint = song_position_in_beats;
     }
 
     private void InstanciateNewHint(int song_position_in_beats)
     {
         // Instance the new hint.
         PackedScene mochiHintPackedScene = (PackedScene)ResourceLoader.Load("res://Actors/MochiHint.tscn");
-
+        
         // Add to dictionary
         mochiHints.Add(song_position_in_beats, mochiHintPackedScene);
 
@@ -267,30 +277,7 @@ public class Mochi : KinematicBody2D
             targetVelocity *= 0.5f;
 
         //Acceleration should reach from 0 to top speed in 6 frames and decelerate from top speed to 0 in 3 frames
-        // Calculate x (legacy code)
-        //float x = Math.Abs(currentVelocity.x);
-        // x += acceleration * delta;
-        // if (IsOnFloor() && Input.IsActionPressed("move_down"))
-        //     x = Math.Min(x, maxSpeed.x * Math.Abs(direction.x) * 0.5f);
-        // else
-        //     x = Math.Min(x, maxSpeed.x);
-        // //If direction.x = 0 but currentVelocity.x is not 0, decelerate
-        // if (direction.x == 0.0f)
-        // {
-        //     if (currentVelocity.x < 0.0f) // player is moving left
-        //     {
-        //         x -= Math.Min(deceleration * delta, x);
-        //         x *= -1;
-        //     } 
-        //     else if (currentVelocity.x > 0.0f) //player is moving right
-        //         x -= Math.Min(deceleration * delta, x);
-        //     else
-        //         x = 0.0f;
-        // }
-        // else
-        //     x *= direction.x;
-
-        // Calculate x rewrite
+        // Calculate x
         float x = currentVelocity.x;
         if (direction.x > 0.0f)
         {

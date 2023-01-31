@@ -25,9 +25,9 @@ public class RhythmBlockTileMap : TileMap
 
     private void ToggleVisibility()
     {
+        activated = !activated;
         if (activatedByMochi)
             return;
-        activated = !activated;
         if (activated)
         {
             SetCollisionLayerBit(3, true);
@@ -61,9 +61,12 @@ public class RhythmBlockTileMap : TileMap
     {
         if (note == ActivatingNote)
         {
-            Modulate = Color.Color8(173, 216, 230, 32);
-            SetCollisionLayerBit(3, false);
             activatedByMochi = false;
+            //if (!activated)
+            //{
+                Modulate = Color.Color8(173, 216, 230, 32);
+                SetCollisionLayerBit(3, false);
+            //}
         }
     }
     #endregion
