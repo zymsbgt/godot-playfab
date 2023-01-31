@@ -23,7 +23,9 @@ public class Mochi : KinematicBody2D
     private int[] last10notes = new int[10];
 
     // Reference nodes
-    private Node Conductor, currentScene;
+    Godot.Collections.Dictionary<int, PackedScene> mochiHints;
+    private Conductor conductor;
+    private Node2D currentScene;
     private Area2D mouseCursor;
     private Sprite LeftMouseClickHint;
     private AnimationPlayer animationPlayer;
@@ -65,13 +67,14 @@ public class Mochi : KinematicBody2D
 
     private void Initialise() // called on the first frame of the scene
     {
-        Conductor = GetNode<Node>("../../");
-        currentScene = GetNode<Node>("../");
+        conductor = GetNode<Conductor>("../../");
+        currentScene = GetNode<Node2D>("../");
         Connect("changeScene", currentScene, "_on_changeScene");
 
         isInitialising = false;
     }
 
+    // // Perhaps this code could be moved to a class inherited by Mochi. (maybe MochiEditor?)
     // public override string _GetConfigurationWarning()
     // {
     //     if (cameraLimitRight <= 0)
@@ -93,7 +96,7 @@ public class Mochi : KinematicBody2D
     private async void RestartLevel()
     {
         voidTriggered = true; // prevent this function from being called again
-        Conductor.GetNode<AudioStreamPlayer>("death").Play();
+        conductor.GetNode<AudioStreamPlayer>("death").Play();
         animationPlayer.Play("fade_to_black");
         await ToSignal(animationPlayer, "animation_finished");
         CallDeferred(nameof(DeferredRestartScene), currentScene);
@@ -112,7 +115,7 @@ public class Mochi : KinematicBody2D
         currentScene = restartScene.Instance();
 
         // Add it to the active scene, as child of root.
-        Conductor.AddChild(currentScene);
+        conductor.AddChild(currentScene);
     }
 
     #region buffs
@@ -132,7 +135,30 @@ public class Mochi : KinematicBody2D
     #region signals
     public void StartRhythmSequence()
     {
+        // Connect beatSignal from Conductor
+        conductor.Connect("beatSignal", this, "_on_beatSignal");
+        mochiHints = new Godot.Collections.Dictionary<int, PackedScene>();
 
+        //mochiHints.Add(1, new PackedScene { /*Id = 1, Name = "John Doe"*/ });
+        //AddChild(mochiHints[0]);
+    }
+
+    public void _on_beatSignal(int song_position_in_beats)
+    {
+        // Generate new hints
+        CallDeferred(nameof(InstanciateNewHint), song_position_in_beats);
+    }
+
+    private void InstanciateNewHint(int song_position_in_beats)
+    {
+        // Instance the new hint.
+        PackedScene mochiHintPackedScene = (PackedScene)ResourceLoader.Load("res://Actors/MochiHint.tscn");
+
+        // Add to dictionary
+        mochiHints.Add(song_position_in_beats, mochiHintPackedScene);
+
+        // Add it to the active scene, as child of root.
+        AddChild(mochiHintPackedScene.Instance());
     }
 
     public void _on_disable_player_movement(bool state = true)

@@ -1,13 +1,18 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/Login.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/LoggedIn.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Widgets/LoadingIndicator.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/MOTD.gd" type="Script" id=4]
+[ext_resource path="res://Backgrounds/test_long_bg.png" type="Texture" id=5]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+
+[node name="TestLongBg" type="Sprite" parent="."]
+position = Vector2( 3027, 857 )
+texture = ExtResource( 5 )
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -94,6 +99,7 @@ script = ExtResource( 4 )
 margin_top = 203.0
 margin_right = 912.0
 margin_bottom = 224.0
+text = "How to play: Get to the end by discovering the game!"
 
 [connection signal="pressed" from="MarginContainer/Login/StayLoggedInCheckbox" to="MarginContainer" method="_on_StayLoggedInCheckbox_pressed"]
 [connection signal="pressed" from="MarginContainer/Login/AnonLogin" to="MarginContainer" method="_on_AnonLogin_pressed"]

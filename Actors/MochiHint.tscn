@@ -17,22 +17,29 @@ script = ExtResource( 9 )
 texture = ExtResource( 2 )
 
 [node name="2" type="Sprite" parent="."]
+visible = false
 texture = ExtResource( 3 )
 
 [node name="3" type="Sprite" parent="."]
+visible = false
 texture = ExtResource( 4 )
 
 [node name="4" type="Sprite" parent="."]
+visible = false
 texture = ExtResource( 5 )
 
 [node name="5" type="Sprite" parent="."]
+visible = false
 texture = ExtResource( 6 )
 
 [node name="6" type="Sprite" parent="."]
+visible = false
 texture = ExtResource( 7 )
 
 [node name="7" type="Sprite" parent="."]
+visible = false
 texture = ExtResource( 8 )
 
 [node name="8" type="Sprite" parent="."]
+visible = false
 texture = ExtResource( 1 )
