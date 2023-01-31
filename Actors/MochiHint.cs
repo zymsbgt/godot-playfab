@@ -15,9 +15,7 @@ public class MochiHint : Area2D
     private void DisplayHint(int i)
     {
         float x, y;
-        #if GODOT_WEB
         x = 0; y = 0;
-        #else
         if (i >= 1 && i <= 3)
             x = -200.0f;
         else if (i >= 5 && i <= 7)
@@ -30,7 +28,6 @@ public class MochiHint : Area2D
             y = 0.0f;
         else
             y = -200.0f;
-        #endif
         Position = new Vector2(x, y);
         GetNode<Sprite>(i.ToString()).Visible = true;
         GetNode<Sprite>(i.ToString()).Modulate = Color.ColorN("white", 0.7f);
@@ -49,9 +46,6 @@ public class MochiHint : Area2D
         mochi = GetNode<Mochi>("../");
         // Get current beat
         id = mochi.storeBeatForMochiHint;
-        #if GODOT_WEB
-        id -= 4;
-        #endif
         
         // Based on the beat, get the note that it should play as
         // First note is 6, so should first appear at beat 2 as a C4 note

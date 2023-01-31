@@ -197,8 +197,10 @@ public class Conductor : Node
         }
         
         song_position = bgmManager.GetPlaybackPosition() + AudioServer.GetTimeSinceLastMix();
-        // Compensate for output latency.
+        // Compensate for output latency. This is not available on web.
+        #if GODOT_WINDOWS || GODOT_X11
         song_position -= AudioServer.GetOutputLatency();
+        #endif
         song_position -= offset;
         song_position_in_beats = (int)Math.Round(song_position / sec_per_beat) + beats_before_start;
 
@@ -251,17 +253,11 @@ public class Conductor : Node
 		    last_reported_beat = song_position_in_beats;
             
 		    measure += 1;
-
-            GD.Print("Last reported beat within update: ", last_reported_beat);
         }
-        GD.Print("Last reported beat: ", last_reported_beat);
-        #if GODOT_WEB
-        #else
+        
         if (song_position < last_frame_song_position)
             last_reported_beat = 0;
-        #endif
         last_frame_song_position = bgmManager.GetPlaybackPosition() - offset;
-        
     }
 
     public override void _Process(float delta)
