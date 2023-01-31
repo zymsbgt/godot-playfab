@@ -89,16 +89,18 @@ text = "Go to Debug Menu"
 [node name="MOTD" type="Label" parent="MarginContainer/Login"]
 margin_top = 130.0
 margin_right = 912.0
-margin_bottom = 199.0
+margin_bottom = 247.0
 text = "Heads up! This browser version of the game is provided for convenience and may be laggy or contain bugs.
 If you find any bugs, please test it on the Windows/Linux build before reporting!
-If the game lags, consider switching to the Windows/Linux build for better performance"
+Consider switching to the Windows/Linux build if: 
+- You experience poor performance on the browser version
+- You are prone to seizures (due to a bug, there are flashing lights in the browser version)"
 script = ExtResource( 4 )
 
 [node name="News" type="Label" parent="MarginContainer/Login"]
-margin_top = 203.0
+margin_top = 251.0
 margin_right = 912.0
-margin_bottom = 224.0
+margin_bottom = 272.0
 text = "How to play: Get to the end by discovering the game!"
 
 [connection signal="pressed" from="MarginContainer/Login/StayLoggedInCheckbox" to="MarginContainer" method="_on_StayLoggedInCheckbox_pressed"]
