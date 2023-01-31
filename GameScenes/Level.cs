@@ -10,6 +10,7 @@ public class Level : Node2D
         levelselect,
         dream,
         dreamcastle,
+        dreamsingalong,
         dreamboss
     }
     [Export] public Playlist soundtrack;

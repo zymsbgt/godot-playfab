@@ -92,6 +92,14 @@ public class Conductor : Node
                 maxVolume = -9.0f;
                 loopable = false;
                 break;
+            case Level.Playlist.dreamsingalong:
+                bpm = 70;
+                measures = 3;
+                offset = 0.35f;
+                muteVolume = -120.0f;
+                maxVolume = -6.0f;
+                loopable = false;
+                break;
             case Level.Playlist.dreamboss:
                 bpm = 106;
                 measures = 4;
@@ -134,6 +142,15 @@ public class Conductor : Node
         }
     }
 
+    // Not a signal, but this function is quite similar to _on_changeScene
+    // To be used when a song is to be changed in the middle of a scene, such as singalongs
+    public void RequestSoundtrackChange(Level.Playlist song)
+    {
+        currentScene.soundtrack = song;
+        GetMusicData();
+        bgmManager.RequestSoundtrackChange(song);
+    }
+
     // Keep this function the last one in the Signals region
     public void _on_changeScene()
     {
@@ -148,8 +165,10 @@ public class Conductor : Node
         int j = 0;
         foreach(Node i in GetChildren())
         {
-            if (i is Level)
+            if (i is Level) // && !i.IsQueuedForDeletion()) // I don't know how useful this would be
+            {
                 currentScene = (Level)GetChild(j);
+            }
             j++;
         }
 
@@ -204,13 +223,22 @@ public class Conductor : Node
         ReportBeat();
     }
 
+    // For manual beat syncronising
+    // public override void _Input(InputEvent @event)
+    // {
+    //     if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.IsPressed())
+    //     {
+    //         GD.Print("Mouse click: ", song_position);
+    //     }
+    // }
+
     private void ReportBeat()
     {
         if (last_reported_beat < song_position_in_beats)
         {
-            #if GODOT_WEB
-            GD.Print(last_reported_beat, ",", song_position_in_beats);
-            #endif
+            // For manual beat syncronising
+            //GD.Print("beatSignal: ", song_position);
+
             if (measure > measures)
 			    measure = 1;
             EmitSignal("beatSignal", song_position_in_beats);

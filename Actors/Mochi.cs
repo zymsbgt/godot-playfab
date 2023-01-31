@@ -38,6 +38,7 @@ public class Mochi : KinematicBody2D
     [Signal] delegate void ColourWheel_area_exited();
     [Signal] delegate void changeScene();
     [Signal] delegate void BirdJumpBoostActivated();
+    [Signal] delegate void showHint();
 
     public override void _Ready()
     {
@@ -131,7 +132,7 @@ public class Mochi : KinematicBody2D
     #region signals
     public void StartRhythmSequence()
     {
-        
+
     }
 
     public void _on_disable_player_movement(bool state = true)

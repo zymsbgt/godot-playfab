@@ -7,7 +7,7 @@ public class ColourWheel : ControllerWheel
     private Mochi mochi;
     private AnimatedSprite animatedSprite;
     private bool queuePlay = false;
-    [Export] private int note;
+    [Export] public int note;
     private int numberOfMochisVoices;
     [Export] private AudioStream[] MochisVoices;
     private AudioStreamPlayer2D audioStreamPlayer2D;
@@ -31,6 +31,12 @@ public class ColourWheel : ControllerWheel
         numberOfMochisVoices = MochisVoices.Length;
     }
 
+    #region signals
+    public void _on_Mochi_showHint(int hint)
+    {
+        if (hint == note) {} // do stuff, else don't do anything
+    }
+
     public void _on_area_entered(Area2D area)
     {
         queuePlay = true;
@@ -44,6 +50,7 @@ public class ColourWheel : ControllerWheel
         animatedSprite.Play("passive");
         audioStreamPlayer2D.Stop();
     }
+    #endregion
 
     public override void SetVisibility(bool visibility)
     {

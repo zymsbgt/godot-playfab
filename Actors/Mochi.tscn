@@ -46,19 +46,6 @@
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 59.5, 60 )
 
-[sub_resource type="SpriteFrames" id=12]
-animations = [ {
-"frames": [ ExtResource( 10 ) ],
-"loop": true,
-"name": "active",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 11 ) ],
-"loop": true,
-"name": "passive",
-"speed": 5.0
-} ]
-
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [ ExtResource( 4 ) ],
@@ -150,6 +137,19 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="SpriteFrames" id=12]
+animations = [ {
+"frames": [ ExtResource( 10 ) ],
+"loop": true,
+"name": "active",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 11 ) ],
+"loop": true,
+"name": "passive",
+"speed": 5.0
+} ]
+
 [sub_resource type="CircleShape2D" id=18]
 radius = 1.05409
 
@@ -234,141 +234,141 @@ drag_margin_right = 0.0
 [node name="Listener2D" type="Listener2D" parent="."]
 current = true
 
-[node name="01" type="Area2D" parent="."]
-collision_layer = 16
-collision_mask = 16
-script = ExtResource( 30 )
-note = 8
-MochisVoices = [ ExtResource( 49 ), ExtResource( 6 ) ]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="01"]
-position = Vector2( 1, -312 )
-polygon = PoolVector2Array( -117, 25, 0, -16, 116, 26, 66, 150, 0, 137, -64, 149 )
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="01"]
-
-[node name="AnimatedSprite" type="AnimatedSprite" parent="01"]
-frames = SubResource( 12 )
-animation = "passive"
-
-[node name="02" type="Area2D" parent="."]
+[node name="1" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
 script = ExtResource( 30 )
 note = 1
 MochisVoices = [ ExtResource( 2 ), ExtResource( 31 ), ExtResource( 32 ) ]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="02"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="1"]
 position = Vector2( 1, -312 )
 polygon = PoolVector2Array( -286, 193, -231, 87, -120, 27, -67, 151, -127, 193, -159, 244 )
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="02"]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="1"]
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="02"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="1"]
 frames = SubResource( 2 )
 animation = "passive"
 
-[node name="03" type="Area2D" parent="."]
+[node name="2" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
 script = ExtResource( 30 )
 note = 2
 MochisVoices = [ ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ) ]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="03"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="2"]
 position = Vector2( 1, -312 )
 polygon = PoolVector2Array( -287, 432, -324, 308, -286, 196, -160, 247, -174, 314, -160, 378 )
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="03"]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="2"]
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="03"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="2"]
 frames = SubResource( 13 )
 animation = "passive"
 
-[node name="04" type="Area2D" parent="."]
+[node name="3" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
 script = ExtResource( 30 )
 note = 3
 MochisVoices = [ ExtResource( 36 ), ExtResource( 37 ) ]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="04"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="3"]
 position = Vector2( 1, -312 )
 polygon = PoolVector2Array( -119, 601, -227, 539, -287, 433, -160, 381, -125, 436, -70, 472 )
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="04"]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="3"]
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="04"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="3"]
 frames = SubResource( 11 )
 animation = "passive"
 
-[node name="05" type="Area2D" parent="."]
+[node name="4" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
 script = ExtResource( 30 )
 note = 4
 MochisVoices = [ ExtResource( 40 ), ExtResource( 38 ), ExtResource( 39 ) ]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="05"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="4"]
 position = Vector2( 1, -312 )
 polygon = PoolVector2Array( 119, 599, -1, 636, -115, 599, -63, 474, 0, 487, 66, 475 )
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="05"]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="4"]
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="05"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="4"]
 frames = SubResource( 14 )
 animation = "passive"
 
-[node name="06" type="Area2D" parent="."]
+[node name="5" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
 script = ExtResource( 30 )
 note = 5
 MochisVoices = [ ExtResource( 41 ), ExtResource( 42 ), ExtResource( 43 ) ]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="06"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="5"]
 position = Vector2( 1, -312 )
 polygon = PoolVector2Array( 287, 430, 236, 534, 122, 597, 71, 471, 127, 435, 161, 379 )
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="06"]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="5"]
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="06"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="5"]
 frames = SubResource( 15 )
 animation = "passive"
 
-[node name="07" type="Area2D" parent="."]
+[node name="6" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
 script = ExtResource( 30 )
 note = 6
 MochisVoices = [ ExtResource( 44 ), ExtResource( 45 ) ]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="07"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="6"]
 position = Vector2( 1, -312 )
 polygon = PoolVector2Array( 285, 196, 330, 311, 288, 429, 163, 376, 175, 313, 161, 244 )
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="07"]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="6"]
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="07"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="6"]
 frames = SubResource( 16 )
 animation = "passive"
 
-[node name="08" type="Area2D" parent="."]
+[node name="7" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
 script = ExtResource( 30 )
 note = 7
 MochisVoices = [ ExtResource( 46 ), ExtResource( 47 ), ExtResource( 48 ) ]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="08"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="7"]
 position = Vector2( 1, -312 )
 polygon = PoolVector2Array( 121, 26, 235, 87, 285, 193, 161, 243, 124, 188, 68, 150 )
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="08"]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="7"]
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="08"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="7"]
 position = Vector2( 1, 0 )
 frames = SubResource( 17 )
+animation = "passive"
+
+[node name="8" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 16
+script = ExtResource( 30 )
+note = 8
+MochisVoices = [ ExtResource( 49 ), ExtResource( 6 ) ]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="8"]
+position = Vector2( 1, -312 )
+polygon = PoolVector2Array( -117, 25, 0, -16, 116, 26, 66, 150, 0, 137, -64, 149 )
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="8"]
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="8"]
+frames = SubResource( 12 )
 animation = "passive"
 
 [node name="MouseCursor" type="Area2D" parent="."]
@@ -396,19 +396,27 @@ color = Color( 0, 0, 0, 0 )
 anims/START = SubResource( 19 )
 anims/fade_to_black = SubResource( 20 )
 
-[connection signal="area_entered" from="01" to="01" method="_on_area_entered"]
-[connection signal="area_exited" from="01" to="01" method="_on_area_exited"]
-[connection signal="area_entered" from="02" to="02" method="_on_area_entered"]
-[connection signal="area_exited" from="02" to="02" method="_on_area_exited"]
-[connection signal="area_entered" from="03" to="03" method="_on_area_entered"]
-[connection signal="area_exited" from="03" to="03" method="_on_area_exited"]
-[connection signal="area_entered" from="04" to="04" method="_on_area_entered"]
-[connection signal="area_exited" from="04" to="04" method="_on_area_exited"]
-[connection signal="area_entered" from="05" to="05" method="_on_area_entered"]
-[connection signal="area_exited" from="05" to="05" method="_on_area_exited"]
-[connection signal="area_entered" from="06" to="06" method="_on_area_entered"]
-[connection signal="area_exited" from="06" to="06" method="_on_area_exited"]
-[connection signal="area_entered" from="07" to="07" method="_on_area_entered"]
-[connection signal="area_exited" from="07" to="07" method="_on_area_exited"]
-[connection signal="area_entered" from="08" to="08" method="_on_area_entered"]
-[connection signal="area_exited" from="08" to="08" method="_on_area_exited"]
+[connection signal="showHint" from="." to="1" method="_on_Mochi_showHint"]
+[connection signal="showHint" from="." to="2" method="_on_Mochi_showHint"]
+[connection signal="showHint" from="." to="3" method="_on_Mochi_showHint"]
+[connection signal="showHint" from="." to="4" method="_on_Mochi_showHint"]
+[connection signal="showHint" from="." to="5" method="_on_Mochi_showHint"]
+[connection signal="showHint" from="." to="6" method="_on_Mochi_showHint"]
+[connection signal="showHint" from="." to="7" method="_on_Mochi_showHint"]
+[connection signal="showHint" from="." to="8" method="_on_Mochi_showHint"]
+[connection signal="area_entered" from="1" to="1" method="_on_area_entered"]
+[connection signal="area_exited" from="1" to="1" method="_on_area_exited"]
+[connection signal="area_entered" from="2" to="2" method="_on_area_entered"]
+[connection signal="area_exited" from="2" to="2" method="_on_area_exited"]
+[connection signal="area_entered" from="3" to="3" method="_on_area_entered"]
+[connection signal="area_exited" from="3" to="3" method="_on_area_exited"]
+[connection signal="area_entered" from="4" to="4" method="_on_area_entered"]
+[connection signal="area_exited" from="4" to="4" method="_on_area_exited"]
+[connection signal="area_entered" from="5" to="5" method="_on_area_entered"]
+[connection signal="area_exited" from="5" to="5" method="_on_area_exited"]
+[connection signal="area_entered" from="6" to="6" method="_on_area_entered"]
+[connection signal="area_exited" from="6" to="6" method="_on_area_exited"]
+[connection signal="area_entered" from="7" to="7" method="_on_area_entered"]
+[connection signal="area_exited" from="7" to="7" method="_on_area_exited"]
+[connection signal="area_entered" from="8" to="8" method="_on_area_entered"]
+[connection signal="area_exited" from="8" to="8" method="_on_area_exited"]

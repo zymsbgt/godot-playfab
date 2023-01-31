@@ -4,16 +4,16 @@ using System;
 [Tool]
 public class Portal : Area2D
 {
-    [Export] private PackedScene nextScene;
-    private AnimationPlayer animationPlayer;
+    [Export] public PackedScene nextScene;
+    public AnimationPlayer animationPlayer;
     public Node CurrentScene { get; set; }
-    public Node Conductor { get; set; }
+    public Conductor conductor;
     [Signal] public delegate void changeScene();
     
     public override void _Ready()
     {
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-        Conductor = GetNode<Node>("../../");
+        conductor = GetNode<Conductor>("../../");
         CurrentScene = GetNode<Node2D>("../");
         Connect("changeScene", CurrentScene, "_on_changeScene");
     }
@@ -34,14 +34,14 @@ public class Portal : Area2D
     }
     #endregion
 
-    private async void teleport()
+    public async void teleport()
     {
         animationPlayer.Play("fade_to_black");
         await ToSignal(animationPlayer, "animation_finished");
         CallDeferred(nameof(DeferredGotoScene), nextScene);
     }
 
-    private void DeferredGotoScene(PackedScene nextScene)
+    public virtual void DeferredGotoScene(PackedScene nextScene)
     {
         // Broadcast a signal to show that scene has changed
         EmitSignal("changeScene");
@@ -53,6 +53,6 @@ public class Portal : Area2D
         CurrentScene = nextScene.Instance();
 
         // Add it to the active scene, as child of root.
-        Conductor.AddChild(CurrentScene);
+        conductor.AddChild(CurrentScene);
     }
 }

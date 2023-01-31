@@ -16,8 +16,11 @@ public class BgmManager : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        // For introduction music, meant to be transitioned to a loopable track once finished playing
         bgmIntro = GetNode<AudioStreamPlayer>("BgmIntro");
+        // Bonus track. Can be loopable or unloopable.
         bgmActive = GetNode<AudioStreamPlayer>("BgmActive");
+        // The main track. Can be loopable or unloopable.
         bgmPassive = GetNode<AudioStreamPlayer>("BgmPassive");
 
         conductor = GetNodeOrNull<Conductor>("/root/Conductor");
@@ -30,7 +33,53 @@ public class BgmManager : Node
         }
     }
 
+    private void ChangeSoundtrack(Level.Playlist song)
+    {
+        switch (song)
+        {
+            case Level.Playlist.levelselect:
+                if (bgmPassive.Stream == (AudioStream)ResourceLoader.Load("res://Music/levelselect_106bpm.ogg", "AudioStream", false) && bgmPassive.Playing)
+                    break;
+                bgmPassive.Stream = (AudioStream)ResourceLoader.Load("res://Music/levelselect_106bpm.ogg", "AudioStream", false);
+                bgmPassive.VolumeDb = conductor.maxVolume;
+                bgmPassive.Play();
+                break;
+            case Level.Playlist.dream:
+                bgmIntro.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_intro_110bpm.wav", "AudioStream", false);
+                bgmPassive.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_passive_110bpm.ogg", "AudioStream", false);
+                bgmActive.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_active_110bpm.ogg", "AudioStream", false);
+                bgmIntro.VolumeDb = conductor.maxVolume;
+                bgmIntro.Play();
+                break;
+            case Level.Playlist.dreamcastle:
+                bgmPassive.Stop();
+                bgmActive.Stop();
+                bgmIntro.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_castledoor_110bpm.wav", "AudioStream", false);
+                bgmIntro.Play();
+                break;
+            case Level.Playlist.dreamsingalong:
+                bgmIntro.Stop();
+                bgmPassive.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_singalong_70bpm.wav", "AudioStream", false);
+                bgmPassive.VolumeDb = conductor.maxVolume;
+                bgmPassive.Play();
+                break;
+            case Level.Playlist.dreamboss:
+                bgmPassive.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_castleboss_106bpm.wav", "AudioStream", false);
+                bgmPassive.Play();
+                break;
+            default:
+                break;
+        }
+    }
+
     #region calling_functions
+    // Not a signal, but this function is quite similar to _on_changeScene
+    // To be used when a song is to be changed in the middle of a scene, such as singalongs
+    public void RequestSoundtrackChange(Level.Playlist song)
+    {
+        ChangeSoundtrack(song);
+    }
+
     public float GetPlaybackPosition()
     {
         if (bgmIntro.Playing == true)
@@ -83,35 +132,7 @@ public class BgmManager : Node
             return;
         if (nowPlaying == conductor.currentScene.soundtrack)
             return;
-        switch (conductor.currentScene.soundtrack)
-        {
-            case Level.Playlist.levelselect:
-                if (bgmPassive.Stream == (AudioStream)ResourceLoader.Load("res://Music/levelselect_106bpm.ogg", "AudioStream", false) && bgmPassive.Playing)
-                    break;
-                bgmPassive.Stream = (AudioStream)ResourceLoader.Load("res://Music/levelselect_106bpm.ogg", "AudioStream", false);
-                bgmPassive.VolumeDb = conductor.maxVolume;
-                bgmPassive.Play();
-                break;
-            case Level.Playlist.dream:
-                bgmIntro.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_intro_110bpm.wav", "AudioStream", false);
-                bgmPassive.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_passive_110bpm.ogg", "AudioStream", false);
-                bgmActive.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_active_110bpm.ogg", "AudioStream", false);
-                bgmIntro.VolumeDb = conductor.maxVolume;
-                bgmIntro.Play();
-                break;
-            case Level.Playlist.dreamcastle:
-                bgmPassive.Stop();
-                bgmActive.Stop();
-                bgmIntro.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_castledoor_110bpm.wav", "AudioStream", false);
-                bgmIntro.Play();
-                break;
-            case Level.Playlist.dreamboss:
-                bgmPassive.Stream = (AudioStream)ResourceLoader.Load("res://Music/level1_castleboss_106bpm.wav");
-                bgmPassive.Play();
-                break;
-            default:
-                break;
-        }
+        ChangeSoundtrack(conductor.currentScene.soundtrack);
         nowPlaying = conductor.currentScene.soundtrack;
     }
     #endregion
