@@ -165,7 +165,8 @@ public class Conductor : Node
         int j = 0;
         foreach(Node i in GetChildren())
         {
-            if (i is Level) // && !i.IsQueuedForDeletion()) // I don't know how useful this would be
+            // Zym if you're here looking for a bug, chances are you forgot to attach the Level script to the Level node.
+            if (i is Level) // && !i.IsQueuedForDeletion())
             {
                 currentScene = (Level)GetChild(j);
             }
