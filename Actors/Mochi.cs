@@ -23,7 +23,7 @@ public class Mochi : KinematicBody2D
     private int[] last10notes = new int[10];
 
     // Reference nodes
-    Godot.Collections.Dictionary<int, PackedScene> mochiHints;
+    //Godot.Collections.Dictionary<int, PackedScene> mochiHints;
     private Conductor conductor;
     private Node2D currentScene;
     private Area2D mouseCursor;
@@ -141,7 +141,7 @@ public class Mochi : KinematicBody2D
     {
         // Connect beatSignal from Conductor
         conductor.Connect("beatSignal", this, "_on_beatSignal");
-        mochiHints = new Godot.Collections.Dictionary<int, PackedScene>();
+        // mochiHints = new Godot.Collections.Dictionary<int, PackedScene>();
         dropFirstBeatSignal = true;
     }
 
@@ -165,7 +165,7 @@ public class Mochi : KinematicBody2D
         PackedScene mochiHintPackedScene = (PackedScene)ResourceLoader.Load("res://Actors/MochiHint.tscn");
         
         // Add to dictionary
-        mochiHints.Add(song_position_in_beats, mochiHintPackedScene);
+        // mochiHints.Add(song_position_in_beats, mochiHintPackedScene);
 
         // Add it to the active scene, as child of root.
         AddChild(mochiHintPackedScene.Instance());

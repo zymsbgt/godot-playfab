@@ -18,7 +18,7 @@ public class Conductor : Node
     private double song_position = 0.0;
     private int song_position_in_beats = 1;
     public double sec_per_beat; // initialise in Ready() function
-    private int last_reported_beat = 0;
+    private int last_reported_beat;
     private int beats_before_start = 0;
     private int measure = 1;
     private double last_frame_song_position;
@@ -115,6 +115,7 @@ public class Conductor : Node
         }
         sec_per_beat = 60.0 / bpm;
         nowPlaying = currentScene.soundtrack;
+        last_reported_beat = 0;
     }
 
     #region signals
@@ -250,10 +251,17 @@ public class Conductor : Node
 		    last_reported_beat = song_position_in_beats;
             
 		    measure += 1;
+
+            GD.Print("Last reported beat within update: ", last_reported_beat);
         }
+        GD.Print("Last reported beat: ", last_reported_beat);
+        #if GODOT_WEB
+        #else
         if (song_position < last_frame_song_position)
             last_reported_beat = 0;
+        #endif
         last_frame_song_position = bgmManager.GetPlaybackPosition() - offset;
+        
     }
 
     public override void _Process(float delta)
@@ -266,9 +274,6 @@ public class Conductor : Node
                 holdEscapeToQuitSecs -= delta;
         }
         else
-        {
-            //holdEscapeToQuitBeats = 4;
             holdEscapeToQuitSecs = 3.0f;
-        } 
     }
 }

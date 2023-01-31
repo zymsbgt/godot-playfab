@@ -86,7 +86,7 @@ rect_min_size = Vector2( 0, 27 )
 size_flags_horizontal = 3
 text = "Go to Debug Menu"
 
-[node name="MOTD" type="Label" parent="MarginContainer/Login"]
+[node name="BrowserWarning" type="Label" parent="MarginContainer/Login"]
 margin_top = 130.0
 margin_right = 912.0
 margin_bottom = 247.0
