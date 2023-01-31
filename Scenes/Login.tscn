@@ -93,10 +93,7 @@ script = ExtResource( 4 )
 [node name="News" type="Label" parent="MarginContainer/Login"]
 margin_top = 203.0
 margin_right = 912.0
-margin_bottom = 272.0
-text = "23 Jan: What's new?
-- Offline play is now possible for those who downloaded the Windows/Linux version of the game.
-  This gameplay mode will not send analytics about how you play this game to PlayFab."
+margin_bottom = 224.0
 
 [connection signal="pressed" from="MarginContainer/Login/StayLoggedInCheckbox" to="MarginContainer" method="_on_StayLoggedInCheckbox_pressed"]
 [connection signal="pressed" from="MarginContainer/Login/AnonLogin" to="MarginContainer" method="_on_AnonLogin_pressed"]

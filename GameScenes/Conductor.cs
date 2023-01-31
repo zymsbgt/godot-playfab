@@ -72,8 +72,9 @@ public class Conductor : Node
                 bpm = 106;
                 measures = 4;
                 offset = 0.2208f;
-                muteVolume = 6.0f;
-                maxVolume = 6.0f;
+                // Remember to change volume in BgmManager._Ready() as well!
+                muteVolume = 0.0f;
+                maxVolume = 0.0f;
                 loopable = true;
                 break;
             case Level.Playlist.dream:

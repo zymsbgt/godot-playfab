@@ -28,7 +28,7 @@ public class BgmManager : Node
         if (conductor == null) // we're on the login screen
         {
             bgmPassive.Stream = (AudioStream)ResourceLoader.Load("res://Music/levelselect_106bpm.ogg", "AudioStream", false);
-            bgmPassive.VolumeDb = 6.0f;
+            bgmPassive.VolumeDb = 0.0f;
             bgmPassive.Play();
         }
     }
