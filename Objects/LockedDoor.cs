@@ -5,11 +5,14 @@ using System;
 public class LockedDoor : Portal
 {
     private Mochi mochi;
+    private AnimatedSprite animatedSprite;
 
     public override void _Ready()
     {
         base._Ready();
         mochi = GetNode<Mochi>("../Mochi");
+        animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
+        animatedSprite.Play("locked");
     }
 
     #region signals
@@ -26,6 +29,7 @@ public class LockedDoor : Portal
     private async void WhenSongFinished()
     {
         GD.Print("Song finished!");
+        animatedSprite.Play("open");
         animationPlayer.Play("fade_to_black");
         await ToSignal(animationPlayer, "animation_finished");
         CallDeferred(nameof(DeferredGotoScene), nextScene);

@@ -12,7 +12,7 @@ public class Bird : KinematicBody2D
     [Export] private int[] birdPattern;
     private int[] emptyArray;
     private bool canBeHappy = true, BirdJumpBoostActivated = false;
-    private Vector2 spawnPosition, positionOnCanvas, centerOfCanvas;
+    private Vector2 spawnPosition; //positionOnCanvas, centerOfCanvas;
     private enum CueAnimationState
     {
         off,
@@ -46,10 +46,10 @@ public class Bird : KinematicBody2D
 
         // Todo: Code to make sure all hints are visible regardless of player viewport or resolution
 
-        positionOnCanvas = GetGlobalTransformWithCanvas().origin;
+        //positionOnCanvas = GetGlobalTransformWithCanvas().origin;
         //GD.Print(positionOnCanvas);
 
-        centerOfCanvas = GetViewport().Size / 2;
+        //centerOfCanvas = GetViewport().Size * 0.5f;
         //GD.Print(centerOfCanvas);
 
         // Randomise the bird patterns

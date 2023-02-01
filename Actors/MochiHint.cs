@@ -5,9 +5,10 @@ public class MochiHint : Area2D
 {
     private Conductor conductor;
     private Mochi mochi;
-    private int id;
+    private int id, time_to_live_in_beats = 5;
+    private float score = 0;
     private double four_beats_duration; 
-    private int time_to_live_in_beats = 5;
+    private bool isSameFrameAsBeatSignal = false;
 
     // tempo related stuff
     private double sec_per_beat;
@@ -48,11 +49,11 @@ public class MochiHint : Area2D
         id = mochi.storeBeatForMochiHint;
         
         // Based on the beat, get the note that it should play as
-        // First note is 6, so should first appear at beat 2 as a C4 note
+        // First note is on beat 6, so should first appear at beat 2 as a Middle C note
         switch(id)
         {
-            // Unfortunately, Godot-C# is based on C# 7.3, where putting two or more numbers on a single case switch is not allowed.
-            // I very much wish that I could shorten this code as well.
+            // Unfortunately, Godot-C# is based on C# 7.3, where putting two or more numbers on a single case switch is not allowed
+            // I very much wish that I could shorten this code as well
             case 2:
                 DisplayHint(1);
                 break;
@@ -95,18 +96,42 @@ public class MochiHint : Area2D
             case 26:
                 DisplayHint(8);
                 break;
+            default:
+                QueueFree();
+                break;
         }
     }
 
     public void _on_beatSignal(int song_position_in_beats)
     {
         time_to_live_in_beats--;
+        isSameFrameAsBeatSignal = true;
     }
 
     public override void _Process(float delta)
     {
-        if (time_to_live_in_beats == 0)
-            QueueFree();
+        switch(time_to_live_in_beats)
+        {
+            case 0:
+                QueueFree();
+                break;
+            case 1:
+                if (isSameFrameAsBeatSignal)
+                {
+                    //GD.Print(id, " :isSameFrameAsBeatSignal");
+                    // Add code here to give players a perfect score
+                }
+                if (id == 2)
+                GD.Print(score -= delta);
+                break;
+            case 2:
+                if (id == 2)
+                GD.Print(score += delta);
+                break;
+            default:
+                break;
+        }
+
         float distanceToTravel = 200.0f / (float)four_beats_duration * delta;
         if (GetNode<Sprite>("1").Visible)
             if (Position.x < 0 && Position.y < 0)
@@ -148,11 +173,14 @@ public class MochiHint : Area2D
                 Position = new Vector2(Position.x, Position.y + distanceToTravel);
             else
                 NoteReachedPositionElseStatement(8, delta);
+        
+        if (isSameFrameAsBeatSignal)
+            isSameFrameAsBeatSignal = false;
     }
 
     private void NoteReachedPositionElseStatement(int i, float delta)
     {
-        Scale = new Vector2(Scale.x + (delta / 2), Scale.y + (delta / 2));
+        Scale = new Vector2(Scale.x + (delta * 0.5f), Scale.y + (delta * 0.5f));
         GetNode<Sprite>(i.ToString()).Modulate = Color.ColorN("white", GetNode<Sprite>(i.ToString()).Modulate.a - delta);
     }
 }
