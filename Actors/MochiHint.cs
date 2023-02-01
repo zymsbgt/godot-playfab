@@ -5,10 +5,11 @@ public class MochiHint : Area2D
 {
     private Conductor conductor;
     private Mochi mochi;
+    private ColourWheel listener;
     private int id, time_to_live_in_beats = 5;
     private float score = 0;
     private double four_beats_duration; 
-    private bool isSameFrameAsBeatSignal = false;
+    private bool scoreGiven = false, isSameFrameAsBeatSignal = false, isSameFrameAsListenerOnEntered = false;
 
     // tempo related stuff
     private double sec_per_beat;
@@ -32,6 +33,8 @@ public class MochiHint : Area2D
         Position = new Vector2(x, y);
         GetNode<Sprite>(i.ToString()).Visible = true;
         GetNode<Sprite>(i.ToString()).Modulate = Color.ColorN("white", 0.7f);
+        listener = GetNode<ColourWheel>("../" + i.ToString());
+        listener.Connect("_on_ColourWheel_area_entered", this, "_on_ColourWheel_area_entered");
     }
 
     public override void _Ready()
@@ -102,10 +105,24 @@ public class MochiHint : Area2D
         }
     }
 
+    #region signals
     public void _on_beatSignal(int song_position_in_beats)
     {
         time_to_live_in_beats--;
         isSameFrameAsBeatSignal = true;
+    }
+
+    // int i is the note played, which is not relevant in this function as the listener is the same note as the hint
+    public void _on_ColourWheel_area_entered(int i)
+    {
+        isSameFrameAsListenerOnEntered = true;
+    }
+    #endregion
+
+    private void SubmitScore(float i)
+    {
+        mochi.score += (int)Math.Round(i * 100);
+        GD.Print("Mochi's Score: ", mochi.score);
     }
 
     public override void _Process(float delta)
@@ -116,19 +133,31 @@ public class MochiHint : Area2D
                 QueueFree();
                 break;
             case 1:
-                if (isSameFrameAsBeatSignal)
+                score -= delta;
+                if (isSameFrameAsListenerOnEntered && !scoreGiven)
                 {
-                    //GD.Print(id, " :isSameFrameAsBeatSignal");
-                    // Add code here to give players a perfect score
+                    if (isSameFrameAsBeatSignal)
+                    {
+                        // Perfect score!
+                        SubmitScore(0.90f);
+                    }
+                    else
+                        SubmitScore(score);
+                    isSameFrameAsListenerOnEntered = false;
+                    scoreGiven = true;
                 }
-                if (id == 2)
-                GD.Print(score -= delta);
                 break;
             case 2:
-                if (id == 2)
-                GD.Print(score += delta);
+                score += delta;
+                if (isSameFrameAsListenerOnEntered && !scoreGiven)
+                {
+                    SubmitScore(score);
+                    isSameFrameAsListenerOnEntered = false;
+                    scoreGiven = true;
+                }
                 break;
             default:
+                isSameFrameAsListenerOnEntered = false;
                 break;
         }
 

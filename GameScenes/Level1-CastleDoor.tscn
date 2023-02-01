@@ -37,7 +37,7 @@ script = ExtResource( 1 )
 soundtrack = 3
 
 [node name="LockedDoor" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1831, 800 )
+position = Vector2( 1746, 803 )
 nextScene = ExtResource( 5 )
 
 [node name="TileMap" type="TileMap" parent="."]

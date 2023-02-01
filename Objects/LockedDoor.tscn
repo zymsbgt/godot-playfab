@@ -1,10 +1,15 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Sprites/LockedDoor.png" type="Texture" id=1]
 [ext_resource path="res://Objects/LockedDoor.cs" type="Script" id=2]
 [ext_resource path="res://Sprites/OpenDoor.png" type="Texture" id=3]
+[ext_resource path="res://Fonts/Ubuntu-Regular.ttf" type="DynamicFontData" id=4]
 
-[sub_resource type="SpriteFrames" id=4]
+[sub_resource type="DynamicFont" id=1]
+size = 48
+font_data = ExtResource( 4 )
+
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [ ExtResource( 1 ) ],
 "loop": true,
@@ -17,11 +22,11 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="CapsuleShape2D" id=1]
+[sub_resource type="CapsuleShape2D" id=3]
 radius = 40.0
 height = 152.0
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=4]
 resource_name = "START"
 tracks/0/type = "value"
 tracks/0/path = NodePath("TransitionLayer/ColorRect:color")
@@ -48,7 +53,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=5]
 resource_name = "fade_to_black"
 length = 0.6
 tracks/0/type = "value"
@@ -79,14 +84,26 @@ tracks/1/keys = {
 [node name="LockedDoor" type="Area2D"]
 script = ExtResource( 2 )
 
+[node name="FeedbackLabel" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 21.0
+
+[node name="ScoreLabel" type="Label" parent="."]
+margin_left = -238.0
+margin_top = -496.0
+margin_right = 110.0
+margin_bottom = -441.0
+custom_fonts/font = SubResource( 1 )
+text = "Score goes here"
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 4, -190 )
-frames = SubResource( 4 )
+frames = SubResource( 2 )
 animation = "locked"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 1, -164 )
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 
 [node name="TransitionLayer" type="CanvasLayer" parent="."]
 layer = 100
@@ -98,7 +115,7 @@ anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/START = SubResource( 2 )
-anims/fade_to_black = SubResource( 3 )
+anims/START = SubResource( 4 )
+anims/fade_to_black = SubResource( 5 )
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

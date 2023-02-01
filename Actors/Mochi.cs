@@ -38,6 +38,7 @@ public class Mochi : KinematicBody2D
     [Signal] delegate void showHint();
     private bool dropFirstBeatSignal;
     public int storeBeatForMochiHint;
+    public int score;
 
     // Signals
     [Signal] delegate void destroy_left_mouse_click_hint();
@@ -139,8 +140,9 @@ public class Mochi : KinematicBody2D
     #region signals
     public void StartRhythmSequence()
     {
-        // Connect beatSignal from Conductor
-        conductor.Connect("beatSignal", this, "_on_beatSignal");
+        // Connect beatSignal from Conductor. Todo: Add code to disconnect the signal when the song ends
+        if (!conductor.IsConnected("beatSignal", this, "_on_beatSignal"))
+            conductor.Connect("beatSignal", this, "_on_beatSignal");
         // mochiHints = new Godot.Collections.Dictionary<int, PackedScene>();
         dropFirstBeatSignal = true;
     }
