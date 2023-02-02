@@ -6,6 +6,8 @@ public class MochiHint : Area2D
     private Conductor conductor;
     private Mochi mochi;
     private ColourWheel listener;
+    private LockedDoor lockedDoor;
+    private MouseCursor mouseCursor;
     private int id, time_to_live_in_beats = 5;
     private float score = 0;
     private double four_beats_duration; 
@@ -50,6 +52,9 @@ public class MochiHint : Area2D
         mochi = GetNode<Mochi>("../");
         // Get current beat
         id = mochi.storeBeatForMochiHint;
+
+        lockedDoor = GetNode<LockedDoor>("../../LockedDoor");
+        //mouseCursor = GetNode<MouseCursor>("../MouseCursor");
         
         // Based on the beat, get the note that it should play as
         // First note is on beat 6, so should first appear at beat 2 as a Middle C note
@@ -119,6 +124,11 @@ public class MochiHint : Area2D
     }
     #endregion
 
+    public void DisplayScore(string i)
+    {
+        lockedDoor.feedbackLabel.Text = i;
+    }
+
     private void SubmitScore(float i)
     {
         mochi.score += (int)Math.Round(i * 100);
@@ -140,9 +150,20 @@ public class MochiHint : Area2D
                     {
                         // Perfect score!
                         SubmitScore(0.90f);
+                        DisplayScore("Perfect!");
                     }
                     else
+                    {
                         SubmitScore(score);
+                        if (score >= 0.75f)
+                            DisplayScore("Awesome!");
+                        else if (score >= 0.55f && score < 0.75f)
+                            DisplayScore("Good!");
+                        else if (score > 0.35f && score < 0.55f)
+                            DisplayScore("OK!");
+                        else
+                            DisplayScore("Too late!");
+                    }
                     isSameFrameAsListenerOnEntered = false;
                     scoreGiven = true;
                 }
@@ -152,6 +173,14 @@ public class MochiHint : Area2D
                 if (isSameFrameAsListenerOnEntered && !scoreGiven)
                 {
                     SubmitScore(score);
+                    if (score >= 0.75f)
+                        DisplayScore("Awesome!");
+                    else if (score >= 0.55f && score < 0.75f)
+                        DisplayScore("Good!");
+                    else if (score > 0.35f && score < 0.55f)
+                        DisplayScore("OK!");
+                    else
+                        DisplayScore("Too early!");
                     isSameFrameAsListenerOnEntered = false;
                     scoreGiven = true;
                 }

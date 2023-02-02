@@ -6,7 +6,8 @@ public class LockedDoor : Portal
 {
     private Mochi mochi;
     private AnimatedSprite animatedSprite;
-    private Label scoreLabel;
+    private Label scoreLabel; 
+    public Label feedbackLabel; // referenced by MochiHint
     private bool isSongPlaying = false;
 
     public override void _Ready()
@@ -14,6 +15,7 @@ public class LockedDoor : Portal
         base._Ready();
         scoreLabel = GetNode<Label>("ScoreLabel");
         scoreLabel.Visible = false;
+        feedbackLabel = GetNode<Label>("FeedbackLabel");
         mochi = GetNode<Mochi>("../Mochi");
         animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
         animatedSprite.Play("locked");
@@ -36,16 +38,18 @@ public class LockedDoor : Portal
     {
         GD.Print("Song finished!");
         // Get score
-        if (mochi.score > 150)
+        if (mochi.score > 300)
         {
             animatedSprite.Play("open");
             animationPlayer.Play("fade_to_black");
             await ToSignal(animationPlayer, "animation_finished");
             CallDeferred(nameof(DeferredGotoScene), nextScene);
             scoreLabel.Visible = false;
+            feedbackLabel.Text = "";
         }
         else
         {
+            feedbackLabel.Text = "";
             scoreLabel.Text = "Try singing again!";
             mochi.score = 0;
         }
