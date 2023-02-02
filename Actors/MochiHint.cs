@@ -155,11 +155,11 @@ public class MochiHint : Area2D
                     else
                     {
                         SubmitScore(score);
-                        if (score >= 0.75f)
+                        if (score >= 0.80f)
                             DisplayScore("Awesome!");
-                        else if (score >= 0.55f && score < 0.75f)
+                        else if (score >= 0.63f && score < 0.80f)
                             DisplayScore("Good!");
-                        else if (score > 0.35f && score < 0.55f)
+                        else if (score > 0.45f && score < 0.63f)
                             DisplayScore("OK!");
                         else
                             DisplayScore("Too late!");
@@ -173,11 +173,11 @@ public class MochiHint : Area2D
                 if (isSameFrameAsListenerOnEntered && !scoreGiven)
                 {
                     SubmitScore(score);
-                    if (score >= 0.75f)
+                    if (score >= 0.80f)
                         DisplayScore("Awesome!");
-                    else if (score >= 0.55f && score < 0.75f)
+                    else if (score >= 0.63f && score < 0.80f)
                         DisplayScore("Good!");
-                    else if (score > 0.35f && score < 0.55f)
+                    else if (score > 0.45f && score < 0.63f)
                         DisplayScore("OK!");
                     else
                         DisplayScore("Too early!");
