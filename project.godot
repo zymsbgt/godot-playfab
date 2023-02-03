@@ -232,6 +232,7 @@ Display=8
 
 config/name="mochis-musical-adventure"
 run/main_scene="res://Scenes/Login.tscn"
+config/icon="res://appiconwin.png"
 
 [autoload]
 
@@ -340,7 +341,7 @@ debug_window={
 
 [mono]
 
-project/assembly_name="godot-playfab"
+project/assembly_name="mochis-musical-adventure"
 
 [physics]
 
