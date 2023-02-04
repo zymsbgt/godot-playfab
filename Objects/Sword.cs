@@ -14,7 +14,7 @@ public class Sword : Area2D
         fadeIn,
         fadeOut
     }
-    ClickHintAnimationState clickHintAnimationState;
+    private ClickHintAnimationState clickHintAnimationState;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -31,6 +31,7 @@ public class Sword : Area2D
             return LeftMouseClickHint;
     }
 
+    #region signals
     public void _on_body_entered(Area2D _area) // triggered when player collects sword
     {
         if (this.Visible)
@@ -54,8 +55,10 @@ public class Sword : Area2D
         if (disablePlayerMovement)
             clickHintAnimationState = ClickHintAnimationState.fadeOut;
     }
+    #endregion
 
-    private void ProcessHintAnimation(float delta)
+    // Used to process fade in/out animation
+    public override void _Process(float delta)
     {
         float multiplier = 2.0f;
         if (clickHintAnimationState == ClickHintAnimationState.fadeIn)
@@ -76,11 +79,5 @@ public class Sword : Area2D
             else
                 ReturnHintSprite().Modulate = Color.ColorN("white", clickHintTransparancy);
         }
-    }
-
-    // Used to process fade in/out animation
-    public override void _Process(float delta)
-    {
-        ProcessHintAnimation(delta);
     }
 }

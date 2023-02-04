@@ -19,12 +19,12 @@ public class Bird : KinematicBody2D
         one
     }
     private CueAnimationState cueAnimationState = CueAnimationState.off;
-    public enum HappyState
+    private enum HappyState
     {
         unhappy,
         happy
     }
-    public HappyState happyState = HappyState.unhappy;
+    private HappyState happyState = HappyState.unhappy;
 
     public override void _Ready()
     {

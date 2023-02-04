@@ -1,14 +1,12 @@
 using Godot;
 using System;
 
-//[Tool]
 public class LockedDoor : Portal
 {
-    private Mochi mochi;
-    private AnimatedSprite animatedSprite;
-    private Label scoreLabel; 
-    public Label feedbackLabel; // referenced by MochiHint
-    private bool isSongPlaying = false;
+    public Mochi mochi;
+    public AnimatedSprite animatedSprite;
+    public Label scoreLabel, feedbackLabel;
+    public bool isSongPlaying = false;
 
     public override void _Ready()
     {
@@ -19,6 +17,12 @@ public class LockedDoor : Portal
         mochi = GetNode<Mochi>("../Mochi");
         animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
         animatedSprite.Play("locked");
+    }
+
+    // referenced by MochiHint
+    public void SetFeedbackLabel(String i)
+    {
+        feedbackLabel.Text = i;
     }
 
     #region signals
@@ -34,7 +38,7 @@ public class LockedDoor : Portal
     }
     #endregion
 
-    private async void WhenSongFinished()
+    public async void WhenSongFinished()
     {
         GD.Print("Song finished!");
         // Get score
@@ -42,10 +46,10 @@ public class LockedDoor : Portal
         {
             animatedSprite.Play("open");
             animationPlayer.Play("fade_to_black");
-            await ToSignal(animationPlayer, "animation_finished");
-            CallDeferred(nameof(DeferredGotoScene), nextScene);
             scoreLabel.Visible = false;
             feedbackLabel.Text = "";
+            await ToSignal(animationPlayer, "animation_finished");
+            CallDeferred(nameof(DeferredGotoScene), nextScene);
         }
         else
         {

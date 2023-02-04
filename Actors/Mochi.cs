@@ -37,7 +37,7 @@ public class Mochi : KinematicBody2D
     // For MochiHint (Sing along part)
     [Signal] delegate void showHint();
     private bool dropFirstBeatSignal;
-    public int storeBeatForMochiHint;
+    private int storeBeatForMochiHint;
     public int score;
 
     // Signals
@@ -87,6 +87,11 @@ public class Mochi : KinematicBody2D
     //     else
     //         return "";
     // }
+
+    public int GetStoreBeatForMochiHint()
+    {
+        return storeBeatForMochiHint;
+    }
 
     public int[] GetNote()
     {

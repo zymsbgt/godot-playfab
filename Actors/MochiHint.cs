@@ -51,7 +51,7 @@ public class MochiHint : Area2D
 
         mochi = GetNode<Mochi>("../");
         // Get current beat
-        id = mochi.storeBeatForMochiHint;
+        id = mochi.GetStoreBeatForMochiHint();
 
         lockedDoor = GetNode<LockedDoor>("../../LockedDoor");
         //mouseCursor = GetNode<MouseCursor>("../MouseCursor");
@@ -126,7 +126,7 @@ public class MochiHint : Area2D
 
     public void DisplayScore(string i)
     {
-        lockedDoor.feedbackLabel.Text = i;
+        lockedDoor.SetFeedbackLabel(i);
     }
 
     private void SubmitScore(float i)

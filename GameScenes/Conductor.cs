@@ -28,7 +28,7 @@ public class Conductor : Node
     // Attach to nodes
     private BgmManager bgmManager;
     private PackedScene packedScene;
-    public Level currentScene;
+    private Level currentScene;
     private AudioStreamPlayer exitBeep;
 
     [Signal] public delegate void beatSignal();
@@ -116,6 +116,11 @@ public class Conductor : Node
         sec_per_beat = 60.0 / bpm;
         nowPlaying = currentScene.soundtrack;
         last_reported_beat = 0;
+    }
+
+    public Level GetCurrentScene()
+    {
+        return currentScene;
     }
 
     #region signals

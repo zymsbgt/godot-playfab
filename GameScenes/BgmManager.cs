@@ -130,10 +130,10 @@ public class BgmManager : Node
         // Set the soundtrack
         if (conductor == null)
             return;
-        if (nowPlaying == conductor.currentScene.soundtrack)
+        if (nowPlaying == conductor.GetCurrentScene().soundtrack)
             return;
-        ChangeSoundtrack(conductor.currentScene.soundtrack);
-        nowPlaying = conductor.currentScene.soundtrack;
+        ChangeSoundtrack(conductor.GetCurrentScene().soundtrack);
+        nowPlaying = conductor.GetCurrentScene().soundtrack;
     }
     #endregion
 
