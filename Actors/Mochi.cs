@@ -27,7 +27,6 @@ public class Mochi : KinematicBody2D
     private Conductor conductor;
     private Node2D currentScene;
     private Area2D mouseCursor;
-    private Sprite LeftMouseClickHint;
     private AnimationPlayer animationPlayer;
     private Camera2D camera;
     [Export] private int cameraLimitRight;
