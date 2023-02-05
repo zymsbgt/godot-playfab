@@ -33,6 +33,20 @@ public class Mochi : KinematicBody2D
     [Export] private int theVoid; // How far below Mochi can go before the game determines that Mochi has failed the level
     private bool voidTriggered = false;
 
+    // Animations
+    private AnimatedSprite mochiSprite;
+    private enum MochiAnimationState
+    {
+        idleright,
+        idleleft,
+        walkright,
+        walkleft,
+        fallright,
+        fallleft
+    }
+    private MochiAnimationState mochiAnimationState;
+    private MochiAnimationState nowPlaying;
+
     // For MochiHint (Sing along part)
     [Signal] delegate void showHint();
     private bool dropFirstBeatSignal;
@@ -62,9 +76,12 @@ public class Mochi : KinematicBody2D
         // Add code to set hard limit for camera right based on level
         if (cameraLimitRight > 540)
             camera.LimitRight = cameraLimitRight;
-        if (theVoid > 960)
-            camera.LimitBottom = theVoid;
+        //if (theVoid > 960)
+        //    camera.LimitBottom = theVoid;
 
+        mochiSprite = GetNode<AnimatedSprite>("MochiSprite");
+        mochiAnimationState = MochiAnimationState.idleright;
+        mochiSprite.Play("idleright");
         //isInitialising = true; // enable this and comment line below to delay initialising by 1 frame
         Initialise();
     }
@@ -207,6 +224,34 @@ public class Mochi : KinematicBody2D
     }
     #endregion
 
+    #region animation
+    private void DrawAnimation()
+    {
+        if (nowPlaying == mochiAnimationState)
+            return;
+        
+        // if (voidTriggered)
+        //     mochiAnimationState = MochiAnimationState.fallright;
+        
+        switch (mochiAnimationState)
+        {
+            case MochiAnimationState.idleright:
+                mochiSprite.Play("idleright");
+                break;
+            case MochiAnimationState.walkright:
+                mochiSprite.Play("walkright");
+                break;
+            case MochiAnimationState.fallright:
+                mochiSprite.Play("fallright");
+                break;
+            default:
+                break;
+        }
+        
+        nowPlaying = mochiAnimationState;
+    }
+    #endregion
+
     #region physics
     private Vector2 GetMaxSpeed()
     {
@@ -235,9 +280,31 @@ public class Mochi : KinematicBody2D
     private Vector2 getDirection()
     {
         if (disableMovement)
+        {
+            mochiAnimationState = MochiAnimationState.idleright;
             return Vector2.Down;
+        }
         
         float x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
+        if (voidTriggered)
+            mochiAnimationState = MochiAnimationState.fallright;
+        else
+        {
+            if (x < 0)
+            {
+                mochiAnimationState = MochiAnimationState.walkright;
+                mochiSprite.FlipH = true;
+            }
+            else if (x > 0)
+            {
+                mochiAnimationState = MochiAnimationState.walkright;
+                mochiSprite.FlipH = false;
+            }
+            else
+                mochiAnimationState = MochiAnimationState.idleright;
+        }
+        
+
         float y;
         if (Input.IsActionJustPressed("jump"))
             jumpBuffer = maxJumpBuffer;
@@ -255,7 +322,7 @@ public class Mochi : KinematicBody2D
                         lowerGravityOnJump = false;
                         // Tell bird to start countdown
                         EmitSignal("BirdJumpBoostActivated");
-                    }  
+                    }
                     y = -1.0f;
                 }
                 else
@@ -393,5 +460,7 @@ public class Mochi : KinematicBody2D
                     isOnIce = false;
             }
         }
+
+        DrawAnimation();
     }
 }
