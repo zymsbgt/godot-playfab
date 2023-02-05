@@ -209,7 +209,42 @@ public class Conductor : Node
         song_position -= offset;
         song_position_in_beats = (int)Math.Round(song_position / sec_per_beat) + beats_before_start;
 
-        GetNode<Label>("HUD/DebugLabel").Text = "Debug Info:";
+        string debugLabel = "Debug Info: ";
+        // #if GODOT_WINDOWS
+        //     #if GODOT_64
+        //     GetNode<Label>("HUD/DebugLabel").Text = "Debug Info: Windows 64-bit";
+        //     #elif GODOT_32
+        //     GetNode<Label>("HUD/DebugLabel").Text = "Debug Info: Windows 32-bit";
+        //     #else
+        //     GetNode<Label>("HUD/DebugLabel").Text = "Debug Info: Windows (unknown architecture)";
+        //     #endif
+        // #elif GODOT_X11
+        // if (OS.HasFeature("64"))
+        //     GetNode<Label>("HUD/DebugLabel").Text = "Debug Info: GNU/Linux Generic Distro / X11 / SteamOS";
+        // #endif
+        #if GODOT_PC
+            #if GODOT_WINDOWS
+            debugLabel += "Windows ";
+            #elif GODOT_X11
+            debugLabel += "GNU/Linux Generic Distro / X11 / SteamOS ";
+            #else
+            debugLabel += "Other PC device (such as macOS) ";
+            #endif
+            if (OS.HasFeature("64"))
+                debugLabel += "64-bit ";
+            else if (OS.HasFeature("32"))
+                debugLabel += "32-bit ";
+            if (OS.GetPowerPercentLeft() == -1)
+                debugLabel += "Desktop ";
+            else
+                debugLabel += "Laptop (" + OS.GetPowerPercentLeft() + "% power remaining)";
+        #elif GODOT_WEB
+            debugLabel += "Browser type: " + JavaScript.Eval("navigator.userAgent");
+        #else
+            debugLabel += "Unsupported device";
+        #endif
+
+        GetNode<Label>("HUD/DebugLabel").Text = debugLabel;
         #if GODOT_WINDOWS || GODOT_X11
         int SpeakerLatencyLabel = (int)Math.Round((AudioServer.GetTimeSinceLastMix() + AudioServer.GetOutputLatency()) * 1000);
         GetNode<Label>("HUD/AudioHardwareLatencyLabel").Text = "Speaker Output Latency: " + SpeakerLatencyLabel.ToString() + "ms";
