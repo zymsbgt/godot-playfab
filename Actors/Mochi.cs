@@ -23,7 +23,7 @@ public class Mochi : KinematicBody2D
     private int[] last10notes = new int[10];
 
     // Reference nodes
-    //Godot.Collections.Dictionary<int, PackedScene> mochiHints;
+    public Godot.Collections.Dictionary<int, PackedScene> mochiHints;
     private Conductor conductor;
     private Node2D currentScene;
     private Area2D mouseCursor;
@@ -147,7 +147,7 @@ public class Mochi : KinematicBody2D
         // Connect beatSignal from Conductor. Todo: Add code to disconnect the signal when the song ends
         if (!conductor.IsConnected("beatSignal", this, "_on_beatSignal"))
             conductor.Connect("beatSignal", this, "_on_beatSignal");
-        // mochiHints = new Godot.Collections.Dictionary<int, PackedScene>();
+        mochiHints = new Godot.Collections.Dictionary<int, PackedScene>();
         dropFirstBeatSignal = true;
     }
 
@@ -171,7 +171,7 @@ public class Mochi : KinematicBody2D
         PackedScene mochiHintPackedScene = (PackedScene)ResourceLoader.Load("res://Actors/MochiHint.tscn");
         
         // Add to dictionary
-        // mochiHints.Add(song_position_in_beats, mochiHintPackedScene);
+        mochiHints.Add(song_position_in_beats, mochiHintPackedScene);
 
         // Add it to the active scene, as child of root.
         AddChild(mochiHintPackedScene.Instance());
@@ -193,9 +193,11 @@ public class Mochi : KinematicBody2D
         for (int i = last10notes.Length - 1; i > 0; i--)
         {
             last10notes[i] = last10notes[i - 1];
+            //last10notes[i] = last10notes[i--]; // this doesn't work
+            //last10notes[i] = last10notes[--i]; // neither does this
         }
         last10notes[0] = note;
-        // Create a gateway to share this information with birds
+        // Create a signal gateway to share this information with birds
         EmitSignal("ColourWheel_area_entered", note);
     }
 

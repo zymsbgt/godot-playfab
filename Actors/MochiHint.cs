@@ -105,7 +105,7 @@ public class MochiHint : Area2D
                 DisplayHint(8);
                 break;
             default:
-                QueueFree();
+                Destroy();
                 break;
         }
     }
@@ -135,12 +135,18 @@ public class MochiHint : Area2D
         GD.Print("Mochi's Score: ", mochi.score);
     }
 
+    private void Destroy()
+    {
+        mochi.mochiHints.Remove(id);
+        QueueFree();
+    }
+
     public override void _Process(float delta)
     {
         switch(time_to_live_in_beats)
         {
             case 0:
-                QueueFree();
+                Destroy();
                 break;
             case 1:
                 score -= delta;
