@@ -207,6 +207,7 @@ public class Mochi : KinematicBody2D
     }
     #endregion
 
+    #region physics
     private Vector2 GetMaxSpeed()
     {
         if (isOnIce)
@@ -345,6 +346,7 @@ public class Mochi : KinematicBody2D
             y += gravity * (fallMultiplier - 1.0f) * delta;
         return new Vector2(x, y);
     }
+    #endregion
 
     public override void _PhysicsProcess(float delta) 
     {
