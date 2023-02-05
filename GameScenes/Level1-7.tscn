@@ -94,5 +94,5 @@ cameraLimitRight = 3040
 theVoid = 1360
 
 [node name="Bird" parent="." instance=ExtResource( 5 )]
-position = Vector2( 1276, 719 )
+position = Vector2( 1275, 683 )
 birdPatternSize = 3

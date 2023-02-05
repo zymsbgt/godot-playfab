@@ -90,6 +90,7 @@ nextScene = ExtResource( 7 )
 [node name="Mochi" parent="." instance=ExtResource( 2 )]
 position = Vector2( 690, 1520 )
 cameraLimitRight = 6240
+followIntoVoid = true
 theVoid = 1920
 
 [node name="Bird" parent="." instance=ExtResource( 8 )]

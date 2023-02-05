@@ -39,6 +39,7 @@ public class Bird : KinematicBody2D
         currentLevel.Connect("beatSignal", this, "_on_beatSignal");
         mochi.Connect("ColourWheel_area_entered", this, "_on_ColourWheel_area_entered");
         mochi.Connect("BirdJumpBoostActivated", this, "_on_BirdJumpBoostActivated");
+        mochi.Connect("AbandonMe", this, "AbandonMochi");
 
         // Set origin position (the position where the bird spawns at)
         spawnPosition = Position;
@@ -127,6 +128,13 @@ public class Bird : KinematicBody2D
     public void _on_BirdJumpBoostActivated()
     {
         BirdJumpBoostActivated = true;
+    }
+
+    public void AbandonMochi()
+    {
+        happyCountdownTimer = 0.0f;
+        happyState = HappyState.unhappy;
+        Position = spawnPosition;
     }
     #endregion
 

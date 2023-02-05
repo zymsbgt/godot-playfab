@@ -30,6 +30,7 @@ public class Mochi : KinematicBody2D
     private AnimationPlayer animationPlayer;
     private Camera2D camera;
     [Export] private int cameraLimitRight;
+    [Export] private bool followIntoVoid;
     [Export] private int theVoid; // How far below Mochi can go before the game determines that Mochi has failed the level
     private bool voidTriggered = false;
 
@@ -59,6 +60,7 @@ public class Mochi : KinematicBody2D
     [Signal] delegate void ColourWheel_area_exited();
     [Signal] delegate void changeScene();
     [Signal] delegate void BirdJumpBoostActivated();
+    [Signal] delegate void AbandonMe();
 
     public override void _Ready()
     {
@@ -76,8 +78,8 @@ public class Mochi : KinematicBody2D
         // Add code to set hard limit for camera right based on level
         if (cameraLimitRight > 540)
             camera.LimitRight = cameraLimitRight;
-        //if (theVoid > 960)
-        //    camera.LimitBottom = theVoid;
+        if (theVoid > 960 && !followIntoVoid)
+           camera.LimitBottom = theVoid;
 
         mochiSprite = GetNode<AnimatedSprite>("MochiSprite");
         mochiAnimationState = MochiAnimationState.idleright;
@@ -124,6 +126,8 @@ public class Mochi : KinematicBody2D
         voidTriggered = true; // prevent this function from being called again
         conductor.GetNode<AudioStreamPlayer>("death").Play();
         animationPlayer.Play("fade_to_black");
+        // Tell bird to go back to original position
+        EmitSignal("AbandonMe");
         await ToSignal(animationPlayer, "animation_finished");
         CallDeferred(nameof(DeferredRestartScene), currentScene);
     }
