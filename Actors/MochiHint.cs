@@ -7,7 +7,6 @@ public class MochiHint : Area2D
     private Mochi mochi;
     private ColourWheel listener;
     private LockedDoor lockedDoor;
-    private MouseCursor mouseCursor;
     private int id, time_to_live_in_beats = 5;
     private float score = 0;
     private double four_beats_duration; 

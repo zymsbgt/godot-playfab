@@ -126,6 +126,7 @@ public class Conductor : Node
     }
 
     #region signals
+    #if GODOT_PC
     public void _on_BeatSignal(int i) // i = song_position_in_beats (which is not used)
     {
         if (Input.IsActionPressed("escape") && bgmManager.IsPlaying())
@@ -151,6 +152,7 @@ public class Conductor : Node
             holdEscapeToQuitSecs = 3.0f;
         }
     }
+    #endif
 
     // Not a signal, but this function is quite similar to _on_changeScene
     // To be used when a song is to be changed in the middle of a scene, such as singalongs
@@ -305,6 +307,7 @@ public class Conductor : Node
 
     public override void _Process(float delta)
     {
+        #if GODOT_PC
         if (Input.IsActionPressed("escape") && !bgmManager.IsPlaying())
         {
             if (holdEscapeToQuitSecs <= 0)
@@ -314,5 +317,6 @@ public class Conductor : Node
         }
         else
             holdEscapeToQuitSecs = 3.0f;
+        #endif
     }
 }
