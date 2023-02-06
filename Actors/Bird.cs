@@ -13,12 +13,6 @@ public class Bird : KinematicBody2D
     private int[] emptyArray;
     private bool canBeHappy = true, BirdJumpBoostActivated = false;
     private Vector2 spawnPosition; //positionOnCanvas, centerOfCanvas;
-    private enum CueAnimationState
-    {
-        off,
-        one
-    }
-    private CueAnimationState cueAnimationState = CueAnimationState.off;
     private enum HappyState
     {
         unhappy,
