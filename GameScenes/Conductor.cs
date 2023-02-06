@@ -3,9 +3,11 @@ using System;
 
 public class Conductor : Node
 {
+    #if GODOT_PC
     // Quitting the game
     private int holdEscapeToQuitBeats = 4;
     private float holdEscapeToQuitSecs = 3.0f;
+    #endif
     // Fill in data about the song
     private int bpm;
     private int measures;
@@ -255,16 +257,17 @@ public class Conductor : Node
         if (currentScene != null)
             GetNode<Label>("HUD/LevelLabel").Text = "Current " + currentScene.Name;
         GetNode<Label>("HUD/FPS").Text = "FPS: " + Engine.GetFramesPerSecond();
+        #if GODOT_PC
         if (Input.IsActionPressed("escape"))
         {
             if (bgmManager.IsPlaying())
                 GetNode<Label>("HUD/HoldEscapeToQuit").Text = "Quitting in " + holdEscapeToQuitBeats;
             else
                 GetNode<Label>("HUD/HoldEscapeToQuit").Text = "Quitting in " + (int)Math.Floor(holdEscapeToQuitSecs);
-        }
-            
+        } 
         else
             GetNode<Label>("HUD/HoldEscapeToQuit").Text = "";
+        #endif
         
         ReportBeat();
     }
