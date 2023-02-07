@@ -6,7 +6,7 @@ public class ColourWheel : ControllerWheel
     private BgmManager bgmManager;
     private Mochi mochi;
     private AnimatedSprite animatedSprite;
-    private bool queuePlay = false;
+    private bool queuePlay = false, active = false;
     [Export] public int note;
     private int numberOfMochisVoices;
     [Export] private AudioStream[] MochisVoices;
@@ -46,6 +46,7 @@ public class ColourWheel : ControllerWheel
 
     public void _on_area_exited(Area2D area)
     {
+        active = false;
         EmitSignal("_on_ColourWheel_area_exited", note);
         animatedSprite.Play("passive");
         audioStreamPlayer2D.Stop();
@@ -59,6 +60,11 @@ public class ColourWheel : ControllerWheel
         base.SetVisibility(visibility);
     }
 
+    public bool GetActive()
+    {
+        return active;
+    }
+
     public override void _Process(float delta)
     {
         base._Process(delta);
@@ -69,6 +75,7 @@ public class ColourWheel : ControllerWheel
             audioStreamPlayer2D.Stream = MochisVoices[Math.Abs((int)GD.Randi() % numberOfMochisVoices)];
             audioStreamPlayer2D.Play();
 		    animatedSprite.Play("active");
+            active = true;
             
             if (GetNode<Node2D>("../../").Name == "LevelTutorial")
                 EmitSignal("disable_player_movement", false);

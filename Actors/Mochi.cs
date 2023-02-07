@@ -21,8 +21,10 @@ public class Mochi : KinematicBody2D
 
     // Note detection
     private int[] last10notes = new int[10];
+    private bool isActive = false;
 
     // Reference nodes
+    private Godot.Collections.Array<ColourWheel> mochiWheels;
     public Godot.Collections.Dictionary<int, PackedScene> mochiHints;
     private Conductor conductor;
     private Node2D currentScene;
@@ -43,7 +45,8 @@ public class Mochi : KinematicBody2D
         walkright,
         walkleft,
         fallright,
-        fallleft
+        fallleft,
+        singright
     }
     private MochiAnimationState mochiAnimationState;
     private MochiAnimationState nowPlaying;
@@ -84,6 +87,11 @@ public class Mochi : KinematicBody2D
         mochiSprite = GetNode<AnimatedSprite>("MochiSprite");
         mochiAnimationState = MochiAnimationState.idleright;
         mochiSprite.Play("idleright");
+
+        mochiWheels = new Godot.Collections.Array<ColourWheel>();
+        for (int i = 0; i < 8; i++)
+            mochiWheels.Add(GetNode<ColourWheel>((i + 1).ToString()));
+
         //isInitialising = true; // enable this and comment line below to delay initialising by 1 frame
         Initialise();
     }
@@ -210,6 +218,8 @@ public class Mochi : KinematicBody2D
 
     public void _on_ColourWheel_area_entered(int note)
     {
+        // Play singing animation
+        isActive = true;
         // This signal is fired from the coloured wheels
         for (int i = last10notes.Length - 1; i > 0; i--)
         {
@@ -234,9 +244,6 @@ public class Mochi : KinematicBody2D
         if (nowPlaying == mochiAnimationState)
             return;
         
-        // if (voidTriggered)
-        //     mochiAnimationState = MochiAnimationState.fallright;
-        
         switch (mochiAnimationState)
         {
             case MochiAnimationState.idleright:
@@ -248,6 +255,9 @@ public class Mochi : KinematicBody2D
             case MochiAnimationState.fallright:
                 mochiSprite.Play("fallright");
                 break;
+            case MochiAnimationState.singright:
+                mochiSprite.Play("singright");
+                break;
             default:
                 break;
         }
@@ -255,6 +265,18 @@ public class Mochi : KinematicBody2D
         nowPlaying = mochiAnimationState;
     }
     #endregion
+
+    private bool CheckWheelsActive()
+    {
+        // Loop through colour wheels to ensure all are not singing
+        for (int i = 0; i < 8; i++)
+            if (mochiWheels[i].GetActive())
+                return true;
+            
+        // If nobody's active, stop playing singing animation
+        isActive = false;
+        return false;
+    }
 
     #region physics
     private Vector2 GetMaxSpeed()
@@ -285,7 +307,10 @@ public class Mochi : KinematicBody2D
     {
         if (disableMovement)
         {
-            mochiAnimationState = MochiAnimationState.idleright;
+            if (CheckWheelsActive())
+                mochiAnimationState = MochiAnimationState.singright;
+            else
+                mochiAnimationState = MochiAnimationState.idleright;
             return Vector2.Down;
         }
         
@@ -305,7 +330,12 @@ public class Mochi : KinematicBody2D
                 mochiSprite.FlipH = false;
             }
             else
-                mochiAnimationState = MochiAnimationState.idleright;
+            {
+                if (CheckWheelsActive())
+                    mochiAnimationState = MochiAnimationState.singright;
+                else
+                    mochiAnimationState = MochiAnimationState.idleright;
+            }
         }
         
 
