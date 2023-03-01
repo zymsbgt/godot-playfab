@@ -44,3 +44,14 @@ tile_data = PoolIntArray( 65535, 0, 0, 25, 0, 0, 131071, 0, 0, 65561, 0, 0, 1966
 
 [node name="Mochi" parent="." instance=ExtResource( 1 )]
 position = Vector2( 145, 711 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 4.0
+margin_top = 881.0
+margin_right = 87.0
+margin_bottom = 902.0
+text = "Credits:
+Bird sprites - Extremely OK Games
+Sword sprite - kspriter95 on DeviantArt
+Title theme music - Lena Raine
+Audio design - A Shell In A Pit"

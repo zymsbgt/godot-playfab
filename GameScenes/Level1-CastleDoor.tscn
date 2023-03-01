@@ -4,7 +4,7 @@
 [ext_resource path="res://Actors/Mochi.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/tileset.png" type="Texture" id=3]
 [ext_resource path="res://Objects/LockedDoor.tscn" type="PackedScene" id=4]
-[ext_resource path="res://GameScenes/Level1-End.tscn" type="PackedScene" id=5]
+[ext_resource path="res://GameScenes/Level1-Credits.tscn" type="PackedScene" id=5]
 
 [sub_resource type="ConvexPolygonShape2D" id=6]
 points = PoolVector2Array( 0, 0, 80, 0, 80, 80, 0, 80 )

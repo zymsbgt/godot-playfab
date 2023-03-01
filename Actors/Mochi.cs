@@ -383,7 +383,7 @@ public class Mochi : KinematicBody2D
     {
         //Firstly, calculate target speed
         targetVelocity = maxSpeed.x * direction.x;
-        if (IsOnFloor() && Input.IsActionPressed("move_down"))
+        if (/*IsOnFloor() && */Input.IsActionPressed("move_down"))
             targetVelocity *= 0.5f;
 
         //Acceleration should reach from 0 to top speed in 6 frames and decelerate from top speed to 0 in 3 frames
