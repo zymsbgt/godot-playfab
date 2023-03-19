@@ -13,7 +13,7 @@ public class Conductor : Node
     private int measures;
     private float offset; 
     public float maxVolume, muteVolume;
-    private bool loopable;
+    public bool loopable;
     private Level.Playlist nowPlaying;
 
     // Tracking the beat and song position
@@ -32,6 +32,7 @@ public class Conductor : Node
     private PackedScene packedScene;
     private Level currentScene;
     private AudioStreamPlayer exitBeep;
+    private HUD hud;
 
     [Signal] public delegate void beatSignal();
     [Signal] public delegate void measureSignal();
@@ -44,25 +45,9 @@ public class Conductor : Node
         Connect("changeScene", bgmManager, "_on_changeScene");
         _on_changeScene();
 
-        //OS.WindowMaximized = true;
-        #if GODOT_PC
-        // #if GODOT_WINDOWS
-        // OS.WindowFullscreen = true;
-        // OS.WindowMaximized = true;
-        // OS.WindowBorderless = true;
-        #endif
-
-        //GD.Print("Viewport resolution is: ", GetViewport().Size);
+        hud = GetNode<HUD>("HUD");
         // Connect Signals
         Connect("beatSignal", this, "_on_BeatSignal");
-    }
-
-    public bool IsSongLoopable()
-    {
-        if (loopable)
-            return true;
-        else
-            return false;
     }
 
     private void GetMusicData()
@@ -197,6 +182,7 @@ public class Conductor : Node
 
     public override void _PhysicsProcess(float _delta)
     {
+        // Resize window if F10 or F11 is pressed
         if (Input.IsActionJustPressed("fullscreen"))
             OS.WindowFullscreen = !OS.WindowFullscreen;
         if (Input.IsActionJustPressed("debug_window"))
@@ -213,52 +199,44 @@ public class Conductor : Node
         song_position -= offset;
         song_position_in_beats = (int)Math.Round(song_position / sec_per_beat) + beats_before_start;
 
-        string debugLabel = "Debug Info: ";
-        // #if GODOT_WINDOWS
-        //     #if GODOT_64
-        //     GetNode<Label>("HUD/DebugLabel").Text = "Debug Info: Windows 64-bit";
-        //     #elif GODOT_32
-        //     GetNode<Label>("HUD/DebugLabel").Text = "Debug Info: Windows 32-bit";
-        //     #else
-        //     GetNode<Label>("HUD/DebugLabel").Text = "Debug Info: Windows (unknown architecture)";
-        //     #endif
-        // #elif GODOT_X11
-        // if (OS.HasFeature("64"))
-        //     GetNode<Label>("HUD/DebugLabel").Text = "Debug Info: GNU/Linux Generic Distro / X11 / SteamOS";
-        // #endif
-        #if GODOT_PC
-            #if GODOT_WINDOWS
-            debugLabel += "Windows ";
-            #elif GODOT_X11
-            debugLabel += "GNU/Linux Generic Distro / X11 / SteamOS ";
+        if (hud.showDebugInfo)
+        {
+            string debugLabel = "Debug Info: ";
+            #if GODOT_PC
+                #if GODOT_WINDOWS
+                debugLabel += "Windows ";
+                #elif GODOT_X11
+                debugLabel += "GNU/Linux Generic Distro / X11 / SteamOS ";
+                #else
+                debugLabel += "Other PC device (such as macOS) ";
+                #endif
+                if (OS.HasFeature("64"))
+                    debugLabel += "64-bit ";
+                else if (OS.HasFeature("32"))
+                    debugLabel += "32-bit ";
+                if (OS.GetPowerPercentLeft() == -1)
+                    debugLabel += "Desktop ";
+                else
+                    debugLabel += "Laptop (" + OS.GetPowerPercentLeft() + "% power remaining)";
+            #elif GODOT_WEB
+                debugLabel += "Browser type: " + JavaScript.Eval("navigator.userAgent");
             #else
-            debugLabel += "Other PC device (such as macOS) ";
+                debugLabel += "Unsupported device";
             #endif
-            if (OS.HasFeature("64"))
-                debugLabel += "64-bit ";
-            else if (OS.HasFeature("32"))
-                debugLabel += "32-bit ";
-            if (OS.GetPowerPercentLeft() == -1)
-                debugLabel += "Desktop ";
-            else
-                debugLabel += "Laptop (" + OS.GetPowerPercentLeft() + "% power remaining)";
-        #elif GODOT_WEB
-            debugLabel += "Browser type: " + JavaScript.Eval("navigator.userAgent");
-        #else
-            debugLabel += "Unsupported device";
-        #endif
 
-        GetNode<Label>("HUD/DebugLabel").Text = debugLabel;
-        #if GODOT_WINDOWS || GODOT_X11
-        int SpeakerLatencyLabel = (int)Math.Round((AudioServer.GetTimeSinceLastMix() + AudioServer.GetOutputLatency()) * 1000);
-        GetNode<Label>("HUD/AudioHardwareLatencyLabel").Text = "Speaker Output Latency: " + SpeakerLatencyLabel.ToString() + "ms";
-        #else
-        GetNode<Label>("HUD/AudioHardwareLatencyLabel").Text = "Speaker Output Latency: " + "Not Detected";
-        #endif
-        GetNode<Label>("HUD/SongPositionInBeatsLabel").Text = "Beat " + song_position_in_beats.ToString();
-        if (currentScene != null)
-            GetNode<Label>("HUD/LevelLabel").Text = "Current " + currentScene.Name;
-        GetNode<Label>("HUD/FPS").Text = "FPS: " + Engine.GetFramesPerSecond();
+            GetNode<Label>("HUD/DebugLabel").Text = debugLabel;
+            #if GODOT_WINDOWS || GODOT_X11
+            int SpeakerLatencyLabel = (int)Math.Round((AudioServer.GetTimeSinceLastMix() + AudioServer.GetOutputLatency()) * 1000);
+            GetNode<Label>("HUD/AudioHardwareLatencyLabel").Text = "Speaker Output Latency: " + SpeakerLatencyLabel.ToString() + "ms";
+            #else
+            GetNode<Label>("HUD/AudioHardwareLatencyLabel").Text = "Speaker Output Latency: " + "Not Detected";
+            #endif
+            GetNode<Label>("HUD/SongPositionInBeatsLabel").Text = "Beat " + song_position_in_beats.ToString();
+            if (currentScene != null)
+                GetNode<Label>("HUD/LevelLabel").Text = "Current " + currentScene.Name;
+            GetNode<Label>("HUD/FPS").Text = "FPS: " + Engine.GetFramesPerSecond();
+        }
+
         #if GODOT_PC
         if (Input.IsActionPressed("escape"))
         {

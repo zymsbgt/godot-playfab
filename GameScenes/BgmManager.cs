@@ -103,7 +103,7 @@ public class BgmManager : Node
     #region signals
     public void _on_BgmIntro_finished()
     {
-        if (conductor.IsSongLoopable())
+        if (conductor.loopable)
         {
             bgmPassive.VolumeDb = conductor.maxVolume;
             bgmPassive.Play();
