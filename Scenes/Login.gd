@@ -97,8 +97,11 @@ func _on_AnonLoginDebug_pressed() -> void:
 		PlayFabManager.client.login_with_custom_id(UUID.v4(), true, combined_info_request_params)
 
 func _on_OfflinePlay_pressed() -> void:
-	OS.window_fullscreen = true
-	SceneManager.goto_scene("res://GameScenes/Conductor.tscn")
+	if OS.get_name() == "HTML5":
+		OS.shell_open("https://mochi.geyser.host/downloads/")
+	else:
+		OS.window_fullscreen = true
+		SceneManager.goto_scene("res://GameScenes/Conductor.tscn")
 
 func _show_progess():
 	$ProgressCenter/LoadingIndicator.show()

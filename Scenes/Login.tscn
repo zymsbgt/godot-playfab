@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scenes/Login.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/LoggedIn.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scenes/MOTD.gd" type="Script" id=4]
 [ext_resource path="res://Backgrounds/test_long_bg.png" type="Texture" id=5]
 [ext_resource path="res://Fonts/Ubuntu-Regular.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://Scripts/OfflinePlay.gd" type="Script" id=7]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 6 )
@@ -107,6 +108,7 @@ mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 3 )
 text = "Play Offline (no analytics)"
+script = ExtResource( 7 )
 
 [node name="AnonLoginDebug" type="Button" parent="MarginContainer/Login"]
 margin_top = 111.0
