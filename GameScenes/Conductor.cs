@@ -276,7 +276,11 @@ public class Conductor : Node
 		    last_reported_beat = song_position_in_beats;
             
 		    measure += 1;
+
+            GetNode<Label>("HUD/BeatDetection").Text = "Beat detected!";
         }
+        else
+            GetNode<Label>("HUD/BeatDetection").Text = "";
         
         if (song_position < last_frame_song_position)
             last_reported_beat = 0;
