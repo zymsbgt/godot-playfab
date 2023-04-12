@@ -219,17 +219,19 @@ public class Conductor : Node
                 else
                     debugLabel += "Laptop (" + OS.GetPowerPercentLeft() + "% power remaining)";
             #elif GODOT_WEB
-                debugLabel += "Browser type: " + JavaScript.Eval("navigator.userAgent");
+                debugLabel += "Browser agent: " + JavaScript.Eval("navigator.userAgent");
             #else
-                debugLabel += "Unsupported device";
+                debugLabel += "Unsupported device (running in compatibility mode)";
             #endif
 
             GetNode<Label>("HUD/DebugLabel").Text = debugLabel;
             #if GODOT_WINDOWS || GODOT_X11
             int SpeakerLatencyLabel = (int)Math.Round((AudioServer.GetTimeSinceLastMix() + AudioServer.GetOutputLatency()) * 1000);
-            GetNode<Label>("HUD/AudioHardwareLatencyLabel").Text = "Speaker Output Latency: " + SpeakerLatencyLabel.ToString() + "ms";
+            int OutputLatency = (int)Math.Round(AudioServer.GetOutputLatency() * 1000);
+            int TimeSinceLastMix = (int)Math.Round(AudioServer.GetTimeSinceLastMix() * 1000);
+            GetNode<Label>("HUD/AudioHardwareLatencyLabel").Text = "Speaker Latency: " + OutputLatency.ToString() + "ms; Last Audio Server Time Mix: " + TimeSinceLastMix.ToString() + "ms ago";
             #else
-            GetNode<Label>("HUD/AudioHardwareLatencyLabel").Text = "Speaker Output Latency: " + "Not Detected";
+            GetNode<Label>("HUD/AudioHardwareLatencyLabel").Text = "Speaker Latency: Not Detected; Last Audio Server Time Mix: " + TimeSinceLastMix.ToString() + "ms ago";
             #endif
             GetNode<Label>("HUD/SongPositionInBeatsLabel").Text = "Beat " + song_position_in_beats.ToString();
             if (currentScene != null)
