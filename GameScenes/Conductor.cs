@@ -231,7 +231,7 @@ public class Conductor : Node
             int TimeSinceLastMix = (int)Math.Round(AudioServer.GetTimeSinceLastMix() * 1000);
             GetNode<Label>("HUD/AudioHardwareLatencyLabel").Text = "Speaker Latency: " + OutputLatency.ToString() + "ms; Last Audio Server Time Mix: " + TimeSinceLastMix.ToString() + "ms ago";
             #else
-            GetNode<Label>("HUD/AudioHardwareLatencyLabel").Text = "Speaker Latency: Not Detected; Last Audio Server Time Mix: " + TimeSinceLastMix.ToString() + "ms ago";
+            GetNode<Label>("HUD/AudioHardwareLatencyLabel").Text = "Speaker Latency: Not Detected";
             #endif
             GetNode<Label>("HUD/SongPositionInBeatsLabel").Text = "Beat " + song_position_in_beats.ToString();
             if (currentScene != null)
