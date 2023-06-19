@@ -51,7 +51,7 @@ text = "Email"
 
 [node name="Input" type="LineEdit" parent="MarginContainer/Login/Email"]
 layout_mode = 2
-text = "User1@example.com"
+placeholder_text = "username@example.com"
 expand_to_text_length = true
 
 [node name="Password" type="HBoxContainer" parent="MarginContainer/Login"]
@@ -63,7 +63,7 @@ text = "Password"
 
 [node name="Input" type="LineEdit" parent="MarginContainer/Login/Password"]
 layout_mode = 2
-text = "Test123"
+placeholder_text = "********"
 secret = true
 
 [node name="StayLoggedInCheckbox" type="CheckBox" parent="MarginContainer/Login"]
