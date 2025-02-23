@@ -29,15 +29,13 @@ but also use Godot's Signals and also provide in-editor tools to work with Godot
 
 **The overarching mission is:** *Providing a great Developer Experience!*
 
+## Example Projects
+You can find an example project in the [godot-playfab-example](https://github.com/Structed/godot-playfab-example) repository. However, the example projects are not included in the AssetLib or Itch.io packages, as to not confuse users. There are example projects for multiple use-cases in the [godot-playfab-example](https://github.com/Structed/godot-playfab-example) repository, such as general login and data retrieval, analytics as well as how to use GodotSteam with godot-playfab to log into PlayFab using Steam!
+
 ## Users
 I am proud to say that there are already some games using `godot-playfab` in production! If you want to be listed here, please let me know!
 
 - [**Dome Keeper**](https://store.steampowered.com/app/1637320/Dome_Keeper/) by [Bippinbits](https://bippinbits.com/)
-
-# Need Help? Found a Bug? Have an idea for a feature?
-Don't hesitate and [join our Discord](https://discord.gg/7K7q2YuNXe)! Everyone is welcome, and we're looking forward to hearing from you!
-Or create an [issue](/issues) directly in the repo. All your input is **very much appreciated**!
-
 
 ## Demo
 ![Demo](demo-scene.gif)
@@ -56,11 +54,12 @@ See [Connecting Signals](addons/godot-playfab/docs/connecting-signals.md)
 ## Usage Guide & Examples
 See the [User Documentation](addons/godot-playfab/README.md)
 
-## Example Projects
-You can find an example project in [this GitHub repository](https://github.com/Structed/godot-playfab). However, the example projects are not included in the AssetLib or Itch.io packages, as to not confuse user. There are example projects for multiple use-cases in the [godot-playfab-example](https://github.com/Structed/godot-playfab-example) repository.
-
 ## Maintainer Documentation
 See [Maintainer Documentation](docs/README.md).
+
+# Need Help? Found a Bug? Have an idea for a feature?
+Don't hesitate and [join our Discord](https://discord.gg/7K7q2YuNXe)! Everyone is welcome, and we're looking forward to hearing from you!
+Or create an [issue](https://github.com/Structed/godot-playfab/issues/new/choose) directly in the repo. All your input is **very much appreciated**!
 
 # Thanks
 Thanks to [lentsius-bark](https://github.com/lentsius-bark) for the wonderful re-design of the logo and splash screen ❤

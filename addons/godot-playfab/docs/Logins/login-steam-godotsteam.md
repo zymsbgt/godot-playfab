@@ -17,6 +17,9 @@ This page is an advanced example that will show you how to login with Steam on P
 </br>
 Please check their documentation on how to use GodotSteam.
 
+## Example
+You can check out a working example in the [godot-playfab-example](https://github.com/Structed/godot-playfab-example) repository. Just load up the `godot-steam` project in that repository!
+
 ## Setup
 
 There are a couple of different ways to install GodotSteam but for this example, we gonna used the GDExtension available for Godot 4.x.
