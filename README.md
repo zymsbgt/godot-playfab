@@ -30,7 +30,7 @@ but also use Godot's Signals and also provide in-editor tools to work with Godot
 **The overarching mission is:** *Providing a great Developer Experience!*
 
 ## Example Projects
-You can find an example project in the [godot-playfab-example](https://github.com/Structed/godot-playfab-example) repository. However, the example projects are not included in the AssetLib or Itch.io packages, as to not confuse users. There are example projects for multiple use-cases in the [godot-playfab-example](https://github.com/Structed/godot-playfab-example) repository, such as general login and data retrieval, analytics as well as how to use GodotSteam with godot-playfab to log into PlayFab using Steam!
+You can find an example project in the [godot-playfab-example](https://github.com/Structed/godot-playfab-example) repository. However, the example projects are not included in the AssetLib or Itch.io packages, as to not confuse users. There are example projects for multiple use-cases in the [godot-playfab-example](https://github.com/Structed/godot-playfab-example) repository, such as general login and data retrieval, analytics as well as how to use [GodotSteam](https://godotsteam.com/) with godot-playfab to log into PlayFab using Steam!
 
 ## Users
 I am proud to say that there are already some games using `godot-playfab` in production! If you want to be listed here, please let me know!
